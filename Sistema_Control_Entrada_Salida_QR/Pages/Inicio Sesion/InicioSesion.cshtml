@@ -1,0 +1,68 @@
+﻿@page
+@model Sistema_Control_Entrada_Salida_QR.Pages.Inicio_Sesion.InicioSesionModel
+@{
+    ViewData["Title"] = "Inicio de Sesión Temporal";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Carnet Digital Universitario</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/Login_estilos.css" asp-append-version="true" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="login-body">
+    <div class="login-container">
+        <div class="login-header">
+            <h1>Carnet Digital</h1>
+            <div class="temporal-badge">
+                LOGIN TEMPORAL DE EJEMPLO JAJAJ
+            </div>
+        </div>
+
+        <div class="login-body-content">
+            <form method="post">
+                <div class="login-form-group">
+                    <label for="usuario" class="login-label">
+                        Usuario
+                    </label>
+                    <div class="login-input-wrapper">
+                        <i class="fas fa-user"></i>
+                        <input type="text"
+                               id="usuario"
+                               name="usuario"
+                               class="login-input"
+                               placeholder="Ingrese su usuario"
+                               required
+                               autocomplete="username">
+                    </div>
+                </div>
+
+                <div class="login-form-group">
+                    <label for="contrasena" class="login-label">
+                        Contraseña
+                    </label>
+                    <div class="login-input-wrapper">
+                        <i class="fas fa-lock"></i>
+                        <input type="password"
+                               id="contrasena"
+                               name="contrasena"
+                               class="login-input"
+                               placeholder="Ingrese su contraseña"
+                               required
+                               autocomplete="current-password">
+                    </div>
+                </div>
+
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-sign-in-alt me-2"></i>Iniciar Sesión
+                </button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

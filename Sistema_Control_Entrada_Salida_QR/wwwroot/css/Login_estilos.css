@@ -1,0 +1,162 @@
+﻿/* ===== ESTILOS PARA LOGIN UNIVERSITARIO - DISEÑO SERIO ===== */
+:root {
+    --primary-red: #F5333F;
+    --primary-blue: #002D74;
+    --white: #ffffff;
+    --light-gray: #f8f9fa;
+    --border-gray: #dee2e6;
+    --text-dark: #2c3e50;
+    --text-light: #6c757d;
+}
+
+.login-body {
+    background-image: url('/images/cuc.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+.login-container {
+    background: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    border: 1px solid var(--border-gray);
+}
+
+.login-header {
+    background: var(--primary-blue);
+    color: white;
+    text-align: center;
+    padding: 2rem 1rem;
+    border-bottom: 4px solid var(--primary-red);
+}
+
+    .login-header h1 {
+        margin: 0;
+        font-size: 1.8rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+    }
+
+    .login-header .temporal-badge {
+        background: var(--primary-red);
+        color: white;
+        padding: 0.4rem 1rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-top: 0.8rem;
+        display: inline-block;
+    }
+
+.login-body-content {
+    padding: 2rem;
+    background: var(--white);
+}
+
+.login-form-group {
+    margin-bottom: 1.5rem;
+}
+
+.login-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 0.9rem;
+}
+
+.login-input-wrapper {
+    position: relative;
+}
+
+    .login-input-wrapper i {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--primary-blue);
+    }
+
+.login-input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 3rem;
+    border: 2px solid var(--border-gray);
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    background: var(--light-gray);
+    color: var(--text-dark);
+    box-sizing: border-box;
+}
+
+    .login-input:focus {
+        outline: none;
+        border-color: var(--primary-blue);
+        background: var(--white);
+    }
+
+.login-btn {
+    width: 100%;
+    background: var(--primary-blue);
+    color: white;
+    border: none;
+    padding: 0.85rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+}
+
+    .login-btn:hover {
+        background: #001a4d;
+    }
+
+.login-error {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 0.75rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    border: 1px solid #f5c6cb;
+    font-size: 0.9rem;
+    display: none;
+}
+
+    .login-error.show {
+        display: flex;
+        align-items: center;
+    }
+
+/* Responsive */
+@media (max-width: 480px) {
+    .login-container {
+        margin: 1rem;
+        max-width: none;
+    }
+
+    .login-body-content {
+        padding: 1.5rem;
+    }
+
+    .login-header {
+        padding: 1.5rem 1rem;
+    }
+
+        .login-header h1 {
+            font-size: 1.5rem;
+        }
+}

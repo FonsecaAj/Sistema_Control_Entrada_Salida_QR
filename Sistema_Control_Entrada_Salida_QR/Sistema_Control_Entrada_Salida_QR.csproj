@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CarnetDigital.Repository\CarnetDigital.Repository.csproj" />
+    <ProjectReference Include="..\CarnetDigital.Services\CarnetDigital.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\Modulo Administradores\Activacion Perfil\" />
+    <Folder Include="Pages\Modulo Administradores\Registro Funcionarios\" />
+    <Folder Include="Pages\Modulo Administradores\Reportes acceso\" />
+    <Folder Include="Pages\Modulo Funcionarios\Cambio contraseña\" />
+    <Folder Include="Pages\Modulo Guardas\Validacion QR\" />
+    <Folder Include="Pages\Modulo Usuarios\Generacion QR\" />
+    <Folder Include="Pages\Modulo Usuarios\Control Accesos\" />
+    <Folder Include="Pages\Modulo Usuarios\Panel Encargados temporales\" />
+    <Folder Include="Pages\Modulo Usuarios\Panel Encargados legales\" />
+    <Folder Include="Pages\Modulo Usuarios\Registro Usuarios\" />
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
+</Project>
