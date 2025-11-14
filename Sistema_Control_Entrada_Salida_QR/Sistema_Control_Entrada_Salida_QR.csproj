@@ -12,16 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Modulo Administradores\Activacion Perfil\" />
-    <Folder Include="Pages\Modulo Administradores\Registro Funcionarios\" />
-    <Folder Include="Pages\Modulo Administradores\Reportes acceso\" />
-    <Folder Include="Pages\Modulo Funcionarios\Cambio contraseña\" />
-    <Folder Include="Pages\Modulo Guardas\Validacion QR\" />
-    <Folder Include="Pages\Modulo Usuarios\Generacion QR\" />
-    <Folder Include="Pages\Modulo Usuarios\Control Accesos\" />
-    <Folder Include="Pages\Modulo Usuarios\Panel Encargados temporales\" />
-    <Folder Include="Pages\Modulo Usuarios\Panel Encargados legales\" />
-    <Folder Include="Pages\Modulo Usuarios\Registro Usuarios\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
