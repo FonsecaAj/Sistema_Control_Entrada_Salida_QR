@@ -14,7 +14,7 @@ builder.Services.AddHttpContextAccessor();
 
 
 // ---------------------------
-// ConexiÛn a base de datos
+// Conexi√≥n a base de datos
 // ---------------------------
 builder.Services.AddSingleton<IDbConnectionFactory, DbConnectionFactory>();
 
@@ -32,12 +32,31 @@ builder.Services.AddScoped<IDependenciasService, DependenciasService>();
 
 
 // ---------------------------
-// GeneraciÛn de la credencial digital
+// Generaci√≥n de la credencial digital
 // ---------------------------
 
 // REPOSITORIO QR
 builder.Services.AddScoped<Credenciales_QRRepository>();
 builder.Services.AddScoped<ICredencialesQRServices, CredencialesQRServices>();
+// Inicio Sesi√≥n
+
+builder.Services.AddScoped<UsuarioRepository>();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+
+// Registros Pendientes
+
+builder.Services.AddScoped<Registros_PendientesRepository>();
+builder.Services.AddScoped<IRegistros_PendientesService, Registros_PendientesService>();
+
+// Tipos Identificacion
+
+builder.Services.AddScoped<Tipos_IdentificacionRepository>();
+builder.Services.AddScoped<ITipos_IdentificacionService, Tipos_IdentificacionService>();
+
+// Carreras Programas
+
+builder.Services.AddScoped<Carreras_ProgramasRepository>();
+builder.Services.AddScoped<ICarreras_ProgramasService, Carreras_ProgramasService>();
 
 var app = builder.Build();
 
