@@ -26,7 +26,7 @@ Sistema_Control_Entrada_Salida_QR/ # Capa de presentación (Razor Pages)
   
 - .NET SDK 8.0 o superior  
 - SQL Server (o compatible)  
-- Visual Studio 2022+ / VS Code / Rider  
+- Visual Studio 2022+ / VS Code 
   
 ## 🛠️ Tecnologías
 Framework: .NET 8.0
