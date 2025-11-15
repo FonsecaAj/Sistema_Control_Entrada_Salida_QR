@@ -53,7 +53,7 @@
                 inactivarQR();
                 qrInactivado = true; // Previene llamadas repetidas
             }
-            
+
             return;
         }
 
@@ -64,13 +64,17 @@
     
     async function inactivarQR() {
         try {
-            // Llama al nuevo Handler OnPostInactivarAsync
+            // Llama al Handler OnPostInactivarAsync
             const response = await fetch('?handler=Inactivar', {
                 method: 'POST',
                 // Como el PageModel tiene [IgnoreAntiforgeryToken], no necesitamos pasar el token
             });
 
+        } catch (error) {
+            console.error("❌ Fallo de red al intentar inactivar el QR:", error);
+        }
     }
+    // -------------------------
 
     actualizarContador();
 </script>
