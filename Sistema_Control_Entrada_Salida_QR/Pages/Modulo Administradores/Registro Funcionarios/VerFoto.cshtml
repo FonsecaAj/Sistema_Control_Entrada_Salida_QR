@@ -1,0 +1,32 @@
+﻿@page
+@model VerFotoModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<div class="container mt-4">
+
+    <h3>Ver Foto Guardada</h3>
+
+    <form method="post">
+        <label>Identificación</label>
+        <input class="form-control" asp-for="Identificacion" />
+
+        <button type="submit" class="btn btn-primary mt-3">Buscar Foto</button>
+    </form>
+
+    <hr />
+
+    @if (Model.FotoBase64 != null)
+    {
+        <h5>Foto encontrada:</h5>
+        <img src="data:image/jpeg;base64,@Model.FotoBase64"
+             style="max-width:250px; border:2px solid #000" />
+    }
+    else if (Model.Busco && Model.FotoBase64 == null)
+    {
+        <div class="alert alert-danger mt-3">
+            No se encontró ninguna foto para esa identificación.
+        </div>
+    }
+
+</div>
+

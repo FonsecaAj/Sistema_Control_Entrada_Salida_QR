@@ -10,7 +10,7 @@
 }
 
 .login-body {
-    background-image: url('/images/cuc.jpg');
+    background-image: url('/images/cuc2.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -176,3 +176,18 @@
         }
 }
 
+/* ===== ESTILOS ADICIONALES PARA EL MODAL (QR Page) ===== */
+.modal-header.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.modal-header.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.modal-header.info {
+    background-color: #cce5ff;
+    color: #004085;
+}

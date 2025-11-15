@@ -1,19 +1,44 @@
 using CarnetDigital.Repository;
 using CarnetDigital.Services;
 using CarnetDigital.Services.Abstract;
+using Sistema_Control_Entrada_Salida_QR.Services;
+using Sistema_Control_Entrada_Salida_QR.Services.Abstract;
+using Sistema_Control_Entrada_Salida_SQR.Services;
+using Sistema_Control_Entrada_Salida_SQR.Services.Abstract;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddHttpContextAccessor();
 
 
 // ---------------------------
-// ConexiÛn a base de datos
+// Conexi√≥n a base de datos
 // ---------------------------
 builder.Services.AddSingleton<IDbConnectionFactory, DbConnectionFactory>();
 
-// Inicio SesiÛn
+builder.Services.AddScoped<FuncionariosRepository>();
+builder.Services.AddScoped<IFuncionariosService, FuncionariosService>();
+
+builder.Services.AddScoped<TiposIdentificacionRepository>();
+builder.Services.AddScoped<ITiposIdentificacionService, TiposIdentificacionService>();
+
+builder.Services.AddScoped<TiposFuncionarioRepository>();
+builder.Services.AddScoped<ITiposFuncionarioService, TiposFuncionarioService>();
+
+builder.Services.AddScoped<DependenciasRepository>();
+builder.Services.AddScoped<IDependenciasService, DependenciasService>();
+
+
+// ---------------------------
+// Generaci√≥n de la credencial digital
+// ---------------------------
+
+// REPOSITORIO QR
+builder.Services.AddScoped<Credenciales_QRRepository>();
+builder.Services.AddScoped<ICredencialesQRServices, CredencialesQRServices>();
+// Inicio Sesi√≥n
 
 builder.Services.AddScoped<UsuarioRepository>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
