@@ -10,7 +10,7 @@ namespace CarnetDigital.Services
         private readonly Credenciales_QRRepository _repository;
 
         private const int ExpirationSeconds = 60;
-        private const string ActiveState = "A";
+        
 
         public CredencialesQRServices(Credenciales_QRRepository repo)
         {
@@ -31,7 +31,7 @@ namespace CarnetDigital.Services
                 Codigo_qr = token,
                 Fecha_generacion = now,
                 Fecha_expiracion = now.AddSeconds(ExpirationSeconds),
-                ID_Estado = ActiveState
+                ID_Estado = "A"
             };
 
             if (await _repository.ExisteAsync(identificacion))
