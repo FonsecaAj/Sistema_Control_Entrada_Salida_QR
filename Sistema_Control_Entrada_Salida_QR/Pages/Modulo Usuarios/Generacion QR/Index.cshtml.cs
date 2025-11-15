@@ -19,7 +19,7 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Generacion_QR
         public DateTime ExpiraUTC { get; set; }
         public bool TokenGenerado { get; set; } = false;
 
-        private const string CedulaPrueba = "119700120";
+        private const string CedulaPrueba = "305690396";
 
         public async Task OnGet()
         {

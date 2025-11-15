@@ -1,6 +1,7 @@
 using CarnetDigital.Repository;
 using CarnetDigital.Services;
 using CarnetDigital.Services.Abstract;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Sistema_Control_Entrada_Salida_QR.Services;
 using Sistema_Control_Entrada_Salida_QR.Services.Abstract;
 using Sistema_Control_Entrada_Salida_SQR.Services;
@@ -11,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddHttpContextAccessor();
+
 
 
 // ---------------------------
@@ -58,6 +60,42 @@ builder.Services.AddScoped<ITipos_IdentificacionService, Tipos_IdentificacionSer
 builder.Services.AddScoped<Carreras_ProgramasRepository>();
 builder.Services.AddScoped<ICarreras_ProgramasService, Carreras_ProgramasService>();
 
+
+// Agregar soporte para cache distribuido y sesion
+
+builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Inicio Sesion/InicioSesion";   // Ruta cuando no está autenticado
+        options.LogoutPath = "/Inicio Sesion/InicioSesion";  // Ruta al cerrar sesión
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(20);   // Tiempo de expiración de la cookie
+        options.SlidingExpiration = true;
+
+        options.Events = new CookieAuthenticationEvents
+        {
+            OnRedirectToLogin = ctx =>
+            {
+                var returnUrl = ctx.Request.Path;
+
+                if (ctx.Request.Cookies.ContainsKey(".AspNetCore.Cookies") &&
+                    (ctx.HttpContext.User?.Identity == null || !ctx.HttpContext.User.Identity.IsAuthenticated))
+                {
+                    ctx.Response.Redirect("/Inicio Sesion/InicioSesion?expired=true");
+                }
+                else
+                {
+                    ctx.Response.Redirect("/Inicio Sesion/InicioSesion?unauthenticated=true");
+                }
+
+                return Task.CompletedTask;
+            }
+        };
+    });
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -70,6 +108,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();

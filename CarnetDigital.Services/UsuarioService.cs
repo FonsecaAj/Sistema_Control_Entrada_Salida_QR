@@ -53,8 +53,15 @@ namespace CarnetDigital.Services
                 Correo_Institucional = resultado.Correo_Institucional,
                 Contrasena = resultado.Contrasena,
                 NombreCompleto = resultado.NombreCompleto,
+                Rol = resultado.Rol,
+                FechaVencimiento = resultado.FechaVencimiento,
+                ID_Carrera = resultado.ID_Carrera,
+                ID_TipoEstudiante = resultado.ID_TipoEstudiante,
+
+                Id_Dependencia = resultado.Id_Dependencia,
+                Id_Tipo_Funcionario = resultado.Id_Tipo_Funcionario,
                 Mensaje = resultado.Mensaje,
-                Rol = resultado.Rol
+                
             };
 
         }
