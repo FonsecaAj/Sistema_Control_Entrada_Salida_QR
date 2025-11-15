@@ -8,7 +8,7 @@ namespace CarnetDigital.Repository
     {
         private readonly IDbConnectionFactory _connectionFactory;
 
-        private const string InactiveState = "I";
+        
         private const string ActiveState = "A";
 
         public Credenciales_QRRepository(IDbConnectionFactory connectionFactory)
@@ -93,23 +93,7 @@ namespace CarnetDigital.Repository
         }
 
         // ============================
-        // 5. Obtener último registro
-        // ============================
-        public async Task<Credenciales_QR?> GetByIdentificacionAsync(string identificacion)
-        {
-            const string sql = @"
-                SELECT TOP 1 
-                    ID_QR, Identificacion, Codigo_qr, Fecha_generacion, Fecha_expiracion, ID_Estado
-                FROM Credenciales_QR
-                WHERE Identificacion = @Identificacion
-                ORDER BY Fecha_generacion DESC;";
-
-            using var connection = CreateConnection();
-            return await connection.QueryFirstOrDefaultAsync<Credenciales_QR>(sql, new { Identificacion = identificacion });
-        }
-
-        // ============================
-        // 6. Obtener activo vigente
+        // 5. Obtener activo vigente
         // ============================
         public async Task<Credenciales_QR?> GetActiveAsync(string identificacion)
         {
