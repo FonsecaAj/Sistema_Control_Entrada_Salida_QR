@@ -46,12 +46,18 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Control_Acceso
 
         public async Task OnGet()
         {
-            NombreCompleto = "Gabriel Rodriguez Mora";
-            Identificacion = "108560342";
-            CarreraPrograma = "Ingeniería en Sistemas";
+            // Datos del usuario desde claims
+            var NombreUsuario = User.Identity?.Name ?? "Usuario";
+            var identificacionUsuario = User.FindFirst("Identificacion")?.Value ?? "0000000000";
+            var carreaProgramaUsuario = User.FindFirst("ID_Carrera")?.Value ?? "0000";
+
+            NombreCompleto = NombreUsuario;
+            Identificacion = identificacionUsuario;
+            CarreraPrograma = carreaProgramaUsuario;
 
             // Combobox de estados
             ListaEstados = new List<Estados>
+
             {
                 new Estados { ID_Estado = "Au", Nombre_Estado = "Autorizado" },
                 new Estados { ID_Estado = "R", Nombre_Estado = "Rechazado" }

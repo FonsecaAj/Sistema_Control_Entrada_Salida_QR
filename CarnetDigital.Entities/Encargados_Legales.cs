@@ -20,6 +20,8 @@ namespace CarnetDigital.Entities
         public string Identificacion_Estudiante { get; set; }
         public byte[] Foto { get; set; }
 
+        public string? Mensaje { get; set; }
+
 
     }
 }
