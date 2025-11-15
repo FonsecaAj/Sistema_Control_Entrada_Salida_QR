@@ -1,4 +1,56 @@
 ﻿@page
 @model Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Generacion_QR.IndexModel
-@{
-}
+
+<h2>QR Dinámico</h2>
+
+<form method="post">
+    <button id="btn-generar" asp-page-handler="Generar" class="btn btn-primary">
+        Generar nuevo QR
+    </button>
+</form>
+
+<hr />
+
+<h3>QR actual:</h3>
+<img id="qrImg" src="data:image/png;base64,@Model.QRBase64"
+     style="width:250px;height:250px;border:1px solid #ccc;padding:10px;" />
+
+<h3>Expira en: <span id="countdown"></span></h3>
+
+<script>
+    let total = @Model.DuracionSegundos;
+
+    function actualizarContador() {
+
+        let m = Math.floor(total / 60);
+        let s = total % 60;
+
+        document.getElementById("countdown").textContent =
+            `${m}:${s.toString().padStart(2, '0')}`;
+
+        const btn = document.getElementById("btn-generar");
+
+        // Bloqueo los primeros 30 segundos
+        if (total > 30) {
+            btn.disabled = true;
+
+            let visible = total - 30;
+            btn.textContent = `Espere (${visible}s)…`;
+        }
+        else if (total > 0) {
+            btn.disabled = false;
+            btn.textContent = "Generar nuevo QR";
+        }
+
+        if (total <= 0) {
+            btn.disabled = false;
+            btn.textContent = "Generar nuevo QR";
+            return;
+        }
+
+        total--;
+        setTimeout(actualizarContador, 1000);
+    }
+
+    actualizarContador();
+</script>

@@ -30,6 +30,15 @@ builder.Services.AddScoped<ITiposFuncionarioService, TiposFuncionarioService>();
 builder.Services.AddScoped<DependenciasRepository>();
 builder.Services.AddScoped<IDependenciasService, DependenciasService>();
 
+
+// ---------------------------
+// Generación de la credencial digital
+// ---------------------------
+
+// REPOSITORIO QR
+builder.Services.AddScoped<Credenciales_QRRepository>();
+builder.Services.AddScoped<ICredencialesQRServices, CredencialesQRServices>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
