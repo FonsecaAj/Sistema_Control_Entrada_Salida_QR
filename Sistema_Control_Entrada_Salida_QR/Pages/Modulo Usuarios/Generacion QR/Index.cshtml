@@ -1,80 +1,156 @@
 ﻿@page
 @model Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Generacion_QR.IndexModel
+@{
+    Layout = null;
+}
 
-<h2>QR Dinámico</h2>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Generación QR Dinámico</title>
 
-<form method="post">
-    <button id="btn-generar" asp-page-handler="Generar" class="btn btn-primary">
-        Generar nuevo QR
-    </button>
-</form>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-<hr />
+    <link rel="stylesheet" href="/css/Login_estilos.css" />
+</head>
+<body>
 
-<h3>QR actual:</h3>
-<img id="qrImg" src="data:image/png;base64,@Model.QRBase64"
-     style="width:250px;height:250px;border:1px solid #ccc;padding:10px;" />
+    <div class="login-body">
+        <div class="login-container" style="max-width: 500px; padding: 0;">
+            <div class="login-body-content" style="text-align: center;">
 
-<h3>Expira en: <span id="countdown"></span></h3>
+                <h2>QR Dinámico</h2>
+                <hr />
 
-<script>
-    let total = @Model.DuracionSegundos;
-    let qrInactivado = false; // Bandera para asegurar que la inactivación se haga solo una vez
+                <form method="post" id="qr-form">
+                    <button id="btn-generar" asp-page-handler="Generar" class="login-btn">
+                        Generar nuevo QR
+                    </button>
+                </form>
 
-    function actualizarContador() {
+                <hr />
 
-        let m = Math.floor(total / 60);
-        let s = total % 60;
+                <div style="margin: 20px 0;">
+                    <h3 style="color: var(--primary-blue);">QR actual:</h3>
+                    <img id="qrImg" src="data:image/png;base64,@Model.QRBase64"
+                         style="width:250px;height:250px;border:5px solid var(--primary-blue);padding:10px; border-radius: 8px;" />
+                </div>
 
-        document.getElementById("countdown").textContent =
-            `${m}:${s.toString().padStart(2, '0')}`;
+                <h3 style="color: var(--text-dark);">Expira en: <span id="countdown" style="font-weight: bold; color: var(--primary-red);"></span></h3>
 
-        const btn = document.getElementById("btn-generar");
+            </div>
+        </div>
+    </div>
 
-        // Bloqueo los primeros 30 segundos
-        if (total > 30) {
-            btn.disabled = true;
+    <div class="modal fade" id="validationModal" tabindex="-1" aria-labelledby="validationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" id="modalHeader">
+                    <h5 class="modal-title" id="modalTitle">Mensaje</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-            let visible = total - 30;
-            btn.textContent = `Espere (${visible}s)…`;
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <script>
+        const MS1 = "No fue posible generar QR, intente de nuevo.";
+        const MS2 = "Código expirado, genere uno nuevo.";
+        const MS3 = "QR generado correctamente";
+        const MS4 = "Código expirado, genere uno nuevo.";
+
+        let total = @Model.DuracionSegundos;
+        let qrInactivado = false;
+        let countdownInterval;
+
+        function showModal(title, body, type = 'info') {
+            const modalTitle = document.getElementById('modalTitle');
+            const modalHeader = document.getElementById('modalHeader');
+            const modalBody = document.getElementById('modalBody');
+
+            modalTitle.textContent = title;
+            modalBody.textContent = body;
+
+            modalHeader.style.backgroundColor = (type === 'success') ? '#d4edda' : (type === 'error' ? '#f8d7da' : '#cce5ff');
+            modalTitle.style.color = (type === 'success') ? '#155724' : (type === 'error' ? '#721c24' : '#004085');
+
+            var validationModal = new bootstrap.Modal(document.getElementById('validationModal'));
+            validationModal.show();
         }
-        else if (total > 0) {
-            btn.disabled = false;
-            btn.textContent = "Generar nuevo QR";
+
+        async function inactivarQR() {
+            try {
+                const response = await fetch('?handler=Inactivar', {
+                    method: 'POST',
+                });
+
+                if (!response.ok) {
+                    console.error("Fallo al inactivar el QR en el servidor. Estado:", response.status);
+                }
+            } catch (error) {
+                console.error("❌ Fallo de red al intentar inactivar el QR:", error);
+            }
         }
 
-        if (total <= 0) {
-            btn.disabled = false;
-            btn.textContent = "Generar nuevo QR";
-            document.getElementById("countdown").textContent = "EXPIRADO";
+        function actualizarContador() {
 
-            // Lógica de Inactivación en Tiempo Real
-            if (!qrInactivado) {
-                inactivarQR();
-                qrInactivado = true; // Previene llamadas repetidas
+            let m = Math.floor(total / 60);
+            let s = total % 60;
+
+            document.getElementById("countdown").textContent =
+                `${m}:${s.toString().padStart(2, '0')}`;
+
+            const btn = document.getElementById("btn-generar");
+
+            if (total > 30) {
+                btn.disabled = true;
+                let visible = total - 30;
+                btn.textContent = `Espere (${visible}s)…`;
+            }
+            else if (total > 0) {
+                btn.disabled = false;
+                btn.textContent = "Generar nuevo QR";
             }
 
-            return;
+            if (total <= 0) {
+                btn.disabled = false;
+                btn.textContent = "Generar nuevo QR";
+                document.getElementById("countdown").textContent = "EXPIRADO";
+
+                if (!qrInactivado) {
+                    showModal("QR Expirado", MS4, 'error');
+                    inactivarQR();
+                    qrInactivado = true;
+                }
+                clearInterval(countdownInterval);
+                return;
+            }
+
+            total--;
         }
 
-        total--;
-        setTimeout(actualizarContador, 1000);
-    }
 
-    
-    async function inactivarQR() {
-        try {
-            // Llama al Handler OnPostInactivarAsync
-            const response = await fetch('?handler=Inactivar', {
-                method: 'POST',
-                // Como el PageModel tiene [IgnoreAntiforgeryToken], no necesitamos pasar el token
-            });
+        document.getElementById('qr-form').addEventListener('submit', function(event) {
+            showModal("Generación Exitosa", MS3, 'success');
+        });
 
-        } catch (error) {
-            console.error("❌ Fallo de red al intentar inactivar el QR:", error);
+        if (total > 0) {
+            countdownInterval = setInterval(actualizarContador, 1000);
+        } else {
+            actualizarContador();
+            showModal("Código Caducado", MS2, 'warning');
         }
-    }
-    // -------------------------
 
-    actualizarContador();
-</script>
+    </script>
+
+</body>
+</html>
