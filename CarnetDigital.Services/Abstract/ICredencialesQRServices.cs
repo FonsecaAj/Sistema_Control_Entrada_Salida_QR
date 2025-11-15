@@ -12,6 +12,8 @@ namespace CarnetDigital.Services.Abstract
         Task<string> GenerarYObtenerQRBase64Async(string identificacion);
         Task<string> ObtenerOGenerarQRBase64Async(string identificacion);
 
+        Task InactivarAsync(string identificacion);
+
 
     }
 }

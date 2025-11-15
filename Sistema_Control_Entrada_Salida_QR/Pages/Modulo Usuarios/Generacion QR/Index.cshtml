@@ -19,6 +19,7 @@
 
 <script>
     let total = @Model.DuracionSegundos;
+    let qrInactivado = false; // Bandera para asegurar que la inactivación se haga solo una vez
 
     function actualizarContador() {
 
@@ -45,11 +46,30 @@
         if (total <= 0) {
             btn.disabled = false;
             btn.textContent = "Generar nuevo QR";
+            document.getElementById("countdown").textContent = "EXPIRADO";
+
+            // Lógica de Inactivación en Tiempo Real
+            if (!qrInactivado) {
+                inactivarQR();
+                qrInactivado = true; // Previene llamadas repetidas
+            }
+            
             return;
         }
 
         total--;
         setTimeout(actualizarContador, 1000);
+    }
+
+    
+    async function inactivarQR() {
+        try {
+            // Llama al nuevo Handler OnPostInactivarAsync
+            const response = await fetch('?handler=Inactivar', {
+                method: 'POST',
+                // Como el PageModel tiene [IgnoreAntiforgeryToken], no necesitamos pasar el token
+            });
+
     }
 
     actualizarContador();

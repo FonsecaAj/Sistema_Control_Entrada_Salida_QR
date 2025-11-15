@@ -20,13 +20,12 @@ namespace CarnetDigital.Services
         public async Task<string> GenerarYObtenerQRBase64Async(string identificacion)
         {
             await _repository.InactivarQRExpiradosAsync();
-
-            var existente = await _repository.GetByIdentificacionAsync(identificacion);
+            await _repository.MarcarComoInactivoAsync(identificacion);
 
             string token = Guid.NewGuid().ToString("N");
             DateTime now = DateTime.UtcNow;
 
-            var entidad = new Credenciales_QR
+            var model = new Credenciales_QR
             {
                 Identificacion = identificacion,
                 Codigo_qr = token,
@@ -35,10 +34,10 @@ namespace CarnetDigital.Services
                 ID_Estado = ActiveState
             };
 
-            if (existente == null)
-                await _repository.InsertAsync(entidad);
+            if (await _repository.ExisteAsync(identificacion))
+                await _repository.UpdateAsync(model);
             else
-                await _repository.UpdateAsync(entidad);
+                await _repository.InsertAsync(model);
 
             return GenerateQRImageBase64(token);
         }
@@ -61,9 +60,12 @@ namespace CarnetDigital.Services
             var qr = gen.CreateQrCode(data, QRCodeGenerator.ECCLevel.Q);
 
             using var png = new PngByteQRCode(qr);
-            var bytes = png.GetGraphic(20);
+            return Convert.ToBase64String(png.GetGraphic(20));
+        }
 
-            return Convert.ToBase64String(bytes);
+        public async Task InactivarAsync(string identificacion)
+        {
+            await _repository.MarcarComoInactivoAsync(identificacion);
         }
     }
 }

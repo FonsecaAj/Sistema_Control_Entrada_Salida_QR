@@ -36,5 +36,17 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Generacion_QR
 
             return Page();
         }
+
+
+        // Para inactivar el QR expirado
+        
+        public async Task<IActionResult> OnPostInactivarAsync()
+        {
+            
+            await _qrService.InactivarAsync(CedulaPrueba);
+
+            // Devuelve una respuesta 204 No Content para indicar éxito sin cuerpo de respuesta
+            return new NoContentResult();
+        }
     }
 }
