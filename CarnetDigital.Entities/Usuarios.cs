@@ -10,9 +10,12 @@ namespace CarnetDigital.Entities
     {
 
         public string Identificacion { get; set; }
+        public string NombreCompleto { get; set; }
         public string Correo_Institucional { get; set; }
         public string Contrasena { get; set; }
+        public string Rol { get; set; }
         public string ID_Estado { get; set; }
+        public string Mensaje { get; set; }
 
 
     }
