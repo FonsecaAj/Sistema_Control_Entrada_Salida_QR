@@ -1,4 +1,6 @@
 using CarnetDigital.Repository;
+using CarnetDigital.Services;
+using CarnetDigital.Services.Abstract;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,25 @@ builder.Services.AddRazorPages();
 // ---------------------------
 builder.Services.AddSingleton<IDbConnectionFactory, DbConnectionFactory>();
 
+// Inicio Sesión
+
+builder.Services.AddScoped<UsuarioRepository>();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+
+// Registros Pendientes
+
+builder.Services.AddScoped<Registros_PendientesRepository>();
+builder.Services.AddScoped<IRegistros_PendientesService, Registros_PendientesService>();
+
+// Tipos Identificacion
+
+builder.Services.AddScoped<Tipos_IdentificacionRepository>();
+builder.Services.AddScoped<ITipos_IdentificacionService, Tipos_IdentificacionService>();
+
+// Carreras Programas
+
+builder.Services.AddScoped<Carreras_ProgramasRepository>();
+builder.Services.AddScoped<ICarreras_ProgramasService, Carreras_ProgramasService>();
 
 var app = builder.Build();
 

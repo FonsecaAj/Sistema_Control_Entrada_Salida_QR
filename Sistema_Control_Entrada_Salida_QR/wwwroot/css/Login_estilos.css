@@ -141,6 +141,21 @@
         align-items: center;
     }
 
+/* Estilo para Link del Login*/
+
+
+.login-register-link {
+    color: var(--primary-blue);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+    .login-register-link:hover {
+        text-decoration: underline;
+        color: #001a4d;
+    }
+
+
 /* Responsive */
 @media (max-width: 480px) {
     .login-container {
@@ -160,3 +175,4 @@
             font-size: 1.5rem;
         }
 }
+
