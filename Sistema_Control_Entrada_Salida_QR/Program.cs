@@ -1,4 +1,6 @@
 using CarnetDigital.Repository;
+using CarnetDigital.Services;
+using CarnetDigital.Services.Abstract;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,9 @@ builder.Services.AddRazorPages();
 // Conexión a base de datos
 // ---------------------------
 builder.Services.AddSingleton<IDbConnectionFactory, DbConnectionFactory>();
+
+builder.Services.AddScoped<ControlAccesosRepository>();
+builder.Services.AddScoped<IControlAccesosService, ControlAccesosService>();
 
 
 var app = builder.Build();
