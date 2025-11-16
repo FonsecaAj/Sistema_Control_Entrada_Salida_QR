@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Sistema_Control_Entrada_Salida_QR.Services.Abstract;
-using Sistema_Control_Entrada_Salida_SQR.Services.Abstract;
+
 
 namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Administradores.Registro_Funcionarios
 {
