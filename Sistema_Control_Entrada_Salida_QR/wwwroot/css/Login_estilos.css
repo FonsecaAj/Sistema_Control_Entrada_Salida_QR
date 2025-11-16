@@ -10,7 +10,7 @@
 }
 
 .login-body {
-    background-image: url('/images/cuc2.jpg');
+    background-image: url('/images/cuc.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -141,21 +141,6 @@
         align-items: center;
     }
 
-/* Estilo para Link del Login*/
-
-
-.login-register-link {
-    color: var(--primary-blue);
-    font-weight: 600;
-    text-decoration: none;
-}
-
-    .login-register-link:hover {
-        text-decoration: underline;
-        color: #001a4d;
-    }
-
-
 /* Responsive */
 @media (max-width: 480px) {
     .login-container {
@@ -175,28 +160,3 @@
             font-size: 1.5rem;
         }
 }
-
-/* ===== ESTILOS ADICIONALES PARA EL MODAL (QR Page) ===== */
-.modal-header.success {
-    background-color: #d4edda;
-    color: #155724;
-}
-
-.modal-header.error {
-    background-color: #f8d7da;
-    color: #721c24;
-}
-
-.modal-header.info {
-    background-color: #cce5ff;
-    color: #004085;
-}
-
-/* Quitar fondo duplicado */
-.no-bg {
-    background-image: none !important;
-    background-color: transparent !important;
-}
-
-
-

@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="QRCoder" Version="1.7.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\CarnetDigital.Entities\CarnetDigital.Entities.csproj" />
     <ProjectReference Include="..\CarnetDigital.Repository\CarnetDigital.Repository.csproj" />
   </ItemGroup>

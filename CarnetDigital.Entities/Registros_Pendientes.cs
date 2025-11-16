@@ -22,8 +22,5 @@ namespace CarnetDigital.Entities
         public string Estado { get; set; }
         public string Mensaje { get; set; }
 
-        // Agregué este Atributo para que devuelva los Mensajes de mi SP
-        public string Mensaje { get; set; }
-
     }
 }
