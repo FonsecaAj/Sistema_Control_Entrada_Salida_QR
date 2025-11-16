@@ -5,7 +5,7 @@
     ViewData["Title"] = "Carnet Digital - Generación QR";
 }
 
-<!-- Solo el contenido específico de la página -->
+
 <div class="carnet-body">
     <div class="carnet-container">
         <div class="carnet-header">
@@ -19,29 +19,29 @@
                 <div class="card-body">
                     <div class="info-row">
                         <div class="info-label">Nombre completo: </div>
-                        <div class="info-value">María González Rodríguez</div>
+                        <div class="info-value">@Model.NombreCompleto</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Identificación: </div>
-                        <div class="info-value">123456789</div>
+                        <div class="info-value">@Model.Identificacion</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Carrera/Programa: </div>
-                        <div class="info-value">Tecnologías de la Información</div>
+                        <div class="info-value">@Model.Carrera</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Vigencia: </div>
-                        <div class="info-value">2023-2025</div>
+                        <div class="info-value">@Model.Vigencia</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Estado: </div>
                         <div class="info-value">
-                            <span class="status-badge badge-active">Activo</span>
+                            <span class="status-badge badge-active">@Model.Estado</span>
                         </div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Tipo: </div>
-                        <div class="info-value">Estudiante</div>
+                        <div class="info-value">@Model.Tipo</div>
                     </div>
                 </div>
             </div>
@@ -77,7 +77,7 @@
 
 @section Scripts {
     <script>
-        // Tu JavaScript existente aquí
+        
         const MS1 = "No fue posible generar QR, intente de nuevo.";
         const MS2 = "Código expirado, genere uno nuevo.";
         const MS3 = "QR generado correctamente";

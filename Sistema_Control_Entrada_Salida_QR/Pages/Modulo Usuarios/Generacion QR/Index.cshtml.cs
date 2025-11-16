@@ -2,6 +2,7 @@ using CarnetDigital.Services.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Security.Claims;
 
 namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Generacion_QR
 {
@@ -21,11 +22,17 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Generacion_QR
         public DateTime ExpiraUTC { get; set; }
         public bool TokenGenerado { get; set; } = false;
 
-        private  string Identificacion { get; set; }
+        // Claims del login
+        public string NombreCompleto { get; private set; }
+        public string Identificacion { get; private set; }
+        public string Carrera { get; private set; }
+        public string Vigencia { get; private set; }
+        public string Estado { get; private set; }
+        public string Tipo { get; private set; }
 
         public async Task OnGet()
         {
-             Identificacion = User.FindFirst("Identificacion")?.Value;
+            LeerClaims();
             QRBase64 = await _qrService.GenerarYObtenerQRBase64Async(Identificacion);
             ExpiraUTC = DateTime.UtcNow.AddSeconds(DuracionSegundos);
             TokenGenerado = true;
@@ -33,7 +40,7 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Generacion_QR
 
         public async Task<IActionResult> OnPostGenerarAsync()
         {
-            Identificacion = User.FindFirst("Identificacion")?.Value;
+            LeerClaims();
             QRBase64 = await _qrService.GenerarYObtenerQRBase64Async(Identificacion);
             ExpiraUTC = DateTime.UtcNow.AddSeconds(DuracionSegundos);
             TokenGenerado = true;
@@ -46,11 +53,20 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Generacion_QR
         
         public async Task<IActionResult> OnPostInactivarAsync()
         {
-            Identificacion = User.FindFirst("Identificacion")?.Value;
+            LeerClaims();
             await _qrService.InactivarAsync(Identificacion);
-
-            // Devuelve una respuesta 204 No Content para indicar éxito sin cuerpo de respuesta
             return new NoContentResult();
+        }
+
+        private void LeerClaims()
+        {
+            NombreCompleto = User.FindFirst(ClaimTypes.Name)?.Value;
+            Identificacion = User.FindFirst("Identificacion")?.Value;
+            Carrera = User.FindFirst("ID_Carrera")?.Value;
+            Vigencia = User.FindFirst("FechaVencimiento")?.Value;
+            Tipo = User.FindFirst("TipoEstudiante")?.Value;
+
+            Estado = "Activo";
         }
     }
 }
