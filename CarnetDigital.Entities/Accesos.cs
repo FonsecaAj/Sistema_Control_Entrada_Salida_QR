@@ -33,4 +33,12 @@ namespace CarnetDigital.Entities
         public int TotalRechazados { get; set; }
         public int UsuariosUnicos { get; set; }
     }
+
+    public class TipoUsuarioCombo
+    {
+        public string Id_Tipo { get; set; }
+        public string Nombre_Tipo { get; set; }
+    }
+
+
 }
