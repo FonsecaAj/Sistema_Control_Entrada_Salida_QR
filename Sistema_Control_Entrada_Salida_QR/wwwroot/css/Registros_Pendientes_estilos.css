@@ -1,0 +1,207 @@
+﻿/* ===== ESTILOS MODERNOS PARA REGISTRO DE USUARIO ===== */
+
+:root {
+    --primary-red: #F5333F;
+    --primary-blue: #002D74;
+    --white: #ffffff;
+    --light-gray: #f8f9fa;
+    --border-gray: #dee2e6;
+    --text-dark: #2c3e50;
+    --text-light: #6c757d;
+}
+
+
+body {
+    background-image: url('/images/cuc.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+
+.registro-container {
+    background: var(--white);
+    padding: 1.8rem 2rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.2);
+    border: 1px solid var(--border-gray);
+    max-width: 700px;
+    width: 100%;
+    margin: 2rem auto;
+}
+
+
+.registro-title {
+    background: var(--primary-blue);
+    color: var(--white);
+    padding: 1.5rem 2rem;
+    border-radius: 6px;
+    border-left: 6px solid var(--primary-red);
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+
+.registro-label {
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+    display: block;
+    font-size: 0.95rem;
+}
+
+
+.registro-input-wrapper {
+    position: relative;
+}
+
+.registro-input-wrapper i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary-blue);
+    font-size: 0.95rem;
+}
+
+
+.registro-input,
+.registro-select {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.8rem;
+    border: 2px solid var(--border-gray);
+    border-radius: 6px;
+    background: var(--light-gray);
+    font-size: 1rem;
+    color: var(--text-dark);
+    transition: border-color 0.3s ease, background 0.3s ease;
+    box-sizing: border-box;
+}
+
+.registro-input:focus,
+.registro-select:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    background: var(--white);
+}
+
+
+.registro-file-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.registro-file-wrapper i {
+    font-size: 3rem;
+    color: var(--primary-blue);
+    margin-bottom: 0.5rem;
+}
+
+.registro-file {
+    padding: 0.5rem 1rem;
+    border: 2px dashed var(--border-gray);
+    background: var(--light-gray);
+    border-radius: 6px;
+    cursor: pointer;
+    width: 60%;
+    text-align: center;
+    transition: border-color 0.3s ease;
+}
+
+.registro-file:hover {
+    border-color: var(--primary-blue);
+}
+
+
+.registro-buttons {
+    margin-top: 2.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.registro-btn {
+    padding: 0.9rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    transition: 0.3s ease;
+}
+
+.registro-btn-primary {
+    background: var(--primary-blue);
+    color: white;
+}
+
+.registro-btn-primary:hover {
+    background: #001a4d;
+}
+
+.registro-btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.registro-btn-secondary:hover {
+    background: #5a6268;
+}
+
+
+.registro-mensaje {
+    margin-top: 1.5rem;
+    background: #e9f2ff;
+    color: #003366;
+    border: 1px solid #bcd0ff;
+    padding: 1rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+}
+
+
+.text-danger {
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+}
+
+
+@media (max-width: 768px) {
+    .registro-container {
+        padding: 1.5rem;
+    }
+
+    .registro-title {
+        font-size: 1.5rem;
+    }
+
+    .registro-file {
+        width: 80%;
+    }
+}
+
+@media (max-width: 480px) {
+    .registro-container {
+        padding: 1rem;
+        margin: 1rem;
+    }
+
+    .registro-title {
+        font-size: 1.3rem;
+    }
+
+    .registro-file {
+        width: 90%;
+    }
+}
