@@ -4,8 +4,7 @@ using CarnetDigital.Services.Abstract;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Sistema_Control_Entrada_Salida_QR.Services;
 using Sistema_Control_Entrada_Salida_QR.Services.Abstract;
-using Sistema_Control_Entrada_Salida_SQR.Services;
-using Sistema_Control_Entrada_Salida_SQR.Services.Abstract;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -97,7 +96,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 
 // Titi
-builder.Services.AddScoped<Registro_PendientesRepository>();
+builder.Services.AddScoped<Registros_PendientesRepository>();
 builder.Services.AddScoped<IRegistros_PendientesService, Registros_PendientesService>();
 
 builder.Services.AddTransient<AccesosRepository>();

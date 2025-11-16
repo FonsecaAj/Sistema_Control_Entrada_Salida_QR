@@ -1,8 +1,8 @@
 ﻿using CarnetDigital.Entities;
 using CarnetDigital.Repository;
-using Sistema_Control_Entrada_Salida_SQR.Services.Abstract;
+using Sistema_Control_Entrada_Salida_QR.Services.Abstract;
 
-namespace Sistema_Control_Entrada_Salida_SQR.Services
+namespace Sistema_Control_Entrada_Salida_QR.Services
 {
     public class TiposFuncionarioService : ITiposFuncionarioService
     {

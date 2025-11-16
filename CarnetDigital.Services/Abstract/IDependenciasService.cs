@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Sistema_Control_Entrada_Salida_SQR.Services.Abstract
+namespace Sistema_Control_Entrada_Salida_QR.Services.Abstract
 {
     public interface IDependenciasService
     {
