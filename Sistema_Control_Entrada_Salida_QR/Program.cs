@@ -1,4 +1,6 @@
 using CarnetDigital.Repository;
+using CarnetDigital.Services;
+using CarnetDigital.Services.Abstract;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,8 @@ builder.Services.AddRazorPages();
 // ---------------------------
 builder.Services.AddSingleton<IDbConnectionFactory, DbConnectionFactory>();
 
+builder.Services.AddScoped<Registro_PendientesRepository>();
+builder.Services.AddScoped<IRegistros_PendientesService, Registros_PendientesService>();
 
 var app = builder.Build();
 
