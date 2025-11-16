@@ -1,9 +1,11 @@
 using CarnetDigital.Services.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Generacion_QR
 {
+    [Authorize]
     [IgnoreAntiforgeryToken]
     public class IndexModel : PageModel
     {
@@ -19,18 +21,20 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Generacion_QR
         public DateTime ExpiraUTC { get; set; }
         public bool TokenGenerado { get; set; } = false;
 
-        private const string CedulaPrueba = "305690396";
+        private  string Identificacion { get; set; }
 
         public async Task OnGet()
         {
-            QRBase64 = await _qrService.GenerarYObtenerQRBase64Async(CedulaPrueba);
+             Identificacion = User.FindFirst("Identificacion")?.Value;
+            QRBase64 = await _qrService.GenerarYObtenerQRBase64Async(Identificacion);
             ExpiraUTC = DateTime.UtcNow.AddSeconds(DuracionSegundos);
             TokenGenerado = true;
         }
 
         public async Task<IActionResult> OnPostGenerarAsync()
         {
-            QRBase64 = await _qrService.GenerarYObtenerQRBase64Async(CedulaPrueba);
+            Identificacion = User.FindFirst("Identificacion")?.Value;
+            QRBase64 = await _qrService.GenerarYObtenerQRBase64Async(Identificacion);
             ExpiraUTC = DateTime.UtcNow.AddSeconds(DuracionSegundos);
             TokenGenerado = true;
 
@@ -42,8 +46,8 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Generacion_QR
         
         public async Task<IActionResult> OnPostInactivarAsync()
         {
-            
-            await _qrService.InactivarAsync(CedulaPrueba);
+            Identificacion = User.FindFirst("Identificacion")?.Value;
+            await _qrService.InactivarAsync(Identificacion);
 
             // Devuelve una respuesta 204 No Content para indicar éxito sin cuerpo de respuesta
             return new NoContentResult();
