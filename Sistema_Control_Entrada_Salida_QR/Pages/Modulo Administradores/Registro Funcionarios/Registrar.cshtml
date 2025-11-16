@@ -1,24 +1,17 @@
 ﻿@page
 @model Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Administradores.Registro_Funcionarios.RegistrarModel
 @{
+    Layout = "Layout_Plantilla";
     ViewData["Title"] = "Registro de Funcionarios";
-    Layout = null;
 }
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Carnet Digital</title>
 
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/Login_estilos.css" asp-append-version="true" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
-</head>
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/Login_estilos.css" asp-append-version="true" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
 
-<body class="login-body">
-
+<div class="login-body no-bg">
     <div class="login-container" style="max-width: 720px;">
+
         <!-- ENCABEZADO -->
         <div class="login-header">
             <h1>Registro de Funcionarios</h1>
@@ -27,7 +20,6 @@
             </div>
         </div>
 
-        <!-- CONTENIDO -->
         <div class="login-body-content">
 
             @if (!string.IsNullOrEmpty(Model.Mensaje))
@@ -39,21 +31,12 @@
 
             <form method="post" enctype="multipart/form-data">
 
-                <!-- SECCIÓN DE FOTO DE PERFIL -->
+                <!-- FOTO -->
                 <div class="text-center mt-3">
-                    <div style="
-                width:130px; height:130px;
-                margin:auto;
-                border-radius:50%;
-                overflow:hidden;
-                border:4px solid var(--primary-blue);
-                background:#f0f0f0;
-                display:flex;
-                align-items:center;
-                justify-content:center;
-            ">
-                        <img id="previewFoto"
-                             src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png"
+                    <div style="width:130px; height:130px; margin:auto; border-radius:50%;
+                                overflow:hidden; border:4px solid var(--primary-blue);
+                                background:#f0f0f0; display:flex; align-items:center; justify-content:center;">
+                        <img id="previewFoto" src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png"
                              style="width:100%; height:100%; object-fit:cover;" />
                     </div>
 
@@ -168,6 +151,7 @@
             </form>
         </div>
     </div>
+</div>
 
     <script>
         function previewImage(event) {
@@ -177,9 +161,6 @@
             img.style.objectFit = "cover";
         }
     </script>
-
-</body>
-</html>
 
 
 

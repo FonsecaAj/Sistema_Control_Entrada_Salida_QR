@@ -191,3 +191,12 @@
     background-color: #cce5ff;
     color: #004085;
 }
+
+/* Quitar fondo duplicado */
+.no-bg {
+    background-image: none !important;
+    background-color: transparent !important;
+}
+
+
+
