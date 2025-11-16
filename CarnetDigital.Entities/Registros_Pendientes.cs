@@ -21,5 +21,8 @@ namespace CarnetDigital.Entities
         public DateTime Fecha_Registro { get; set; }
         public string ID_Estado { get; set; }
 
+        // Agregué este Atributo para que devuelva los Mensajes de mi SP
+        public string Mensaje { get; set; }
+
     }
 }
