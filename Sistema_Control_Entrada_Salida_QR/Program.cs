@@ -96,6 +96,13 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 
 
+// Titi
+builder.Services.AddScoped<Registro_PendientesRepository>();
+builder.Services.AddScoped<IRegistros_PendientesService, Registros_PendientesService>();
+
+builder.Services.AddTransient<AccesosRepository>();
+builder.Services.AddTransient<IAccesosService, AccesosService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -18,4 +18,12 @@ namespace CarnetDigital.Entities
 
 
     }
+
+    public class TipoUsuarioCombo
+    {
+        public string Id_Tipo { get; set; }
+        public string Nombre_Tipo { get; set; }
+    }
+
+
 }
