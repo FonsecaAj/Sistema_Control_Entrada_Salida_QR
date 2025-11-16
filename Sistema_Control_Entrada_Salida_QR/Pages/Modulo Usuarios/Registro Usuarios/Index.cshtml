@@ -1,4 +1,131 @@
-﻿@page
+﻿@page 
 @model Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Registro_Usuarios.IndexModel
 @{
+    ViewData["Title"] = "Registro Estudiantes";
+    Layout = null;
+    
 }
+
+<link href="~/css/registros_pendientes_estilos.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<div class="registro-container">
+
+    <div class="registro-title">Registro de usuario</div>
+
+    <form method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="row g-3">
+
+            <!-- Nombre -->
+            <div class="col-md-4">
+                <label asp-for="Registro.Nombre" class="registro-label"></label>
+                <div class="registro-input-wrapper">
+                    <i class="fas fa-user"></i>
+                    <input asp-for="Registro.Nombre" class="registro-input registro-input-icon" />
+                </div>
+            </div>
+
+            <!-- Primer Apellido -->
+            <div class="col-md-4">
+                <label asp-for="Registro.Primer_Apellido" class="registro-label"></label>
+                <div class="registro-input-wrapper">
+                    <i class="fas fa-user"></i>
+                    <input asp-for="Registro.Primer_Apellido" class="registro-input registro-input-icon" />
+                </div>
+            </div>
+
+            <!-- Segundo Apellido -->
+            <div class="col-md-4">
+                <label asp-for="Registro.Segundo_Apellido" class="registro-label"></label>
+                <div class="registro-input-wrapper">
+                    <i class="fas fa-user"></i>
+                    <input asp-for="Registro.Segundo_Apellido" class="registro-input registro-input-icon" />
+                </div>
+            </div>
+
+            <!-- Tipo Identificación -->
+            <div class="col-md-4">
+                <label asp-for="Registro.ID_Tipo_Identificacion" class="registro-label"></label>
+                <div class="registro-input-wrapper">
+                    <i class="fas fa-id-card"></i>
+                    <select asp-for="Registro.ID_Tipo_Identificacion" asp-items="Model.TiposIdentificacion" class="registro-select registro-input-icon"></select>
+                </div>
+            </div>
+
+            <!-- Identificación -->
+            <div class="col-md-4">
+                <label asp-for="Registro.Identificacion" class="registro-label"></label>
+                <div class="registro-input-wrapper">
+                    <i class="fas fa-hashtag"></i>
+                    <input asp-for="Registro.Identificacion" class="registro-input registro-input-icon" />
+                </div>
+            </div>
+
+            <!-- Fecha nacimiento -->
+            <div class="col-md-4">
+                <label asp-for="Registro.Fecha_Nacimiento" class="registro-label"></label>
+                <div class="registro-input-wrapper">
+                    <i class="fas fa-calendar-alt"></i>
+                    <input asp-for="Registro.Fecha_Nacimiento" type="date" class="registro-input registro-input-icon" />
+                </div>
+            </div>
+
+            <!-- Correo -->
+            <div class="col-md-6">
+                <label asp-for="Registro.Correo_Institucional" class="registro-label"></label>
+                <div class="registro-input-wrapper">
+                    <i class="fas fa-envelope"></i>
+                    <input asp-for="Registro.Correo_Institucional" class="registro-input registro-input-icon" />
+                </div>
+            </div>
+
+            <!-- Contraseña -->
+            <div class="col-md-6">
+                <label asp-for="Registro.Contrasena" class="registro-label"></label>
+                <div class="registro-input-wrapper">
+                    <i class="fas fa-lock"></i>
+                    <input asp-for="Registro.Contrasena" type="password" class="registro-input registro-input-icon" />
+                </div>
+            </div>
+
+            <!-- Carrera -->
+            <div class="col-md-6">
+                <label asp-for="Registro.Id_Carrera" class="registro-label"></label>
+                <div class="registro-input-wrapper">
+                    <i class="fas fa-graduation-cap"></i>
+                    <select asp-for="Registro.Id_Carrera" asp-items="Model.Carreras" class="registro-select registro-input-icon"></select>
+                </div>
+            </div>
+
+            <!-- Foto -->
+            <div class="col-md-6">
+                <label asp-for="FotoFile" class="registro-label">Foto (JPG/PNG)</label>
+                <div class="registro-input-wrapper">
+                    <i class="fas fa-image"></i>
+                    <input asp-for="FotoFile" type="file" accept="image/*" class="registro-file registro-input-icon" />
+                </div>
+            </div>
+
+        </div>
+
+        <div class="registro-buttons">
+            <button type="submit" class="registro-btn registro-btn-primary">
+                <i class="fas fa-user-plus me-2"></i> Registrarse
+            </button>
+
+            <a asp-page="/Index" class="registro-btn registro-btn-secondary text-decoration-none">
+                <i class="fas fa-times me-2"></i> Cancelar
+            </a>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.Registro?.Mensaje))
+        {
+            <div class="registro-mensaje mt-3">
+                @Model.Registro.Mensaje
+            </div>
+        }
+
+    </form>
+</div>

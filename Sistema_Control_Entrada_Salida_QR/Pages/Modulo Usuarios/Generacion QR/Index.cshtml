@@ -1,4 +1,167 @@
 ﻿@page
 @model Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Generacion_QR.IndexModel
 @{
+    Layout = "Layout_Plantilla";
+    ViewData["Title"] = "Carnet Digital - Generación QR";
+}
+
+
+<div class="carnet-body">
+    <div class="carnet-container">
+        <div class="carnet-header">
+            <h2>Carnet Digital</h2>
+            <div class="carnet-subtitle">Colegio Universitario de Cartago</div>
+        </div>
+
+        <div class="carnet-body-content">
+            <!-- Tarjeta de Información del Usuario -->
+            <div class="user-info-card">
+                <div class="card-body">
+                    <div class="info-row">
+                        <div class="info-label">Nombre completo: </div>
+                        <div class="info-value">@Model.NombreCompleto</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Identificación: </div>
+                        <div class="info-value">@Model.Identificacion</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Carrera/Programa: </div>
+                        <div class="info-value">@Model.Carrera</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Vigencia: </div>
+                        <div class="info-value">@Model.Vigencia</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Estado: </div>
+                        <div class="info-value">
+                            <span class="status-badge badge-active">@Model.Estado</span>
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Tipo: </div>
+                        <div class="info-value">@Model.Tipo</div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="carnet-divider" />
+
+            <!-- Botón Generar QR -->
+            <form method="post" id="qr-form">
+                <button id="btn-generar" asp-page-handler="Generar" class="qr-generator-btn">
+                    Generar nuevo QR
+                </button>
+            </form>
+
+            <hr class="carnet-divider" />
+
+            <!-- Sección QR -->
+            <div class="qr-section">
+                <div class="qr-title">Código QR Actual</div>
+                <div class="qr-image-container">
+                    <img id="qrImg" src="data:image/png;base64,@Model.QRBase64"
+                         class="qr-image" alt="Código QR" />
+                </div>
+            </div>
+
+            <!-- Contador de Tiempo -->
+            <div class="timer-section">
+                <div class="timer-label">El código expira en:</div>
+                <div id="countdown" class="timer-countdown"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        
+        const MS1 = "No fue posible generar QR, intente de nuevo.";
+        const MS2 = "Código expirado, genere uno nuevo.";
+        const MS3 = "QR generado correctamente";
+        const MS4 = "Código expirado, genere uno nuevo.";
+
+        let total = @Model.DuracionSegundos;
+        let qrInactivado = false;
+        let countdownInterval;
+
+        function showModal(title, body, type = 'info') {
+            const modalTitle = document.getElementById('modalTitle');
+            const modalHeader = document.getElementById('modalHeader');
+            const modalBody = document.getElementById('modalBody');
+
+            modalTitle.textContent = title;
+            modalBody.textContent = body;
+
+            modalHeader.style.backgroundColor = (type === 'success') ? '#d4edda' : (type === 'error' ? '#f8d7da' : '#cce5ff');
+            modalTitle.style.color = (type === 'success') ? '#155724' : (type === 'error' ? '#721c24' : '#004085');
+
+            var validationModal = new bootstrap.Modal(document.getElementById('validationModal'));
+            validationModal.show();
+        }
+
+        async function inactivarQR() {
+            try {
+                const response = await fetch('?handler=Inactivar', {
+                    method: 'POST',
+                });
+
+                if (!response.ok) {
+                    console.error("Fallo al inactivar el QR en el servidor. Estado:", response.status);
+                }
+            } catch (error) {
+                console.error("❌ Fallo de red al intentar inactivar el QR:", error);
+            }
+        }
+
+        function actualizarContador() {
+            let m = Math.floor(total / 60);
+            let s = total % 60;
+
+            const countdownElement = document.getElementById("countdown");
+            countdownElement.textContent = `${m}:${s.toString().padStart(2, '0')}`;
+
+            const btn = document.getElementById("btn-generar");
+
+            if (total > 30) {
+                btn.disabled = true;
+                let visible = total - 30;
+                btn.textContent = `Espere (${visible}s)…`;
+            }
+            else if (total > 0) {
+                btn.disabled = false;
+                btn.textContent = "Generar nuevo QR";
+            }
+
+            if (total <= 0) {
+                btn.disabled = false;
+                btn.textContent = "Generar nuevo QR";
+                countdownElement.textContent = "EXPIRADO";
+                countdownElement.classList.add('timer-expired');
+
+                if (!qrInactivado) {
+                    showModal("QR Expirado", MS4, 'error');
+                    inactivarQR();
+                    qrInactivado = true;
+                }
+                clearInterval(countdownInterval);
+                return;
+            }
+
+            total--;
+        }
+
+        document.getElementById('qr-form').addEventListener('submit', function(event) {
+            showModal("Generación Exitosa", MS3, 'success');
+        });
+
+        if (total > 0) {
+            countdownInterval = setInterval(actualizarContador, 1000);
+        } else {
+            actualizarContador();
+            showModal("Código Caducado", MS2, 'warning');
+        }
+    </script>
 }
