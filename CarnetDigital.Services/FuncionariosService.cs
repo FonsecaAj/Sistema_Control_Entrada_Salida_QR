@@ -131,7 +131,7 @@ namespace CarnetDigital.Services
                     <h2 style='color:#1a73e8'>{password}</h2>
                     <p>Por seguridad, cambie su contraseña antes de ingresar al sistema.</p>
                     <br>
-                    <p>Saludos cordiales,<br>Carnet Digital</p>
+                    <p>Saludos cordiales,<br>Sistema de Control de Entrada y Salida QR</p>
                 </body>
                 </html>";
 
