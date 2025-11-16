@@ -1,4 +1,119 @@
 ﻿@page
-@model Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Administradores.Reportes_acceso.IndexModel
-@{
-}
+@model Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Administradores.Reporte_Accesos.IndexModel
+
+<link href="~/css/registros_pendientes.css" rel="stylesheet" />
+
+<div class="registro-container">
+    <h2 class="registro-title">Reporte de Accesos</h2>
+
+    <!-- Filtros -->
+    <form method="post" asp-page-handler="GenerarReporte">
+        <div class="registro-tabla-wrapper">
+            <table class="registro-table">
+                <tbody>
+                    <tr>
+                        <td>
+                            <label class="registro-label">Usuario</label>
+                            <input asp-for="Identificacion" class="registro-input" placeholder="Ingrese número de identificación" />
+                        </td>
+                        <td>
+                            <label class="registro-label">Fecha de Inicio</label>
+                            <input asp-for="FechaInicio" type="date" class="registro-input" />
+                        </td>
+                        <td>
+                            <label class="registro-label">Fecha de Fin</label>
+                            <input asp-for="FechaFin" type="date" class="registro-input" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="registro-label">Tipo de Usuario</label>
+                            <select asp-for="TipoUsuario" asp-items="Model.ListaTiposUsuario" class="registro-select"></select>
+                        </td>
+                        <td>
+                            <label class="registro-label">Estado</label>
+                            <select asp-for="IdEstado" asp-items="Model.ListaEstados" class="registro-select"></select>
+                        </td>
+                        <td style="vertical-align: bottom; text-align:center;">
+                            <button type="submit" class="registro-btn registro-btn-primary">
+                                Generar Reporte
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+
+    <!-- Resumen -->
+    <div class="registro-tabla-wrapper" style="margin-top:1.5rem;">
+        <table class="registro-table">
+            <tbody>
+                <tr>
+                    <td>
+                        <div style="text-align:center;">
+                            <div style="font-size:1.6rem;">@Model.Resultado.TotalAccesos</div>
+                            <div>Total Accesos</div>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="text-align:center;">
+                            <div style="font-size:1.6rem;">@Model.Resultado.TotalAutorizados</div>
+                            <div>Autorizados</div>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="text-align:center;">
+                            <div style="font-size:1.6rem;">@Model.Resultado.TotalRechazados</div>
+                            <div>Rechazados</div>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="text-align:center;">
+                            <div style="font-size:1.6rem;">@Model.Resultado.UsuariosUnicos</div>
+                            <div>Usuarios Únicos</div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Tabla de resultados -->
+    <div class="registro-tabla-wrapper">
+        <table class="registro-table">
+            <thead>
+                <tr>
+                    <th>Id Acceso</th>
+                    <th>Identificación</th>
+                    <th>Fecha Acceso</th>
+                    <th>Estado</th>
+                    <th>Tipo Acceso</th>
+                    <th>Marca</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Resultado.Accesos != null && Model.Resultado.Accesos.Count > 0)
+                {
+                    foreach (var a in Model.Resultado.Accesos)
+                    {
+                        <tr>
+                            <td>@a.Id_Acceso</td>
+                            <td>@a.Identificacion_Usuario</td>
+                            <td>@a.Fecha_Acceso.ToString("yyyy-MM-dd HH:mm")</td>
+                            <td>@a.ID_Estado</td>
+                            <td>@a.Tipo_Acceso</td>
+                            <td>@a.Marca_Entrada_Salida</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6">No se encontraron accesos con los filtros seleccionados.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
