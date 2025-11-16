@@ -95,6 +95,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 
 
+builder.Services.AddScoped<Registro_PendientesRepository>();
+builder.Services.AddScoped<IRegistros_PendientesService, Registros_PendientesService>();
 
 var app = builder.Build();
 

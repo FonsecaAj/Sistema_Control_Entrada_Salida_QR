@@ -14,8 +14,23 @@ namespace CarnetDigital.Entities
         public string ID_Estado { get; set; }
         public string Tipo_Acceso { get; set; }
         public string Marca_Entrada_Salida { get; set; }
+    }
 
+    public class FiltrosAccesos
+    {
+        public string Identificacion { get; set; }
+        public DateTime? FechaInicio { get; set; }
+        public DateTime? FechaFin { get; set; }
+        public string IdEstado { get; set; } 
+        public string TipoUsuario { get; set; } 
+    }
 
-
+    public class ReporteAccesosResultado
+    {
+        public List<Accesos> Accesos { get; set; } = new();
+        public int TotalAccesos { get; set; }
+        public int TotalAutorizados { get; set; }
+        public int TotalRechazados { get; set; }
+        public int UsuariosUnicos { get; set; }
     }
 }
