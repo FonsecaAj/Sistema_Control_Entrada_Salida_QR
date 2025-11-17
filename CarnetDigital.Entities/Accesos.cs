@@ -44,15 +44,4 @@ namespace CarnetDigital.Entities
         public string Id_Tipo { get; set; }
         public string Nombre_Tipo { get; set; }
     }
-
-    public class ReporteAccesosResultado
-    {
-        public List<Accesos> Accesos { get; set; } = new();
-        public int TotalAccesos { get; set; }
-        public int TotalAutorizados { get; set; }
-        public int TotalRechazados { get; set; }
-        public int UsuariosUnicos { get; set; }
-    }
-
-
 }
