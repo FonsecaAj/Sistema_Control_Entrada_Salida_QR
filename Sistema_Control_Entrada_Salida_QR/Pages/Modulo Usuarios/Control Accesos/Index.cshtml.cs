@@ -59,7 +59,7 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Control_Acceso
             ListaEstados = new List<Estados>
 
             {
-                new Estados { ID_Estado = "Au", Nombre_Estado = "Autorizado" },
+                new Estados { ID_Estado = "AU", Nombre_Estado = "Autorizado" },
                 new Estados { ID_Estado = "R", Nombre_Estado = "Rechazado" }
             };
 
@@ -76,7 +76,7 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Control_Acceso
 
             // Cargar lista filtrada
             ListaAccesos = await _controlAccesosService.ObtenerAccesosById(
-                "108560342",
+                identificacionUsuario,
                 FechaInicio,
                 FechaFin,
                 FiltroEstado

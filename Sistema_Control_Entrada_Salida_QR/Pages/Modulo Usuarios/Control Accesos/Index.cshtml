@@ -101,10 +101,15 @@
                                 {
                                     <span class="text-success fw-bold">Autorizado</span>
                                 }
-                                else
+                                else if (item.ID_Estado.Trim() == "R")
                                 {
                                     <span class="text-danger fw-bold">Rechazado</span>
                                 }
+                                else
+                                {
+                                    <span class="text-danger fw-bold">@item.ID_Estado.Trim()</span>
+                                }
+
                             </td>
                         </tr>
                     }
