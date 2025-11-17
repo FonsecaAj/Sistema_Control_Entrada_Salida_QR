@@ -13,7 +13,6 @@ builder.Services.AddRazorPages();
 builder.Services.AddHttpContextAccessor();
 
 
-
 // ---------------------------
 // Conexión a base de datos
 // ---------------------------
@@ -59,6 +58,10 @@ builder.Services.AddScoped<ITipos_IdentificacionService, Tipos_IdentificacionSer
 builder.Services.AddScoped<Carreras_ProgramasRepository>();
 builder.Services.AddScoped<ICarreras_ProgramasService, Carreras_ProgramasService>();
 
+// Titi
+
+builder.Services.AddScoped<Registros_PendientesRepository>();
+builder.Services.AddScoped<IRegistros_PendientesService, Registros_PendientesService>();
 
 // Agregar soporte para cache distribuido y sesion
 

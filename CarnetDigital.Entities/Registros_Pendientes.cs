@@ -15,10 +15,12 @@ namespace CarnetDigital.Entities
         public string ID_Tipo_Identificacion { get; set; }
         public string Identificacion { get; set; }
         public DateTime Fecha_Nacimiento { get; set; }
+        public string Carrera { get; set; }
         public string Id_Carrera { get; set; }
         public string Contrasena { get; set; }
         public byte[] Foto { get; set; }
         public DateTime Fecha_Registro { get; set; }
+        public string Estado { get; set; }
         public string ID_Estado { get; set; }
 
         // Agregué este Atributo para que devuelva los Mensajes de mi SP
