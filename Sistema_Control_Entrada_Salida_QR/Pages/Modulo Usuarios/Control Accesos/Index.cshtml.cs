@@ -71,7 +71,7 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Control_Acceso
             TotalAccesos = accesos.Count();
 
             // Contar autorizados y rechazados
-            TotalAutorizados = accesos.Count(a => a.ID_Estado.Trim() == "Au");
+            TotalAutorizados = accesos.Count(a => a.ID_Estado.Trim() == "AU");
             TotalRechazados = accesos.Count(a => a.ID_Estado.Trim() == "R");
 
             // Cargar lista filtrada
