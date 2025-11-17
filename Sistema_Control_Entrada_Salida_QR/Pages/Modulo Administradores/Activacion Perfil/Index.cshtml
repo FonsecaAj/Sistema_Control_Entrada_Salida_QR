@@ -2,3 +2,74 @@
 @model Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Administradores.Activacion_Perfil.IndexModel
 @{
 }
+
+<link href="~/css/registros_pendientes.css" rel="stylesheet" />
+
+@if (!string.IsNullOrEmpty(Model.Mensaje))
+{
+    <div class="registro-mensaje-alerta @(Model.EsExito ? "mensaje-exito" : "mensaje-error")">
+        @Model.Mensaje
+    </div>
+}
+
+<div class="registro-container">
+
+
+
+    <h2 class="registro-title">Solicitudes de Registro Pendientes</h2>
+    <div class="registro-tabla-wrapper">
+        <table class="registro-table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Primer Apellido</th>
+                    <th>Segundo Apellido</th>
+                    <th>IdentificaciÃ³n</th>
+                    <th>Correo Institucional</th>
+                    <th style="width: 15%">Carrera/Programa</th>
+                    <th>Estado</th>
+                    <th>Fecha Registro</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var registro in Model.RegistrosPendientes)
+                {
+                    <tr>
+                        <td>@registro.Nombre</td>
+                        <td>@registro.Primer_Apellido</td>
+                        <td>@registro.Segundo_Apellido</td>
+                        <td>@registro.Identificacion</td>
+                        <td>@registro.Correo_Institucional</td>
+                        <td style="width: 15%">@registro.Carrera</td>
+                        <td>
+                            <span class="badge-estado badge-pendiente">@registro.Estado</span>
+                        </td>
+                        <td>@registro.Fecha_Registro.ToString("dd/MM/yyyy")</td>
+                        <td>
+                            <div class="acciones-cell">
+                                <form method="post" style="display:inline;">
+                                    <input type="hidden" name="identificacion" value="@registro.Identificacion" />
+                                    <input type="hidden" name="correo" value="@registro.Correo_Institucional" />
+                                    <input type="hidden" name="decision" value="A" />
+                                    <button type="submit" class="registro-btn registro-btn-success"
+                                            asp-page-handler="Aprobar">
+                                        Activar
+                                    </button>
+                                </form>
+                                <form method="post" style="display:inline;">
+                                    <input type="hidden" name="identificacion" value="@registro.Identificacion" />
+                                    <input type="hidden" name="decision" value="R" />
+                                    <button type="submit" class="registro-btn registro-btn-danger"
+                                            asp-page-handler="Rechazar">
+                                        Rechazar
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
