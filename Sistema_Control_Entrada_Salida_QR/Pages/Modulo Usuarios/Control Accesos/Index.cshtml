@@ -1,4 +1,127 @@
 ﻿@page
 @model Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Control_Accesos.IndexModel
-@{
-}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">Mis Accesos</h2>
+
+    <!-- Datos del usuario -->
+    <div class="card mb-4 p-3">
+        <h4>@Model.NombreCompleto</h4>
+        <p><strong>Identificación:</strong> @Model.Identificacion</p>
+        <p><strong>Carrera / Programa:</strong> @Model.CarreraPrograma</p>
+    </div>
+
+    <!-- Resumen -->
+    <div class="row text-center mb-4">
+        <div class="col-md-4">
+            <div class="card p-3">
+                <h5>Total Accesos</h5>
+                <span class="fs-3">@Model.TotalAccesos</span>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card p-3">
+                <h5>Autorizados</h5>
+                <span class="fs-3 text-success">@Model.TotalAutorizados</span>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card p-3">
+                <h5>Rechazados</h5>
+                <span class="fs-3 text-danger">@Model.TotalRechazados</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="card p-3 mb-4">
+
+        <form method="get">
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label>Fecha Inicio</label>
+                    <input type="date" name="FechaInicio" class="form-control"
+                           value="@(Model.FechaInicio?.ToString("yyyy-MM-dd"))" />
+                </div>
+
+                <div class="col-md-4">
+                    <label>Fecha Fin</label>
+                    <input type="date" name="FechaFin" class="form-control"
+                           value="@(Model.FechaFin?.ToString("yyyy-MM-dd"))" />
+                </div>
+
+                <div class="col-md-4">
+                    <label>Estado</label>
+                    <select name="FiltroEstado" class="form-control">
+                        <option value="">-- Todos --</option>
+                        @foreach (var estado in Model.ListaEstados)
+                        {
+                            <option value="@estado.ID_Estado"
+                                    selected="@(Model.FiltroEstado == estado.ID_Estado)">
+                                @estado.Nombre_Estado
+                            </option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Filtrar</button>
+        </form>
+
+
+    </div>
+
+    <!-- Tabla de accesos -->
+    <div class="card p-3">
+        <h4 class="mb-3">Histórico de Accesos</h4>
+
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @if (Model.ListaAccesos != null && Model.ListaAccesos.Any())
+                {
+                    foreach (var item in Model.ListaAccesos)
+                    {
+                        <tr>
+                            <td>@item.Fecha_Acceso.ToString("dd/MM/yyyy")</td>
+                            <td>@item.Fecha_Acceso.ToString("hh:mm tt")</td>
+                            <td>
+                                @if (item.ID_Estado.Trim() == "Au")
+                                {
+                                    <span class="text-success fw-bold">Autorizado</span>
+                                }
+                                else if (item.ID_Estado.Trim() == "R")
+                                {
+                                    <span class="text-danger fw-bold">Rechazado</span>
+                                }
+                                else
+                                {
+                                    <span class="text-danger fw-bold">@item.ID_Estado.Trim()</span>
+                                }
+
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="3" class="text-center">No hay accesos registrados.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>

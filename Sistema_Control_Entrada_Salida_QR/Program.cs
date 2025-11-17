@@ -18,6 +18,11 @@ builder.Services.AddHttpContextAccessor();
 // ---------------------------
 builder.Services.AddSingleton<IDbConnectionFactory, DbConnectionFactory>();
 
+// ---------------------------
+// Inyecci�n de dependencias de servicios y repositorios
+// ---------------------------
+builder.Services.AddScoped<ControlAccesosRepository>();
+builder.Services.AddScoped<IControlAccesosService, ControlAccesosService>();
 builder.Services.AddScoped<FuncionariosRepository>();
 builder.Services.AddScoped<IFuncionariosService, FuncionariosService>();
 
@@ -62,6 +67,13 @@ builder.Services.AddScoped<ICarreras_ProgramasService, Carreras_ProgramasService
 
 builder.Services.AddScoped<Registros_PendientesRepository>();
 builder.Services.AddScoped<IRegistros_PendientesService, Registros_PendientesService>();
+// Encargados Legales
+builder.Services.AddScoped<Encargados_LegalesRepository>();
+builder.Services.AddScoped<IEncargados_LegalesService, Encargados_LegalesService>();
+
+//Encargados Temporales
+builder.Services.AddScoped<EncargadosTemporalesRepository>();
+builder.Services.AddScoped<IEncargadoTemporalService, EncargadoTemporalService>();
 
 // Agregar soporte para cache distribuido y sesion
 
@@ -105,6 +117,10 @@ builder.Services.AddScoped<IRegistros_PendientesService, Registros_PendientesSer
 builder.Services.AddTransient<AccesosRepository>();
 builder.Services.AddTransient<IAccesosService, AccesosService>();
 
+builder.Services.AddControllersWithViews()
+    .AddSessionStateTempDataProvider();
+
+builder.Services.AddSession();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -113,9 +129,13 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
 }
 
+
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseSession();
+
 
 app.UseAuthentication();
 app.UseAuthorization();
