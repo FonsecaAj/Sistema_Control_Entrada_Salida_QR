@@ -65,6 +65,17 @@ namespace CarnetDigital.Repository
             string dependencia = parameters.Get<string>("@p_Id_Dependencia");
             string tipoFunc = parameters.Get<string>("@p_Id_Tipo_Funcionario");
 
+
+            if (mensaje != "Inicio de sesión exitoso")
+            {
+                return new Usuarios
+                {
+                    Mensaje = mensaje,
+                    Correo_Institucional = correoInstitucional
+                };
+            }
+
+
             // Validar contraseña
             bool esValida = VerifyPassword(contrasena, contrasenaHash);
 

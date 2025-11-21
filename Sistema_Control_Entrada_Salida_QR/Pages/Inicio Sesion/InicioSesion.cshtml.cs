@@ -69,7 +69,10 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Inicio_Sesion
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
 
-                return RedirectToPage("/Modulo Usuarios/Generacion QR/Index");
+                ViewData["Redirigir"] = true;
+
+                return Page();
+
             }
 
             

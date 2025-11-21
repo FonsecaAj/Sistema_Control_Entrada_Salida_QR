@@ -37,7 +37,7 @@
                                name="usuario"
                                class="login-input"
                                placeholder="Ingrese su usuario"
-                               required
+                               
                                autocomplete="username">
                     </div>
                 </div>
@@ -53,10 +53,18 @@
                                name="contrasena"
                                class="login-input"
                                placeholder="Ingrese su contraseña"
-                               required
+                               
                                autocomplete="current-password">
                     </div>
                 </div>
+
+                @if (!string.IsNullOrEmpty(Model.Mensaje))
+                {
+                    var esError = Model.Mensaje != "Inicio de sesión exitoso";
+                    <div class="alert @(esError ? "alert-danger" : "alert-success") text-center mt-3">
+                        @Model.Mensaje
+                    </div>
+                }
 
                 <button type="submit" class="login-btn">
                     <i class="fas fa-sign-in-alt me-2"></i>Iniciar Sesión
@@ -73,5 +81,16 @@
             </form>
         </div>
     </div>
+
+    @if (ViewData["Redirigir"] != null)
+    {
+        <script>
+            setTimeout(function () {
+                window.location.href = "/Modulo Usuarios/Generacion QR/Index";
+            }, 1500); // 1.5 segundos para mostrar el mensaje
+        </script>
+    }
+
+
 </body>
 </html>
