@@ -539,3 +539,299 @@
     outline: 3px solid var(--primary-red);
     outline-offset: 2px;
 }
+
+
+/* ===== ESTILOS PARA TABLAS DE ADMINISTRACIÓN ===== */
+.formulario-tabla-container {
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    border: 1px solid var(--border-gray);
+}
+
+.formulario-tabla-header {
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+    color: white;
+    text-align: center;
+    padding: 2rem 1rem;
+    border-bottom: 4px solid var(--primary-red);
+}
+
+    .formulario-tabla-header h2 {
+        margin: 0;
+        font-size: clamp(1.5rem, 4vw, 1.8rem);
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        line-height: 1.3;
+    }
+
+.formulario-tabla-badge {
+    background: var(--primary-red);
+    color: white;
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    font-size: clamp(0.7rem, 2.5vw, 0.75rem);
+    font-weight: 600;
+    margin-top: 0.8rem;
+    display: inline-block;
+    letter-spacing: 0.5px;
+}
+
+.formulario-tabla-content {
+    padding: clamp(1.5rem, 4vw, 2rem);
+    background: var(--white);
+}
+
+/* ===== TABLA ESTILIZADA ===== */
+.formulario-table-wrapper {
+    overflow-x: auto;
+    border-radius: 8px;
+    border: 1px solid var(--border-gray);
+}
+
+.formulario-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--white);
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+}
+
+    .formulario-table thead {
+        background: var(--primary-blue);
+    }
+
+    .formulario-table th {
+        color: var(--white);
+        padding: 1rem 0.75rem;
+        text-align: left;
+        font-weight: 600;
+        font-size: 0.85rem;
+        border-bottom: 3px solid var(--primary-red);
+    }
+
+    .formulario-table td {
+        padding: 1rem 0.75rem;
+        border-bottom: 1px solid var(--border-gray);
+        vertical-align: middle;
+        color: var(--text-dark);
+    }
+
+    .formulario-table tbody tr {
+        transition: all 0.3s ease;
+    }
+
+        .formulario-table tbody tr:hover {
+            background-color: rgba(0, 45, 116, 0.05);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+/* ===== BADGES DE ESTADO ===== */
+.formulario-badge-estado {
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge-pendiente {
+    background-color: #FACC7D;
+    color: #856404;
+    border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.badge-aprobado {
+    background-color: rgba(40, 167, 69, 0.15);
+    color: var(--primary-blue);
+    border: 1px solid rgba(40, 167, 69, 0.3);
+}
+
+.badge-rechazado {
+    background-color: rgba(220, 53, 69, 0.15);
+    color: var(--primary-red);
+    border: 1px solid rgba(220, 53, 69, 0.3);
+}
+
+/* ===== BOTONES DE ACCIÓN ===== */
+.formulario-acciones-cell {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.formulario-btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+    min-height: 36px;
+    min-width: 100px;
+    white-space: nowrap;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    flex: 1;
+}
+
+.formulario-btn-success {
+    background: #00307F;
+    color: var(--white);
+}
+
+    .formulario-btn-success:hover {
+        background: var(--secondary-blue);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 45, 116, 0.3);
+    }
+
+.formulario-btn-danger {
+    background: #F5333F;
+    color: var(--white);
+}
+
+    .formulario-btn-danger:hover {
+        background: #d32f2f;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(245, 51, 63, 0.3);
+    }
+
+/* ===== MENSAJES DE ALERTA ===== */
+.formulario-mensaje-alerta {
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    font-size: clamp(0.85rem, 3vw, 0.9rem);
+    border: 1px solid transparent;
+    line-height: 1.5;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.mensaje-exito {
+    background-color: rgba(0, 45, 116, 0.1);
+    color: var(--primary-blue);
+    border-color: var(--primary-blue);
+}
+
+.mensaje-error {
+    background-color: rgba(245, 51, 63, 0.1);
+    color: var(--primary-red);
+    border-color: var(--primary-red);
+}
+
+/* ===== ESTADOS ADICIONALES ===== */
+.formulario-table tbody tr:nth-child(even) {
+    background-color: var(--light-gray);
+}
+
+    .formulario-table tbody tr:nth-child(even):hover {
+        background-color: rgba(0, 45, 116, 0.08);
+    }
+
+/* ===== RESPONSIVE PARA TABLAS ===== */
+@media (max-width: 1024px) {
+    .formulario-table-wrapper {
+        margin: 0 -1rem;
+    }
+
+    .formulario-table {
+        font-size: 0.8rem;
+    }
+
+        .formulario-table th,
+        .formulario-table td {
+            padding: 0.75rem 0.5rem;
+        }
+}
+
+@media (max-width: 768px) {
+    .formulario-tabla-container {
+        margin: 0.5rem;
+        border-radius: 8px;
+    }
+
+    .formulario-tabla-content {
+        padding: 1rem;
+    }
+
+    .formulario-table {
+        font-size: 0.75rem;
+    }
+
+    .formulario-acciones-cell {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .formulario-btn-sm {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.75rem;
+        min-width: 100%;
+        min-height: 32px;
+    }
+
+    .formulario-table th:nth-child(5),
+    .formulario-table td:nth-child(5),
+    .formulario-table th:nth-child(7),
+    .formulario-table td:nth-child(7) {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .formulario-tabla-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .formulario-tabla-content {
+        padding: 0.75rem;
+    }
+
+    .formulario-table-wrapper {
+        margin: 0 -0.75rem;
+    }
+
+    .formulario-table {
+        font-size: 0.7rem;
+    }
+
+        .formulario-table th,
+        .formulario-table td {
+            padding: 0.5rem 0.3rem;
+        }
+
+    .formulario-badge-estado {
+        font-size: 0.65rem;
+        padding: 0.3rem 0.6rem;
+    }
+}
+
+/* ===== ESTILOS PARA TABLAS VACÍAS ===== */
+.formulario-tabla-vacia {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-light);
+}
+
+    .formulario-tabla-vacia i {
+        font-size: 3rem;
+        color: var(--border-gray);
+        margin-bottom: 1rem;
+    }
+
+    .formulario-tabla-vacia h3 {
+        color: var(--text-dark);
+        margin-bottom: 0.5rem;
+    }
