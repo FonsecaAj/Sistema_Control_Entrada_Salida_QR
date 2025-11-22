@@ -61,8 +61,6 @@ namespace CarnetDigital.Repository
             string dependencia = parameters.Get<string>("@p_Id_Dependencia");
             string tipoFunc = parameters.Get<string>("@p_Id_Tipo_Funcionario");
 
-            // << NUEVO >>
-            bool primerIngreso = parameters.Get<bool?>("@p_PrimerIngreso") ?? false;
 
             if (mensaje != "Inicio de sesión exitoso")
             {

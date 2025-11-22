@@ -45,10 +45,10 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Inicio_Sesion
             if (resultado.Mensaje == "CAMBIAR_CONTRASENA")
             {
                 TempData["Identificacion"] = resultado.Identificacion;
-                return RedirectToPage("/Modulo Funcionarios/Cambio contraseña/Index");
+                return RedirectToPage("/Modulo Funcionarios/Cambio contraseï¿½a/Index");
             }
 
-            if (Mensaje == "Inicio de sesión exitoso")
+            if (Mensaje == "Inicio de sesiï¿½n exitoso")
             {
 
                 var claims = new List<Claim>
@@ -58,7 +58,7 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Inicio_Sesion
                     new Claim("Rol", resultado.Rol ?? ""),
                     new Claim("Correo", resultado.Correo_Institucional ?? ""),
 
-                    // Estos son opcionales según lo que devuelva el SP
+                    // Estos son opcionales segï¿½n lo que devuelva el SP
                     new Claim("FechaVencimiento", resultado.FechaVencimiento?.ToString("yyyy-MM-dd") ?? ""),
                     new Claim("ID_Carrera", resultado.ID_Carrera ?? ""),
                     new Claim("TipoEstudiante", resultado.ID_TipoEstudiante ?? ""),

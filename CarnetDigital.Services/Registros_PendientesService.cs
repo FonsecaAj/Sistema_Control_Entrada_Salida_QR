@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CarnetDigital.Entities;
 using CarnetDigital.Repository;
@@ -78,86 +79,83 @@ namespace CarnetDigital.Services
 
         public async Task<Registros_Pendientes> RegistrarUsuarioAsync(Registros_Pendientes registro)
         {
-            //if (string.IsNullOrWhiteSpace(registro.Nombre))
-            //{
 
-            //    registro.Mensaje = " El campo nombre es obligatorio";
-            //    return registro;
+            // ---------- MS2: campos obligatorios ----------
 
-            //}
-
-            //if (string.IsNullOrWhiteSpace(registro.Primer_Apellido))
-            //{
-            //    registro.Mensaje = "El Primer Apellido es obligatorio";
-            //    return registro;
-            //}
-
-            //if (string.IsNullOrWhiteSpace(registro.Segundo_Apellido))
-            //{
-            //    registro.Mensaje = "El Segundo Apellido es obligatorio";
-            //    return registro;
-            //}
-
-            //if (string.IsNullOrWhiteSpace(registro.Correo_Institucional))
-            //{
-
-            //    registro.Mensaje = "El correo es obligatorio";
-            //    return registro;
-
-            //}
-
-            //if (string.IsNullOrWhiteSpace(registro.ID_Tipo_Identificacion))
-            //{
-
-            //    registro.Mensaje = "El tipo de Identificación es un campo obligatorio ";
-            //    return registro;
-
-            //}
-
-            //if (string.IsNullOrWhiteSpace(registro.Identificacion))
-            //{
-            //    registro.Mensaje = "La identificación es un campo obligatorio";
-            //    return registro;
-            //}
-
-            //if (string.IsNullOrWhiteSpace(registro.Id_Carrera))
-            //{
-
-            //    registro.Mensaje = "Las carreras o programas es un campo obligatorio";
-            //    return registro;
-
-            //}
-
-            //if (string.IsNullOrWhiteSpace(registro.Contrasena))
-            //{
-
-            //    registro.Mensaje = "La contraseña es un campo obligatorio";
-            //    return registro;
-
-            //}
-
-
-            if (string.IsNullOrWhiteSpace(registro.Nombre) || string.IsNullOrWhiteSpace(registro.Primer_Apellido) || string.IsNullOrWhiteSpace(registro.Correo_Institucional) || string.IsNullOrWhiteSpace(registro.ID_Tipo_Identificacion) || string.IsNullOrWhiteSpace(registro.Identificacion) || string.IsNullOrWhiteSpace(registro.Id_Carrera) || string.IsNullOrWhiteSpace(registro.Contrasena))
+            if (string.IsNullOrWhiteSpace(registro.Nombre) || string.IsNullOrWhiteSpace(registro.Primer_Apellido) || string.IsNullOrWhiteSpace(registro.Segundo_Apellido) || string.IsNullOrWhiteSpace(registro.Correo_Institucional) ||  string.IsNullOrWhiteSpace(registro.Identificacion) ||  string.IsNullOrWhiteSpace(registro.Contrasena))
             {
-                registro.Mensaje = "Todos los campos son obligatorios";
+                registro.Mensaje = "El campo es obligatorio no puede estar vacío";
                 return registro;
             }
 
-            if (registro.Correo_Institucional.Length > 100)
+            // ---------- MS1: solo letras y espacios ----------
+
+            if (!Regex.IsMatch(registro.Nombre, @"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$"))
             {
-                registro.Mensaje = "El correo institucional no puede superar los 100 caracteres.";
+                registro.Mensaje = "Solo acepta letras y espacios en blanco";
+                return registro;
+            }
+            if (!Regex.IsMatch(registro.Primer_Apellido, @"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$"))
+            {
+                registro.Mensaje = "Solo acepta letras y espacios en blanco";
+                return registro;
+            }
+            if (!Regex.IsMatch(registro.Segundo_Apellido, @"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$"))
+            {
+                registro.Mensaje = "Solo acepta letras y espacios en blanco";
                 return registro;
             }
 
-            if (!registro.Correo_Institucional.EndsWith("@cuc.cr"))
+            // ---------- MS3: tipo de identificación ----------
+
+            if (registro.ID_Tipo_Identificacion == "0" || string.IsNullOrEmpty(registro.ID_Tipo_Identificacion))
             {
-                registro.Mensaje = "Solo se permiten correos institucionales del CUC.";
+                registro.Mensaje = "Debe seleccionar un tipo de identificación";
                 return registro;
             }
+
+            // ---------- MS4: identificación solo números ----------
+
+            if (!Regex.IsMatch(registro.Identificacion, @"^[0-9]+$"))
+            {
+                registro.Mensaje = "Solo permite números";
+                return registro;
+            }
+
+            // ---------- MS5: debe seleccionar carrera ----------
+
+            if (registro.Id_Carrera == "0" || string.IsNullOrEmpty(registro.Id_Carrera))
+            {
+                registro.Mensaje = "Debe seleccionar una de las carreras o programas"; 
+                return registro;
+            }
+
+            // ---------- MS6: correo institucional ----------
+
+            if (!(registro.Correo_Institucional.EndsWith("@cuc.cr") ||
+                  registro.Correo_Institucional.EndsWith("@cuc.ac.cr")))
+            {
+                registro.Mensaje = "Solo permite correos con dominio @cuc.cr o @cuc.ac.cr";
+                return registro;
+            }
+
+            // ---------- MS7: contraseña mínima 8 caracteres y fuerte ----------
+
+            bool tieneLetra = Regex.IsMatch(registro.Contrasena, @"[A-Za-z]");
+            bool tieneNumero = Regex.IsMatch(registro.Contrasena, @"[0-9]");
+            bool tieneEspecial = Regex.IsMatch(registro.Contrasena, @"[\W_]");
+
+            if (registro.Contrasena.Length < 8 || !tieneLetra || !tieneNumero || !tieneEspecial)
+            {
+                registro.Mensaje = "Debe tener un mínimo de 8 caracteres entre letras, números y caracteres especiales";
+                return registro;
+            }
+
+            // ---------- MS8: foto requerida ----------
 
             if (registro.Foto == null || registro.Foto.Length == 0)
             {
-                registro.Mensaje = "Debe subir una foto para completar el registro.";
+                registro.Mensaje = "Debe subir una foto suya para registrarse";
                 return registro;
             }
 
@@ -165,7 +163,20 @@ namespace CarnetDigital.Services
 
             var resultado = await _registrospendientesRepository.RegistrarUsuarioAsync(registro);
 
+            // ---------- MS9: Usuario ya Registrado ----------
+
+            if (resultado.Mensaje == "Ya existe un usuario registrado con esa identificación" || resultado.Mensaje == "El correo institucional ya está registrado")
+            {
+                resultado.Mensaje = "Usuario ya registrado";
+                return resultado;
+            }
+
+
+            // ---------- MS10: Registro Existoso ----------
+
+            resultado.Mensaje = "Registro exitoso. Espere el correo de activación de perfil para ingresar al sistema";
             return resultado;
+
         }
 
         private string HashPassword(string password)

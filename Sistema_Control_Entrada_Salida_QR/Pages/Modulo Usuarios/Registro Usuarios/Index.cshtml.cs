@@ -79,33 +79,13 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Registro_Usuar
 
             if (!string.IsNullOrEmpty(resultado.Mensaje))
             {
-                
+
                 return Page();
+
             }
 
-            // Registro exitoso: redirigir al login
+            return RedirectToPage("/Inicio Sesion/InicioSesion");
 
-            return RedirectToPage("/Login");
-
-
-            //await CargarListasSelect();
-
-
-            //if (FotoFile != null)
-            //{
-            //    using var ms = new MemoryStream();
-            //    await FotoFile.CopyToAsync(ms);
-            //    Registro.Foto = ms.ToArray();
-            //}
-
-
-            //var resultado = await _registroService.RegistrarUsuarioAsync(Registro);
-
-            //Mensaje = resultado.Mensaje;
-
-
-
-            //return Page();
 
         }
 

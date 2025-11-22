@@ -20,7 +20,7 @@
 
             <!-- Nombre -->
             <div class="col-md-4">
-                <label asp-for="Registro.Nombre" class="registro-label"></label>
+                <label asp-for="Registro.Nombre" class="registro-label">Nombre</label>
                 <div class="registro-input-wrapper">
                     <i class="fas fa-user"></i>
                     <input asp-for="Registro.Nombre" class="registro-input registro-input-icon" />
@@ -29,7 +29,7 @@
 
             <!-- Primer Apellido -->
             <div class="col-md-4">
-                <label asp-for="Registro.Primer_Apellido" class="registro-label"></label>
+                <label asp-for="Registro.Primer_Apellido" class="registro-label">Primer Apellido</label>
                 <div class="registro-input-wrapper">
                     <i class="fas fa-user"></i>
                     <input asp-for="Registro.Primer_Apellido" class="registro-input registro-input-icon" />
@@ -38,7 +38,7 @@
 
             <!-- Segundo Apellido -->
             <div class="col-md-4">
-                <label asp-for="Registro.Segundo_Apellido" class="registro-label"></label>
+                <label asp-for="Registro.Segundo_Apellido" class="registro-label">Segundo Apellido</label>
                 <div class="registro-input-wrapper">
                     <i class="fas fa-user"></i>
                     <input asp-for="Registro.Segundo_Apellido" class="registro-input registro-input-icon" />
@@ -47,16 +47,16 @@
 
             <!-- Tipo Identificación -->
             <div class="col-md-4">
-                <label asp-for="Registro.ID_Tipo_Identificacion" class="registro-label"></label>
+                <label asp-for="Registro.ID_Tipo_Identificacion" class="registro-label">Tipo de Identificación</label>
                 <div class="registro-input-wrapper">
                     <i class="fas fa-id-card"></i>
-                    <select asp-for="Registro.ID_Tipo_Identificacion" asp-items="Model.TiposIdentificacion" class="registro-select registro-input-icon"></select>
+                    <select asp-for="Registro.ID_Tipo_Identificacion" asp-items="Model.TiposIdentificacion" class="registro-select registro-input-icon"><option value="">-- Seleccione --</option></select>
                 </div>
             </div>
 
             <!-- Identificación -->
             <div class="col-md-4">
-                <label asp-for="Registro.Identificacion" class="registro-label"></label>
+                <label asp-for="Registro.Identificacion" class="registro-label">Identificación</label>
                 <div class="registro-input-wrapper">
                     <i class="fas fa-hashtag"></i>
                     <input asp-for="Registro.Identificacion" class="registro-input registro-input-icon" />
@@ -65,7 +65,7 @@
 
             <!-- Fecha nacimiento -->
             <div class="col-md-4">
-                <label asp-for="Registro.Fecha_Nacimiento" class="registro-label"></label>
+                <label asp-for="Registro.Fecha_Nacimiento" class="registro-label">Fecha de Nacimiento</label>
                 <div class="registro-input-wrapper">
                     <i class="fas fa-calendar-alt"></i>
                     <input asp-for="Registro.Fecha_Nacimiento" type="date" class="registro-input registro-input-icon" />
@@ -74,7 +74,7 @@
 
             <!-- Correo -->
             <div class="col-md-6">
-                <label asp-for="Registro.Correo_Institucional" class="registro-label"></label>
+                <label asp-for="Registro.Correo_Institucional" class="registro-label">Correo</label>
                 <div class="registro-input-wrapper">
                     <i class="fas fa-envelope"></i>
                     <input asp-for="Registro.Correo_Institucional" class="registro-input registro-input-icon" />
@@ -83,7 +83,7 @@
 
             <!-- Contraseña -->
             <div class="col-md-6">
-                <label asp-for="Registro.Contrasena" class="registro-label"></label>
+                <label asp-for="Registro.Contrasena" class="registro-label">Contraseña</label>
                 <div class="registro-input-wrapper">
                     <i class="fas fa-lock"></i>
                     <input asp-for="Registro.Contrasena" type="password" class="registro-input registro-input-icon" />
@@ -92,10 +92,10 @@
 
             <!-- Carrera -->
             <div class="col-md-6">
-                <label asp-for="Registro.Id_Carrera" class="registro-label"></label>
+                <label asp-for="Registro.Id_Carrera" class="registro-label">Carrera</label>
                 <div class="registro-input-wrapper">
                     <i class="fas fa-graduation-cap"></i>
-                    <select asp-for="Registro.Id_Carrera" asp-items="Model.Carreras" class="registro-select registro-input-icon"></select>
+                    <select asp-for="Registro.Id_Carrera" asp-items="Model.Carreras" class="registro-select registro-input-icon"><option value="">-- Seleccione --</option></select>
                 </div>
             </div>
 
