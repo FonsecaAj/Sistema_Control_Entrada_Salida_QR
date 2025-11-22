@@ -33,6 +33,9 @@ namespace CarnetDigital.Repository
             parameters.Add("@p_ContrasenaHash", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
             parameters.Add("@p_Fecha_Vencimiento", dbType: DbType.Date, direction: ParameterDirection.Output);
 
+            parameters.Add("@p_PrimerIngreso", dbType: DbType.Boolean, direction: ParameterDirection.Output);
+
+
             // Estudiante
             parameters.Add("@p_ID_Carrera", dbType: DbType.String, size: 3, direction: ParameterDirection.Output);
             parameters.Add("@p_ID_TipoEstudiante", dbType: DbType.String, size: 3, direction: ParameterDirection.Output);
@@ -59,6 +62,10 @@ namespace CarnetDigital.Repository
             // Datos funcionario
             string dependencia = parameters.Get<string>("@p_Id_Dependencia");
             string tipoFunc = parameters.Get<string>("@p_Id_Tipo_Funcionario");
+
+
+            // Primer ingreso
+            bool primerIngreso = parameters.Get<bool?>("@p_PrimerIngreso") ?? false;
 
 
             if (mensaje != "Inicio de sesión exitoso")
@@ -101,7 +108,9 @@ namespace CarnetDigital.Repository
                 Id_Dependencia = dependencia,
                 Id_Tipo_Funcionario = tipoFunc,
 
-                Contrasena = contrasenaHash
+                Contrasena = contrasenaHash,
+
+                PrimerIngreso = primerIngreso
             };
         }
 

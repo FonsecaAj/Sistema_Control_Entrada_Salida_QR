@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace CarnetDigital.Services
 {
-    public class UsuarioService: IUsuarioService
+    public class UsuarioService : IUsuarioService
     {
 
         private readonly UsuarioRepository _usuariosRepository;
@@ -126,7 +126,7 @@ namespace CarnetDigital.Services
 
         public async Task<Usuarios> LoginAsync(string correoInstitucional, string contrasena)
         {
-            
+
             if (string.IsNullOrWhiteSpace(correoInstitucional))
             {
                 return new Usuarios
@@ -148,62 +148,65 @@ namespace CarnetDigital.Services
 
             }
 
-            
+
             var resultado = await _usuariosRepository.LoginAsync(correoInstitucional, contrasena);
 
             if (resultado.Rol == "FUN" && resultado.PrimerIngreso)
             {
                 resultado.Mensaje = "CAMBIAR_CONTRASENA";
                 return resultado;
-
-            if (resultado.Alerta_Vencimiento == "Carnet vence en 30 días")
-            {
-                string cuerpo = PlantillaCorreo(
-                    resultado.NombreCompleto,
-                    "Su carnet digital vencerá en 30 días.",
-                    resultado.FechaVencimiento.Value
-                );
-
-                await EnviarCorreoAsync(
-                    resultado.Correo_Institucional,
-                    "Aviso: su carnet vencerá en 30 días",
-                    cuerpo
-                );
-            }
-            else if (resultado.Alerta_Vencimiento == "Carnet vence en 1 día")
-            {
-                string cuerpo = PlantillaCorreo(
-                    resultado.NombreCompleto,
-                    "Su carnet digital vencerá mañana.",
-                    resultado.FechaVencimiento.Value
-                );
-
-                await EnviarCorreoAsync(
-                    resultado.Correo_Institucional,
-                    "Aviso: su carnet vencerá mañana",
-                    cuerpo
-                );
             }
 
-            return new Usuarios
-            {
-                Identificacion = resultado.Identificacion,
-                Correo_Institucional = resultado.Correo_Institucional,
-                Contrasena = resultado.Contrasena,
-                NombreCompleto = resultado.NombreCompleto,
-                Rol = resultado.Rol,
-                FechaVencimiento = resultado.FechaVencimiento,
-                ID_Carrera = resultado.ID_Carrera,
-                ID_TipoEstudiante = resultado.ID_TipoEstudiante,
+               if (resultado.Alerta_Vencimiento == "Carnet vence en 30 días")
+                {
+                    string cuerpo = PlantillaCorreo(
+                        resultado.NombreCompleto,
+                        "Su carnet digital vencerá en 30 días.",
+                        resultado.FechaVencimiento.Value
+                    );
 
-                Id_Dependencia = resultado.Id_Dependencia,
-                Id_Tipo_Funcionario = resultado.Id_Tipo_Funcionario,
-                Mensaje = resultado.Mensaje,
-                PrimerIngreso = resultado.PrimerIngreso
+                    await EnviarCorreoAsync(
+                        resultado.Correo_Institucional,
+                        "Aviso: su carnet vencerá en 30 días",
+                        cuerpo
+                    );
+               }
 
-            };
+                else if (resultado.Alerta_Vencimiento == "Carnet vence en 1 día")
+                {
+                    string cuerpo = PlantillaCorreo(
+                        resultado.NombreCompleto,
+                        "Su carnet digital vencerá mañana.",
+                        resultado.FechaVencimiento.Value
+                    );
+
+                    await EnviarCorreoAsync(
+                        resultado.Correo_Institucional,
+                        "Aviso: su carnet vencerá mañana",
+                        cuerpo
+                    );
+                }
+
+                return new Usuarios
+                {
+                    Identificacion = resultado.Identificacion,
+                    Correo_Institucional = resultado.Correo_Institucional,
+                    Contrasena = resultado.Contrasena,
+                    NombreCompleto = resultado.NombreCompleto,
+                    Rol = resultado.Rol,
+                    FechaVencimiento = resultado.FechaVencimiento,
+                    ID_Carrera = resultado.ID_Carrera,
+                    ID_TipoEstudiante = resultado.ID_TipoEstudiante,
+
+                    Id_Dependencia = resultado.Id_Dependencia,
+                    Id_Tipo_Funcionario = resultado.Id_Tipo_Funcionario,
+                    Mensaje = resultado.Mensaje,
+                    PrimerIngreso = resultado.PrimerIngreso
+
+                };
+
+            }
 
         }
-
     }
-}
+
