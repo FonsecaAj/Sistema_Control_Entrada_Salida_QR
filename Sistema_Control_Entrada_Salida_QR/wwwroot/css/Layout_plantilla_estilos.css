@@ -27,19 +27,20 @@ body {
     line-height: 1.6;
 }
 
+
 /* ===== HEADER/NAVBAR ===== */
 .layout-navbar {
     background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
     color: var(--white);
-    padding: 0.75rem 1rem; 
+    padding: 0.75rem 0;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 1000;
     box-shadow: var(--shadow);
-    border-bottom: 3px solid var(--primary-red); 
-    height: 70px; 
+    border-bottom: 3px solid var(--primary-red);
+    height: 80px; 
 }
 
 .nav-container {
@@ -49,6 +50,8 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     height: 100%;
+    padding: 0 1rem;
+    position: relative;
 }
 
 /* Logo */
@@ -56,20 +59,23 @@ body {
     flex: 0 0 auto;
     display: flex;
     align-items: center;
+    z-index: 1;
 }
 
 .logo-img {
-    width: 120px; 
-    height: 120px; 
+    width: 90px; /* REDUJE el tamaño del logo */
+    height: 90px; /* REDUJE el tamaño del logo */
     object-fit: contain;
     border-radius: 8px;
 }
 
-/* Título */
+/* Título - CENTRADO */
 .nav-title {
-    flex: 1;
+    position: absolute; /* CAMBIO: posición absoluta */
+    left: 50%; /* CAMBIO: centrado horizontal */
+    transform: translateX(-50%); /* CAMBIO: ajuste fino del centrado */
     text-align: center;
-    margin: 0 1rem;
+    z-index: 0; /* AÑADE esto */
 }
 
     .nav-title h1 {
@@ -84,6 +90,7 @@ body {
 /* Menú Hamburguesa */
 .nav-menu {
     flex: 0 0 auto;
+    z-index: 1; /* AÑADE esto */
 }
 
 .hamburger-btn {
@@ -215,11 +222,11 @@ body {
         visibility: visible;
     }
 
-/* ===== CONTENIDO PRINCIPAL  ===== */
+/* ===== CONTENIDO PRINCIPAL ===== */
 .layout-content {
-    margin-top: 70px;
-    min-height: calc(100vh - 70px);
-    padding: 1rem;
+    margin-top: 80px; 
+    min-height: calc(100vh - 80px);
+    padding: 1rem 0;
     transition: transform 0.3s ease;
 }
 
@@ -230,8 +237,11 @@ body {
 .content-container {
     max-width: 1200px;
     margin: 0 auto;
+    padding: 0 1rem; /* CAMBIO: añade el mismo padding que el nav-container */
 }
 
+
+/* ===== RESPONSIVE ===== */
 /* ===== RESPONSIVE ===== */
 @media (max-width: 480px) {
     .nav-title h1 {
@@ -239,18 +249,23 @@ body {
     }
 
     .logo-img {
-        width: 80px; 
-        height: 80px;
+        width: 60px; /* REDUJE para móviles */
+        height: 60px; /* REDUJE para móviles */
     }
 
-    .dropdown-menu {
-        width: 100%;
+    .layout-navbar {
+        height: 70px; /* ALTURA para móviles */
     }
 
     .layout-content {
-        margin-top: 60px;
-        min-height: calc(100vh - 60px);
-        padding: 0.75rem;
+        margin-top: 70px; /* AJUSTE para móviles */
+        min-height: calc(100vh - 70px); /* AJUSTE para móviles */
+        padding: 0.75rem 0;
+    }
+
+    .nav-container,
+    .content-container {
+        padding: 0 0.75rem;
     }
 }
 
@@ -260,33 +275,47 @@ body {
     }
 
     .logo-img {
-        width: 140px; 
-        height: 140px;
+        width: 100px; /* TAMAÑO para tablets */
+        height: 100px; /* TAMAÑO para tablets */
     }
 
-    .dropdown-menu {
-        width: 320px;
+    .layout-navbar {
+        height: 80px; /* ALTURA para tablets */
+    }
+
+    .layout-content {
+        margin-top: 80px; /* AJUSTE para tablets */
+        min-height: calc(100vh - 80px); /* AJUSTE para tablets */
+    }
+
+    .nav-container,
+    .content-container {
+        padding: 0 1.5rem;
     }
 }
 
 @media (min-width: 1024px) {
-    .layout-navbar {
-        padding: 0.75rem 2rem;
-    }
-
     .nav-title h1 {
         font-size: 1.4rem;
     }
 
     .logo-img {
-        width: 160px; 
-        height: 160px;
+        width: 110px; /* TAMAÑO para desktop */
+        height: 110px; /* TAMAÑO para desktop */
     }
-}
 
-@media (min-width: 1024px) {
-    .logo-img {
-        max-height: 70px; 
+    .layout-navbar {
+        height: 85px; /* ALTURA ligeramente mayor para desktop */
+    }
+
+    .layout-content {
+        margin-top: 85px; /* AJUSTE para desktop */
+        min-height: calc(100vh - 85px); /* AJUSTE para desktop */
+    }
+
+    .nav-container,
+    .content-container {
+        padding: 0 2rem;
     }
 }
 
