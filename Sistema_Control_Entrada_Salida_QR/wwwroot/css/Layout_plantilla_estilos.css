@@ -344,3 +344,26 @@ body {
     .menu-items::-webkit-scrollbar-thumb:hover {
         background: var(--secondary-blue);
     }
+
+
+/* ===== ESTILOS PARA BOTÓN CERRAR SESIÓN ===== */
+.menu-item[type="submit"] {
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+/* Estilos para el hover rojizo del botón cerrar sesión */
+.menu-item[type="submit"]:hover {
+    background: #fee;
+    border-left-color: #F5333F;
+    color: #d32f2f;
+}
+
+.menu-item[type="submit"]:hover .menu-icon i {
+    color: #F5333F;
+}

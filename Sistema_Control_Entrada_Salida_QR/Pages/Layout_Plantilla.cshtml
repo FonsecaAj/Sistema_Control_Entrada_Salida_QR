@@ -159,10 +159,13 @@
             }
 
             <!-- Cerrar sesión -->
-            <a href="/Logout" class="menu-item">
-                <span class="menu-icon"><i class="bi bi-box-arrow-right"></i></span>
-                Cerrar Sesión
-            </a>
+            <form method="post" action="/Inicio Sesion/Logout">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="menu-item logout-btn">
+                    <span class="menu-icon"><i class="bi bi-box-arrow-right"></i></span>
+                    Cerrar Sesión
+                </button>
+            </form>
 
         </div>
     </div>
