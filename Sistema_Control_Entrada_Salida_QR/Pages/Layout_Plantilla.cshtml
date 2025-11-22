@@ -1,4 +1,25 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+
+@{
+    // Rol principal: EST o FUN
+    var Rol = User.FindFirst("Rol")?.Value;
+
+    // Estudiante
+    var ID_Carrera = User.FindFirst("ID_Carrera")?.Value;
+    var TipoEstudiante = User.FindFirst("TipoEstudiante")?.Value;
+
+    // Funcionario
+    var Id_Dependencia = User.FindFirst("Id_Dependencia")?.Value;
+    var TipoFuncionario = User.FindFirst("TipoFuncionario")?.Value;
+
+
+    // Flags cómodos
+    bool EsEstudiante = Rol == "EST";
+    bool EsFuncionario = Rol == "FUN";
+}
+
+
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="utf-8" />
@@ -23,20 +44,18 @@
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
+
     <!-- Header/Navbar -->
     <nav class="layout-navbar">
         <div class="nav-container">
-            <!-- Logo -->
             <div class="nav-logo">
                 <img src="/images/logocuc.png" alt="Logo" class="logo-img">
             </div>
 
-            <!-- Título del Sistema -->
             <div class="nav-title">
                 <h1>Sistema de Carnet Digital</h1>
             </div>
 
-            <!-- Menú Hamburguesa -->
             <div class="nav-menu">
                 <button class="hamburger-btn" id="hamburgerBtn">
                     <span></span>
@@ -53,54 +72,103 @@
             <h3>Menú Principal</h3>
             <button class="close-btn" id="closeBtn">&times;</button>
         </div>
+
         <div class="menu-items">
+
+            <!-- Ítem universal -->
             <a href="#" class="menu-item">
                 <span class="menu-icon"><i class="bi bi-house-door"></i></span>
                 Inicio
             </a>
-            <a href="/Modulo Administradores/Registro Funcionarios/Registrar" class="menu-item">
-                <span class="menu-icon"><i class="bi bi-people"></i></span>
-                Registro de Funcionarios
-            </a>
-            <a href="/Modulo Administradores/Activacion Perfil/Index" class="menu-item">
-                <span class="menu-icon"><i class="bi bi-people"></i></span>
-                Activacion de Perfiles
-            </a>
-            <a href="/Modulo Usuarios/Control Accesos/Index" class="menu-item">
-                <span class="menu-icon"><i class="bi bi-people"></i></span>
-                Mis Accesos
-            </a>
-            <a href="/Modulo Usuarios/Panel Encargados Legales/Index" class="menu-item">
-                <span class="menu-icon"><i class="bi bi-people"></i></span>
-                Registro de Encargados Legales
-            </a>
-            <a href="/Modulo Usuarios/Panel Encargados Temporales/Index" class="menu-item">
-                <span class="menu-icon"><i class="bi bi-people"></i></span>
-                Registro de Encargado Legal Temporal
-            </a>
-            <a href="#" class="menu-item">
-                <span class="menu-icon"><i class="bi bi-person"></i></span>
-                Perfil
-            </a>
-            <a href="/Modulo Usuarios/Generacion QR/Index" class="menu-item">
-                <span class="menu-icon"><i class="bi bi-phone"></i></span>
-                Mi Carnet
-            </a>
-            <a href="#" class="menu-item">
-                <span class="menu-icon"><i class="bi bi-people"></i></span>
-                Encargados
-            </a>
-            <a href="#" class="menu-item">
+
+            @* ============================
+               FUNCIONARIO (FUN)
+               ============================ *@
+            @if (EsFuncionario)
+            {
+                if (TipoFuncionario == "TF001")
+                {
+
+                    <a href="/Modulo Usuarios/Generacion QR/Index" class="menu-item">
+                        <span class="menu-icon"><i class="bi bi-phone"></i></span>
+                        Mi Carnet
+                    </a>
+
+                    <a href="/Modulo Administradores/Activacion Perfil/Index" class="menu-item">
+                        <span class="menu-icon"><i class="bi bi-people"></i></span>
+                        Activación de Perfiles
+                    </a>
+
+                    <a href="/Modulo Administradores/Registro Funcionarios/Registrar" class="menu-item">
+                        <span class="menu-icon"><i class="bi bi-people"></i></span>
+                        Registro de Funcionarios
+                    </a>
+
+                    <a href="/Modulo Administradores/Reportes acceso/Index" class="menu-item">
+                        <span class="menu-icon"><i class="bi bi-people"></i></span>
+                        Reportes de acceso
+                    </a>
+     
+                }
+
+                if (TipoFuncionario == "TF003")
+                {
+                    <a href="/Modulo Guardas/Validacion QR/Index" class="menu-item">
+                        <span class="menu-icon"><i class="bi bi-shield"></i></span>
+                        Escaner QR
+                    </a>
+                }
+            }
+
+            @* ============================
+               ESTUDIANTE (EST)
+               ============================ *@
+            @if (EsEstudiante)
+            {
+                if (TipoEstudiante == "UNI")
+                {
+
+                    <a href="/Modulo Usuarios/Generacion QR/Index" class="menu-item">
+                        <span class="menu-icon"><i class="bi bi-phone"></i></span>
+                        Mi Carnet
+                    </a>
+
+                }
+
+                if (TipoEstudiante == "MEN")
+                {
+
+                    <a href="/Modulo Usuarios/Generacion QR/Index" class="menu-item">
+                        <span class="menu-icon"><i class="bi bi-phone"></i></span>
+                        Mi Carnet
+                    </a>
+
+                    <a href="/Modulo Usuarios/Panel Encargados Legales/Index" class="menu-item">
+                        <span class="menu-icon"><i class="bi bi-people"></i></span>
+                        Registro de Encargados Legales
+                    </a>
+
+                    <a href="/Modulo Usuarios/Panel Encargados Temporales/Index" class="menu-item">
+                        <span class="menu-icon"><i class="bi bi-people"></i></span>
+                        Registro de Encargado Legal Temporal
+                    </a>
+
+
+                }
+
+            }
+
+            <!-- Cerrar sesión -->
+            <a href="/Logout" class="menu-item">
                 <span class="menu-icon"><i class="bi bi-box-arrow-right"></i></span>
                 Cerrar Sesión
             </a>
+
         </div>
     </div>
 
-    <!-- Overlay para cerrar menú -->
     <div class="menu-overlay" id="menuOverlay"></div>
 
-    <!-- Contenido Principal -->
     <main class="layout-content" id="mainContent">
         <div class="content-container">
             @RenderBody()
@@ -125,7 +193,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Control del menú hamburguesa
         const hamburgerBtn = document.getElementById('hamburgerBtn');
         const dropdownMenu = document.getElementById('dropdownMenu');
         const closeBtn = document.getElementById('closeBtn');
@@ -141,7 +208,6 @@
         hamburgerBtn.addEventListener('click', toggleMenu);
         closeBtn.addEventListener('click', toggleMenu);
         menuOverlay.addEventListener('click', toggleMenu);
-
         document.querySelectorAll('.menu-item').forEach(item => {
             item.addEventListener('click', toggleMenu);
         });

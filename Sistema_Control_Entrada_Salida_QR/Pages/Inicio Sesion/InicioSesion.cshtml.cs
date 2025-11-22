@@ -60,8 +60,10 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Inicio_Sesion
 
                     // Estos son opcionales seg�n lo que devuelva el SP
                     new Claim("FechaVencimiento", resultado.FechaVencimiento?.ToString("yyyy-MM-dd") ?? ""),
+
                     new Claim("ID_Carrera", resultado.ID_Carrera ?? ""),
                     new Claim("TipoEstudiante", resultado.ID_TipoEstudiante ?? ""),
+
                     new Claim("Id_Dependencia", resultado.Id_Dependencia ?? ""),
                     new Claim("TipoFuncionario", resultado.Id_Tipo_Funcionario ?? "")
                 };
