@@ -28,6 +28,26 @@ namespace CarnetDigital.Services
                 return (false, "Este espacio no puede estar vacío");
             }
 
+            // Validar fecha de nacimiento (Debe ser mayor de edad)
+            if (funcionario.Fecha_Nacimiento == null)
+            {
+                return (false, "Debe ingresar la fecha de nacimiento");
+            }
+
+            var hoy = DateTime.Today;
+            var edad = hoy.Year - funcionario.Fecha_Nacimiento.Year;
+
+            // Ajuste si aún no ha cumplido años este año
+            if (funcionario.Fecha_Nacimiento.Date > hoy.AddYears(-edad))
+            {
+                edad--;
+            }
+
+            if (edad < 18)
+            {
+                return (false, "El funcionario debe ser mayor de edad");
+            }
+
             if (!EsTexto(funcionario.Nombre) ||
                 !EsTexto(funcionario.Primer_Apellido) ||
                 !EsTexto(funcionario.Segundo_Apellido))

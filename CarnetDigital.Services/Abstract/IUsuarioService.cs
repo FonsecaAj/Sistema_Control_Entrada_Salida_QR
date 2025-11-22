@@ -11,7 +11,7 @@ namespace CarnetDigital.Services.Abstract
     {
 
         Task<Usuarios> LoginAsync(string correoInstitucional, string contrasena);
-
+        Task<(bool Resultado, string Mensaje)> CambiarContrasenaAsync(string identificacion, string actual, string nueva);
 
     }
 }

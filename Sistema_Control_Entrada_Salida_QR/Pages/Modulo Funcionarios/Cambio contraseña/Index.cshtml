@@ -1,4 +1,96 @@
 ﻿@page
 @model Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Funcionarios.Cambio_contraseña.IndexModel
 @{
+    ViewData["Title"] = "Cambio de Contraseña";
+    Layout = null;
 }
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Carnet Digital Universitario</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/Login_estilos.css" asp-append-version="true" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+</head>
+
+<body class="login-body">
+    <div class="login-container">
+
+        <!-- ENCABEZADO -->
+        <div class="login-header">
+            <h1>Cambiar Contraseña</h1>
+            <div class="temporal-badge">
+                Seguridad del Sistema
+            </div>
+        </div>
+
+        <div class="login-body-content">
+
+            @if (!string.IsNullOrEmpty(Model.Mensaje))
+            {
+                <div class="alert @(Model.Resultado ? "alert-success" : "alert-danger")">
+                    @Model.Mensaje
+                </div>
+            }
+
+            <form method="post">
+
+                <div class="login-form-group">
+                    <label class="login-label">Contraseña Actual</label>
+                    <div class="login-input-wrapper">
+                        <i class="fas fa-lock"></i>
+                        <input asp-for="Actual"
+                               type="password"
+                               class="login-input"
+                               placeholder="Ingrese su contraseña actual"
+                               autocomplete="current-password" />
+                    </div>
+                </div>
+
+                <div class="login-form-group">
+                    <label class="login-label">Nueva Contraseña</label>
+                    <div class="login-input-wrapper">
+                        <i class="fas fa-key"></i>
+                        <input asp-for="Nueva"
+                               type="password"
+                               class="login-input"
+                               placeholder="Ingrese su nueva contraseña"
+                               autocomplete="new-password" />
+                    </div>
+                </div>
+
+                <div class="login-form-group">
+                    <label class="login-label">Confirmar Contraseña</label>
+                    <div class="login-input-wrapper">
+                        <i class="fas fa-check"></i>
+                        <input asp-for="Confirmar"
+                               type="password"
+                               class="login-input"
+                               placeholder="Confirme la contraseña"
+                               autocomplete="new-password" />
+                    </div>
+                </div>
+
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-save me-2"></i> Actualizar Contraseña
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+    @if (Model.Resultado && Model.Mensaje == "Cambio de Contraseña Exitoso")
+    {
+        <script>
+            setTimeout(function () {
+                window.location.href = '/Inicio Sesion/InicioSesion';
+            }, 1500);
+        </script>
+    }
+</body>
+</html>
+

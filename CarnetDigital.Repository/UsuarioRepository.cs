@@ -1,10 +1,7 @@
 ﻿using CarnetDigital.Entities;
 using Dapper;
-using Microsoft.Data.SqlClient;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,16 +10,12 @@ namespace CarnetDigital.Repository
 {
     public class UsuarioRepository
     {
-
-
         private readonly IDbConnectionFactory _dbConnectionFactory;
 
         public UsuarioRepository(IDbConnectionFactory dbConnectionFactory)
         {
             _dbConnectionFactory = dbConnectionFactory;
         }
-
-
 
         public async Task<Usuarios> LoginAsync(string correoInstitucional, string contrasena)
         {
@@ -47,6 +40,9 @@ namespace CarnetDigital.Repository
             parameters.Add("@p_Id_Dependencia", dbType: DbType.String, size: 3, direction: ParameterDirection.Output);
             parameters.Add("@p_Id_Tipo_Funcionario", dbType: DbType.String, size: 3, direction: ParameterDirection.Output);
 
+            // << NUEVO PARA PRIMER INGRESO >>
+            parameters.Add("@p_PrimerIngreso", dbType: DbType.Boolean, direction: ParameterDirection.Output);
+
             await connection.ExecuteAsync("SP_Login_Usuario", parameters, commandType: CommandType.StoredProcedure);
 
             // Recibir datos desde el SP
@@ -64,6 +60,18 @@ namespace CarnetDigital.Repository
             // Datos funcionario
             string dependencia = parameters.Get<string>("@p_Id_Dependencia");
             string tipoFunc = parameters.Get<string>("@p_Id_Tipo_Funcionario");
+
+            // << NUEVO >>
+            bool primerIngreso = parameters.Get<bool?>("@p_PrimerIngreso") ?? false;
+
+            if (mensaje != "Inicio de sesión exitoso")
+            {
+                return new Usuarios
+                {
+                    Mensaje = mensaje,
+                    Correo_Institucional = correoInstitucional
+                };
+            }
 
             // Validar contraseña
             bool esValida = VerifyPassword(contrasena, contrasenaHash);
@@ -94,12 +102,12 @@ namespace CarnetDigital.Repository
                 Id_Dependencia = dependencia,
                 Id_Tipo_Funcionario = tipoFunc,
 
-                Contrasena = contrasenaHash
+                Contrasena = contrasenaHash,
+
+                // << NUEVO >>
+                PrimerIngreso = primerIngreso
             };
         }
-
-
-        
 
         // Función para verificar contraseña contra hash+salt
         private bool VerifyPassword(string password, string storedHash)
@@ -119,6 +127,25 @@ namespace CarnetDigital.Repository
             return hashCheck == hash;
         }
 
+        public async Task<(bool Resultado, string Mensaje)> CambiarContrasenaAsync(string identificacion, string actual, string nueva)
+        {
+            using var connection = _dbConnectionFactory.CreateConnection();
 
+            var parameters = new DynamicParameters();
+            parameters.Add("@p_Identificacion", identificacion);
+            parameters.Add("@p_ContrasenaActual", actual);
+            parameters.Add("@p_ContrasenaNueva", nueva);
+
+            parameters.Add("@p_Mensaje", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+            parameters.Add("@p_Resultado", dbType: DbType.Boolean, direction: ParameterDirection.Output);
+
+            await connection.ExecuteAsync("sp_CambiarContrasena", parameters, commandType: CommandType.StoredProcedure);
+
+            return (
+                parameters.Get<bool>("@p_Resultado"),
+                parameters.Get<string>("@p_Mensaje")
+            );
+        }
     }
 }
+

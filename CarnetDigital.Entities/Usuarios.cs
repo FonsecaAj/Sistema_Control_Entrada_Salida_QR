@@ -27,6 +27,8 @@ namespace CarnetDigital.Entities
         public string Id_Dependencia { get; set; }
         public string Id_Tipo_Funcionario { get; set; }
 
+        public bool PrimerIngreso { get; set; }
+
 
     }
 }

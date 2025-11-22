@@ -42,6 +42,12 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Inicio_Sesion
             Mensaje = resultado.Mensaje;
             NombreCompleto = resultado.NombreCompleto;
 
+            if (resultado.Mensaje == "CAMBIAR_CONTRASENA")
+            {
+                TempData["Identificacion"] = resultado.Identificacion;
+                return RedirectToPage("/Modulo Funcionarios/Cambio contraseña/Index");
+            }
+
             if (Mensaje == "Inicio de sesión exitoso")
             {
 
@@ -69,7 +75,9 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Inicio_Sesion
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
 
-                return RedirectToPage("/Modulo Usuarios/Generacion QR/Index");
+                ViewData["Redirigir"] = true;
+
+                return Page();
             }
 
             
