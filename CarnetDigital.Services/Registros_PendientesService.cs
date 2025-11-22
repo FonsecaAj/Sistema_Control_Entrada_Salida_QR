@@ -77,8 +77,7 @@ namespace CarnetDigital.Services
 
             // ---------- MS6: correo institucional ----------
 
-            if (!(registro.Correo_Institucional.EndsWith("@cuc.cr") ||
-                  registro.Correo_Institucional.EndsWith("@cuc.ac.cr")))
+            if (!(registro.Correo_Institucional.EndsWith("@cuc.cr")))
             {
                 registro.Mensaje = "Solo permite correos con dominio @cuc.cr o @cuc.ac.cr";
                 return registro;
