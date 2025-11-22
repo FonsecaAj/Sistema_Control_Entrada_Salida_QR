@@ -42,13 +42,13 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Inicio_Sesion
             Mensaje = resultado.Mensaje;
             NombreCompleto = resultado.NombreCompleto;
 
-            if (resultado.Mensaje == "CAMBIAR_CONTRASENA")
-            {
-                TempData["Identificacion"] = resultado.Identificacion;
-                return RedirectToPage("/Modulo Funcionarios/Cambio contrase�a/Index");
-            }
+            //if (resultado.Mensaje == "CAMBIAR_CONTRASENA")
+            //{
+            //    TempData["Identificacion"] = resultado.Identificacion;
+            //    return RedirectToPage("/Modulo Funcionarios/Cambio contrase�a/Index");
+            //}
 
-            if (Mensaje == "Inicio de sesi�n exitoso")
+            if (Mensaje == "Inicio de sesión exitoso")
             {
 
                 var claims = new List<Claim>

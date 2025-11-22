@@ -30,6 +30,11 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Generacion_QR
         public string Estado { get; private set; }
         public string Tipo { get; private set; }
 
+        //Funcionarios
+        public string ID_Dependencia { get; private set; }
+        public string ID_Tipo_Funcionario { get; private set; }
+
+
         public async Task OnGet()
         {
             LeerClaims();
@@ -66,7 +71,13 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Generacion_QR
             Vigencia = User.FindFirst("FechaVencimiento")?.Value;
             Tipo = User.FindFirst("TipoEstudiante")?.Value;
 
+            //Funcionarios
+            ID_Dependencia = User.FindFirst("Id_Dependencia")?.Value;
+            ID_Tipo_Funcionario = User.FindFirst("TipoFuncionario")?.Value;
+
             Estado = "Activo";
+
+
         }
     }
 }

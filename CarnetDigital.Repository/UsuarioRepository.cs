@@ -37,11 +37,8 @@ namespace CarnetDigital.Repository
             parameters.Add("@p_ID_TipoEstudiante", dbType: DbType.String, size: 3, direction: ParameterDirection.Output);
 
             // Funcionario
-            parameters.Add("@p_Id_Dependencia", dbType: DbType.String, size: 3, direction: ParameterDirection.Output);
-            parameters.Add("@p_Id_Tipo_Funcionario", dbType: DbType.String, size: 3, direction: ParameterDirection.Output);
-
-            // << NUEVO PARA PRIMER INGRESO >>
-            parameters.Add("@p_PrimerIngreso", dbType: DbType.Boolean, direction: ParameterDirection.Output);
+            parameters.Add("@p_Id_Dependencia", dbType: DbType.String, size: 5, direction: ParameterDirection.Output);
+            parameters.Add("@p_Id_Tipo_Funcionario", dbType: DbType.String, size: 5, direction: ParameterDirection.Output);
 
             await connection.ExecuteAsync("SP_Login_Usuario", parameters, commandType: CommandType.StoredProcedure);
 
@@ -70,6 +67,7 @@ namespace CarnetDigital.Repository
                     Correo_Institucional = correoInstitucional
                 };
             }
+
 
             // Validar contraseña
             bool esValida = VerifyPassword(contrasena, contrasenaHash);
@@ -100,10 +98,7 @@ namespace CarnetDigital.Repository
                 Id_Dependencia = dependencia,
                 Id_Tipo_Funcionario = tipoFunc,
 
-                Contrasena = contrasenaHash,
-
-                // << NUEVO >>
-                PrimerIngreso = primerIngreso
+                Contrasena = contrasenaHash
             };
         }
 
