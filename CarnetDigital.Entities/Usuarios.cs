@@ -16,6 +16,7 @@ namespace CarnetDigital.Entities
         public string Rol { get; set; }
         public string ID_Estado { get; set; }
         public string Mensaje { get; set; }
+        public string Alerta_Vencimiento { get; set; }
         public DateTime? FechaVencimiento { get; set; }
 
         // Datos Extra Estudiante

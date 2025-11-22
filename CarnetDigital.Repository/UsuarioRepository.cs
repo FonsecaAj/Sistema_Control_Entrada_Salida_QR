@@ -33,6 +33,7 @@ namespace CarnetDigital.Repository
 
             // Parámetros de salida
             parameters.Add("@p_Mensaje", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+            parameters.Add("@p_AlertaVencimiento", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
             parameters.Add("@p_Nombre_Completo", dbType: DbType.String, size: 150, direction: ParameterDirection.Output);
             parameters.Add("@p_Rol", dbType: DbType.String, size: 3, direction: ParameterDirection.Output);
             parameters.Add("@p_Identificacion", dbType: DbType.String, size: 22, direction: ParameterDirection.Output);
@@ -51,6 +52,7 @@ namespace CarnetDigital.Repository
 
             // Recibir datos desde el SP
             string mensaje = parameters.Get<string>("@p_Mensaje") ?? "";
+            string alerta = parameters.Get<string>("@p_AlertaVencimiento");
             string nombreCompleto = parameters.Get<string>("@p_Nombre_Completo") ?? "";
             string rol = parameters.Get<string>("@p_Rol") ?? "";
             string identificacion = parameters.Get<string>("@p_Identificacion") ?? "";
@@ -95,6 +97,7 @@ namespace CarnetDigital.Repository
                 NombreCompleto = nombreCompleto,
                 Rol = rol,
                 Mensaje = mensaje,
+                Alerta_Vencimiento = alerta,
                 FechaVencimiento = fechaVenc,
 
                 // Estudiante
