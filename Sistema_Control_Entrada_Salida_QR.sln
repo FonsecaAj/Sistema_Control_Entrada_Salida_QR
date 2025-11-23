@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarnetDigital.Repository", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarnetDigital.Services", "CarnetDigital.Services\CarnetDigital.Services.csproj", "{B526B03E-598F-4707-9C65-DE2609647CB1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LectorQR_Guardas", "LectorQR_Guardas\LectorQR_Guardas.csproj", "{EE9093BB-CE94-4246-9D49-62D6C021A2F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{B526B03E-598F-4707-9C65-DE2609647CB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B526B03E-598F-4707-9C65-DE2609647CB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B526B03E-598F-4707-9C65-DE2609647CB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE9093BB-CE94-4246-9D49-62D6C021A2F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE9093BB-CE94-4246-9D49-62D6C021A2F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE9093BB-CE94-4246-9D49-62D6C021A2F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE9093BB-CE94-4246-9D49-62D6C021A2F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

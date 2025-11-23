@@ -1,0 +1,16 @@
+﻿@page
+@model LectorQR_Guardas.Pages.Escaneo.ResultadoQRModel
+@{
+    ViewData["Title"] = "Resultado Escaneo";
+}
+
+<div class="container mt-4 text-center">
+    <h2>Resultado del Escaneo</h2>
+
+    <p class="mt-3">
+        <strong>Código leído:</strong><br />
+        @Model.CodigoQR
+    </p>
+
+    <a class="btn btn-primary mt-3" href="/Escaneo/EscanearQR">Volver a escanear</a>
+</div>
