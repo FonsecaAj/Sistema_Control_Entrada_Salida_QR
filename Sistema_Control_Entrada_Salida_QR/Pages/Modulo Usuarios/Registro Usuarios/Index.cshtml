@@ -1,4 +1,163 @@
 ﻿@page
 @model Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Registro_Usuarios.IndexModel
 @{
+    ViewData["Title"] = "Registro Estudiantes";
+    Layout = "Layout_Plantilla";
 }
+
+<link rel="stylesheet" href="~/css/formularios_registros.css" asp-append-version="true" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+
+<div class="formulario-body formulario-no-bg">
+    <div class="formulario-container" style="max-width: 720px;">
+
+        <!-- ENCABEZADO -->
+        <div class="formulario-header">
+            <h1>Registro de Estudiantes</h1>
+            <div class="formulario-badge">
+                FORMULARIO DE INGRESO
+            </div>
+        </div>
+
+        <div class="formulario-body-content">
+
+            @if (!string.IsNullOrEmpty(Model.Registro?.Mensaje))
+            {
+                <div class="formulario-alert formulario-alert-info">
+                    @Model.Registro.Mensaje
+                </div>
+            }
+
+            <form method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="formulario-alert formulario-alert-danger"></div>
+
+                <!-- FOTO -->
+                <div class="formulario-foto-container">
+                    <div class="formulario-foto-preview">
+                        <img id="previewFoto" src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png" />
+                    </div>
+
+                    <label class="formulario-foto-btn">
+                        <i class="fas fa-camera"></i>
+                        <span>Subir Foto</span>
+                        <input asp-for="FotoFile" type="file" accept="image/*"
+                               class="formulario-file-input" onchange="previewImage(event)" />
+                    </label>
+                </div>
+
+                <div class="formulario-row">
+                    <!-- Tipo Identificación -->
+                    <div class="formulario-form-group">
+                        <label asp-for="Registro.ID_Tipo_Identificacion" class="formulario-label">Tipo de Identificación</label>
+                        <div class="formulario-input-wrapper">
+                            <i class="fas fa-id-card"></i>
+                            <select asp-for="Registro.ID_Tipo_Identificacion" asp-items="Model.TiposIdentificacion" class="formulario-select">
+                                <option value="">-- Seleccione --</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Identificación -->
+                    <div class="formulario-form-group">
+                        <label asp-for="Registro.Identificacion" class="formulario-label">Identificación</label>
+                        <div class="formulario-input-wrapper">
+                            <i class="fas fa-hashtag"></i>
+                            <input asp-for="Registro.Identificacion" class="formulario-input" placeholder="Ingrese la identificación" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="formulario-row">
+                    <!-- Nombre -->
+                    <div class="formulario-form-group">
+                        <label asp-for="Registro.Nombre" class="formulario-label">Nombre</label>
+                        <div class="formulario-input-wrapper">
+                            <i class="fas fa-user"></i>
+                            <input asp-for="Registro.Nombre" class="formulario-input" placeholder="Ingrese el nombre" />
+                        </div>
+                    </div>
+
+                    <!-- Primer Apellido -->
+                    <div class="formulario-form-group">
+                        <label asp-for="Registro.Primer_Apellido" class="formulario-label">Primer Apellido</label>
+                        <div class="formulario-input-wrapper">
+                            <i class="fas fa-user"></i>
+                            <input asp-for="Registro.Primer_Apellido" class="formulario-input" placeholder="Ingrese el primer apellido" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="formulario-row">
+                    <!-- Segundo Apellido -->
+                    <div class="formulario-form-group">
+                        <label asp-for="Registro.Segundo_Apellido" class="formulario-label">Segundo Apellido</label>
+                        <div class="formulario-input-wrapper">
+                            <i class="fas fa-user"></i>
+                            <input asp-for="Registro.Segundo_Apellido" class="formulario-input" placeholder="Ingrese el segundo apellido" />
+                        </div>
+                    </div>
+
+                    <!-- Fecha nacimiento -->
+                    <div class="formulario-form-group">
+                        <label asp-for="Registro.Fecha_Nacimiento" class="formulario-label">Fecha de Nacimiento</label>
+                        <div class="formulario-input-wrapper">
+                            <i class="fas fa-calendar-alt"></i>
+                            <input asp-for="Registro.Fecha_Nacimiento" type="date" class="formulario-input" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="formulario-row">
+                    <!-- Correo -->
+                    <div class="formulario-form-group">
+                        <label asp-for="Registro.Correo_Institucional" class="formulario-label">Correo Institucional</label>
+                        <div class="formulario-input-wrapper">
+                            <i class="fas fa-envelope"></i>
+                            <input asp-for="Registro.Correo_Institucional" class="formulario-input" placeholder="usuario@cuc.cr" />
+                        </div>
+                    </div>
+
+                    <!-- Contraseña -->
+                    <div class="formulario-form-group">
+                        <label asp-for="Registro.Contrasena" class="formulario-label">Contraseña</label>
+                        <div class="formulario-input-wrapper">
+                            <i class="fas fa-lock"></i>
+                            <input asp-for="Registro.Contrasena" type="password" class="formulario-input" placeholder="•••••••" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Carrera -->
+                <div class="formulario-form-group">
+                    <label asp-for="Registro.Id_Carrera" class="formulario-label">Carrera</label>
+                    <div class="formulario-input-wrapper">
+                        <i class="fas fa-graduation-cap"></i>
+                        <select asp-for="Registro.Id_Carrera" asp-items="Model.Carreras" class="formulario-select">
+                            <option value="">-- Seleccione --</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- BOTONES -->
+                <div class="formulario-buttons">
+                    <button type="submit" class="formulario-btn formulario-btn-primary">
+                        <i class="fas fa-user-plus me-2"></i> Registrarse
+                    </button>
+
+                    <a asp-page="/Index" class="formulario-btn formulario-btn-secondary">
+                        <i class="fas fa-times me-2"></i> Cancelar
+                    </a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function previewImage(event) {
+        const img = document.getElementById("previewFoto");
+        img.src = URL.createObjectURL(event.target.files[0]);
+        img.style.objectFit = "cover";
+    }
+</script>

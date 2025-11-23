@@ -18,5 +18,7 @@ namespace CarnetDigital.Entities
         public int Id_Parentesco { get; set; }
         public string Identificacion_Estudiante { get; set; }
         public byte[] Foto { get; set; }
+        public string? Mensaje { get; set; }
+
     }
 }

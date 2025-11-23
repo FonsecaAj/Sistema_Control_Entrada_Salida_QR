@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Administradores.Registro_Funcionarios
+namespace Sistema_Control_Entrada_Salida_QR.Pages
 {
-    public class IndexModel : PageModel
+    public class Layout_PlantillaModel : PageModel
     {
         public void OnGet()
         {
