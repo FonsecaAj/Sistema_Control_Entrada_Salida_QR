@@ -5,7 +5,6 @@
     ViewData["Title"] = "Carnet Digital - Generación QR";
 }
 
-
 <div class="carnet-body">
     <div class="carnet-container">
         <div class="carnet-header">
@@ -14,35 +13,55 @@
         </div>
 
         <div class="carnet-body-content">
+
             <!-- Tarjeta de Información del Usuario -->
             <div class="user-info-card">
                 <div class="card-body">
+
                     <div class="info-row">
                         <div class="info-label">Nombre completo: </div>
                         <div class="info-value">@Model.NombreCompleto</div>
                     </div>
+
                     <div class="info-row">
                         <div class="info-label">Identificación: </div>
                         <div class="info-value">@Model.Identificacion</div>
                     </div>
-                    <div class="info-row">
-                        <div class="info-label">Carrera/Programa: </div>
-                        <div class="info-value">@Model.Carrera</div>
-                    </div>
-                    <div class="info-row">
-                        <div class="info-label">Vigencia: </div>
-                        <div class="info-value">@Model.Vigencia</div>
-                    </div>
+
+                    @if (Model.Tipo == "Funcionario")
+                    {
+                        <!-- FUNCIONARIO -->
+                        <div class="info-row">
+                            <div class="info-label">Dependencia: </div>
+                            <div class="info-value">@Model.ID_Dependencia</div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-label">Tipo Funcionario: </div>
+                            <div class="info-value">@Model.ID_Tipo_Funcionario</div>
+                        </div>
+                    }
+                    else
+                    {
+                        <!-- ESTUDIANTE -->
+                        <div class="info-row">
+                            <div class="info-label">Carrera/Programa: </div>
+                            <div class="info-value">@Model.Carrera</div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-label">Vigencia: </div>
+                            <div class="info-value">@Model.Vigencia</div>
+                        </div>
+                    }
+
                     <div class="info-row">
                         <div class="info-label">Estado: </div>
                         <div class="info-value">
                             <span class="status-badge badge-active">@Model.Estado</span>
                         </div>
                     </div>
-                    <div class="info-row">
-                        <div class="info-label">Tipo: </div>
-                        <div class="info-value">@Model.Tipo</div>
-                    </div>
+
                 </div>
             </div>
 
@@ -71,13 +90,14 @@
                 <div class="timer-label">El código expira en:</div>
                 <div id="countdown" class="timer-countdown"></div>
             </div>
+
         </div>
     </div>
 </div>
 
 @section Scripts {
     <script>
-        
+
         const MS1 = "No fue posible generar QR, intente de nuevo.";
         const MS2 = "Código expirado, genere uno nuevo.";
         const MS3 = "QR generado correctamente";
@@ -95,8 +115,13 @@
             modalTitle.textContent = title;
             modalBody.textContent = body;
 
-            modalHeader.style.backgroundColor = (type === 'success') ? '#d4edda' : (type === 'error' ? '#f8d7da' : '#cce5ff');
-            modalTitle.style.color = (type === 'success') ? '#155724' : (type === 'error' ? '#721c24' : '#004085');
+            modalHeader.style.backgroundColor =
+                (type === 'success') ? '#d4edda' :
+                (type === 'error' ? '#f8d7da' : '#cce5ff');
+
+            modalTitle.style.color =
+                (type === 'success') ? '#155724' :
+                (type === 'error' ? '#721c24' : '#004085');
 
             var validationModal = new bootstrap.Modal(document.getElementById('validationModal'));
             validationModal.show();
@@ -104,15 +129,10 @@
 
         async function inactivarQR() {
             try {
-                const response = await fetch('?handler=Inactivar', {
-                    method: 'POST',
-                });
-
-                if (!response.ok) {
-                    console.error("Fallo al inactivar el QR en el servidor. Estado:", response.status);
-                }
+                const response = await fetch('?handler=Inactivar', { method: 'POST' });
+                if (!response.ok) console.error("Fallo al inactivar QR:", response.status);
             } catch (error) {
-                console.error(" Fallo de red al intentar inactivar el QR:", error);
+                console.error("Error de red al inactivar QR:", error);
             }
         }
 
@@ -127,10 +147,8 @@
 
             if (total > 30) {
                 btn.disabled = true;
-                let visible = total - 30;
-                btn.textContent = `Espere (${visible}s)…`;
-            }
-            else if (total > 0) {
+                btn.textContent = `Espere (${total - 30}s)…`;
+            } else if (total > 0) {
                 btn.disabled = false;
                 btn.textContent = "Generar nuevo QR";
             }
@@ -153,7 +171,7 @@
             total--;
         }
 
-        document.getElementById('qr-form').addEventListener('submit', function(event) {
+        document.getElementById('qr-form').addEventListener('submit', function () {
             showModal("Generación Exitosa", MS3, 'success');
         });
 
@@ -163,5 +181,6 @@
             actualizarContador();
             showModal("Código Caducado", MS2, 'warning');
         }
+
     </script>
 }

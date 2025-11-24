@@ -65,15 +65,76 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Generacion_QR
 
         private void LeerClaims()
         {
+            //Leemos el rol, importante para saber que estilo lleva el carnet jajaj
+
+            string Rol = User.FindFirst("Rol")?.Value;
+
             NombreCompleto = User.FindFirst(ClaimTypes.Name)?.Value;
-            Identificacion = User.FindFirst("Identificacion")?.Value;
-            Carrera = User.FindFirst("ID_Carrera")?.Value;
+            Identificacion = User.FindFirst("Identificacion")?.Value;           
             Vigencia = User.FindFirst("FechaVencimiento")?.Value;
-            Tipo = User.FindFirst("TipoEstudiante")?.Value;
+
 
             //Funcionarios
-            ID_Dependencia = User.FindFirst("Id_Dependencia")?.Value;
-            ID_Tipo_Funcionario = User.FindFirst("TipoFuncionario")?.Value;
+
+            if (Rol == "FUN")
+            {
+                // --- FUNCIONARIO ---
+
+                // Dependencia
+                ID_Dependencia = User.FindFirst("Id_Dependencia")?.Value;
+
+                ID_Dependencia = ID_Dependencia switch
+                {
+                    "DEP01" => "Recursos Humanos",
+                    "DEP02" => "Finanzas",
+                    "DEP03" => "Tecnología",
+                    "DEP04" => "Dirección Académica",
+                    "DEP05" => "Seguridad",
+                    _ => "Otro"
+                };
+
+                // Tipo de funcionario
+                ID_Tipo_Funcionario = User.FindFirst("TipoFuncionario")?.Value;
+
+                ID_Tipo_Funcionario = ID_Tipo_Funcionario switch
+                {
+                    "TF001" => "Administrativo",
+                    "TF002" => "Docente",
+                    "TF003" => "Seguridad",
+                    "TF004" => "Mantenimiento",
+                    "TF005" => "Dirección",
+                    _ => "Otro"
+                };
+
+                // No mostrar datos de estudiante
+                Carrera = null;
+                Vigencia = null;
+                Tipo = "Funcionario";
+            }
+            else
+            {
+                // --- ESTUDIANTE ---
+                Carrera = User.FindFirst("ID_Carrera")?.Value;
+
+                Carrera = Carrera switch
+                {
+                    "ABC" => "Administración de Bases de Datos",
+                    "ARK" => "Arquitectura de Computadoras",
+                    "BD1" => "Bases de Datos I",
+                    "BD2" => "Bases de Datos II",
+                    "COM" => "Computación",
+                    "INS" => "Ingeniería en Sistemas",
+                    "PLL" => "Programación Lógica y Lenguajes",
+                    "PRO" => "Programación",
+                    "SOS" => "Soporte de Sistemas",
+                    "SAC" => "Seguridad en Ambientes Computacionales",
+                    _ => "Otro"
+                };
+
+                // No mostrar datos de funcionario
+                ID_Dependencia = null;
+                ID_Tipo_Funcionario = null;
+            }
 
             Estado = "Activo";
 
