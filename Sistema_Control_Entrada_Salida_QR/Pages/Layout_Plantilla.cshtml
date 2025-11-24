@@ -76,11 +76,21 @@
 
         <div class="menu-items">
 
-            <!-- Ítem universal -->
+            <!-- Ítems universales -->
             @* <a href="#" class="menu-item">
                 <span class="menu-icon"><i class="bi bi-house-door"></i></span>
                 Inicio
             </a> *@
+
+            <a href="/Modulo Usuarios/Generacion QR/Index" class="menu-item">
+                <span class="menu-icon"><i class="bi bi-phone"></i></span>
+                Mi Carnet
+            </a>
+            <a href="/Modulo Usuarios/Control Accesos/Index" class="menu-item">
+                <span class="menu-icon"><i class="bi bi-people"></i></span>
+                Mis Accesos
+            </a>
+
 
             @* ============================
                FUNCIONARIO (FUN)
@@ -89,15 +99,6 @@
             {
                 if (TipoFuncionario == "TF001")
                 {
-
-                    <a href="/Modulo Usuarios/Generacion QR/Index" class="menu-item">
-                        <span class="menu-icon"><i class="bi bi-phone"></i></span>
-                        Mi Carnet
-                    </a>
-                     <a href="/Modulo Usuarios/Control Accesos/Index" class="menu-item">
-                        <span class="menu-icon"><i class="bi bi-people"></i></span>
-                        Mis Accesos
-                    </a>
 
                     <a href="/Modulo Administradores/Activacion Perfil/Index" class="menu-item">
                         <span class="menu-icon"><i class="bi bi-people"></i></span>
@@ -130,33 +131,9 @@
                ============================ *@
             @if (EsEstudiante)
             {
-                if (TipoEstudiante == "UNI")
-                {
-
-                    <a href="/Modulo Usuarios/Generacion QR/Index" class="menu-item">
-                        <span class="menu-icon"><i class="bi bi-phone"></i></span>
-                        Mi Carnet
-                    </a>
-                     <a href="/Modulo Usuarios/Control Accesos/Index" class="menu-item">
-                        <span class="menu-icon"><i class="bi bi-people"></i></span>
-                        Mis Accesos
-                    </a>
-
-
-                }
 
                 if (TipoEstudiante == "MEN")
                 {
-
-                    <a href="/Modulo Usuarios/Generacion QR/Index" class="menu-item">
-                        <span class="menu-icon"><i class="bi bi-phone"></i></span>
-                        Mi Carnet
-                    </a>
-
-                    <a href="/Modulo Usuarios/Control Accesos/Index" class="menu-item">
-                        <span class="menu-icon"><i class="bi bi-people"></i></span>
-                        Mis Accesos
-                    </a>
 
                     <a href="/Modulo Usuarios/Panel Encargados Legales/Index" class="menu-item">
                         <span class="menu-icon"><i class="bi bi-people"></i></span>
