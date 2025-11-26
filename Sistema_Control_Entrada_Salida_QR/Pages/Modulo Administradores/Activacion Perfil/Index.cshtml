@@ -66,17 +66,21 @@
                        type="number" />
         </div>
 
-        <div class="col-md-3 mb-3 d-flex align-items-end">
-            <button type="submit"
-                    class="btn btn-primary w-100"
-                    asp-page-handler="Filtrar">
-                Filtrar
-            </button>
-        </div>
+            <div class="col-md-3 mb-3 d-flex align-items-end">
+                <button type="submit"
+                        class="btn w-100"
+                        style="background-color:#002D74; border-color:#002D74; color:#fff;"
+                        asp-page-handler="Filtrar">
+                    Filtrar
+                </button>
+            </div>
+
 
             <div class="col-md-3 mb-3 d-flex align-items-end">
                 <a asp-page="./Index"
-                   class="btn btn-secondary w-100">
+                   class="btn btn-secondary w-100"
+                   style="background-color:#F5333F; border-color:#F5333F; color:#fff;">
+
                     Limpiar
                 </a>
             </div>
