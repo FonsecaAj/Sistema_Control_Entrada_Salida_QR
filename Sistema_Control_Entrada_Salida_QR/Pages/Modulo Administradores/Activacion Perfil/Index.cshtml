@@ -17,6 +17,73 @@
 
 
     <h2 class="registro-title">Solicitudes de Registro Pendientes</h2>
+
+    <form method="get">
+        <div class="row">
+        <div class="col-md-3 mb-3">
+            <label asp-for="NumeroIdentificacion" class="form-label">Identificación del Estudiante</label>
+            <input asp-for="NumeroIdentificacion"
+                   class="form-control"
+                   placeholder="Ej: 305650418"
+                   maxlength="22" />
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label asp-for="CorreoEstudiante" class="form-label">Correo del Estudiante</label>
+            <input asp-for="CorreoEstudiante"
+                   class="form-control"
+                   placeholder="Ej: 305650418@cuc.cr"
+                   maxlength="100" />
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label asp-for="FechaRegistro" class="form-label">Fecha de Registro</label>
+            <input asp-for="FechaRegistro"
+                   class="form-control"
+                   type="date" />
+        </div>
+
+        <div class="col-md-3 mb-3">
+              <label asp-for="IdCarreraFiltro" class="form-label">Carrera / Programa</label>
+              <select asp-for="IdCarreraFiltro"
+                      class="form-select"
+                      asp-items="@(new SelectList(Model.Carreras, "Id_Carrera", "Nombre_Carrera"))">
+                  <option value="">-- Todas --</option>
+              </select>
+        </div>
+
+        <div class="col-md-3 mb-3">
+                <label asp-for="Desde" class="form-label">Desde</label>
+                <input asp-for="Desde"
+                       class="form-control"
+                       type="number" />
+        </div>
+
+        <div class="col-md-3 mb-3">
+                <label asp-for="Hasta" class="form-label">Hasta</label>
+                <input asp-for="Hasta"
+                       class="form-control"
+                       type="number" />
+        </div>
+
+        <div class="col-md-3 mb-3 d-flex align-items-end">
+            <button type="submit"
+                    class="btn btn-primary w-100"
+                    asp-page-handler="Filtrar">
+                Filtrar
+            </button>
+        </div>
+
+            <div class="col-md-3 mb-3 d-flex align-items-end">
+                <a asp-page="./Index"
+                   class="btn btn-secondary w-100">
+                    Limpiar
+                </a>
+            </div>
+    </div>
+</form>
+
+
     <div class="registro-tabla-wrapper">
         <table class="registro-table">
             <thead>
@@ -24,7 +91,7 @@
                     <th>Nombre</th>
                     <th>Primer Apellido</th>
                     <th>Segundo Apellido</th>
-                    <th>IdentificaciÃ³n</th>
+                    <th>Identificación</th>
                     <th>Correo Institucional</th>
                     <th style="width: 15%">Carrera/Programa</th>
                     <th>Estado</th>
@@ -52,14 +119,31 @@
                                     <input type="hidden" name="identificacion" value="@registro.Identificacion" />
                                     <input type="hidden" name="correo" value="@registro.Correo_Institucional" />
                                     <input type="hidden" name="decision" value="A" />
+
+                                    <input type="hidden" asp-for="NumeroIdentificacion" />
+                                    <input type="hidden" asp-for="CorreoEstudiante" />
+                                    <input type="hidden" asp-for="FechaRegistro" />
+                                    <input type="hidden" asp-for="IdCarreraFiltro" />
+                                    <input type="hidden" asp-for="Desde" />
+                                    <input type="hidden" asp-for="Hasta" />
+
                                     <button type="submit" class="registro-btn registro-btn-success"
                                             asp-page-handler="Aprobar">
                                         Activar
                                     </button>
                                 </form>
+
                                 <form method="post" style="display:inline;">
                                     <input type="hidden" name="identificacion" value="@registro.Identificacion" />
                                     <input type="hidden" name="decision" value="R" />
+
+                                    <input type="hidden" asp-for="NumeroIdentificacion" />
+                                    <input type="hidden" asp-for="CorreoEstudiante" />
+                                    <input type="hidden" asp-for="FechaRegistro" />
+                                    <input type="hidden" asp-for="IdCarreraFiltro" />
+                                    <input type="hidden" asp-for="Desde" />
+                                    <input type="hidden" asp-for="Hasta" />
+
                                     <button type="submit" class="registro-btn registro-btn-danger"
                                             asp-page-handler="Rechazar">
                                         Rechazar

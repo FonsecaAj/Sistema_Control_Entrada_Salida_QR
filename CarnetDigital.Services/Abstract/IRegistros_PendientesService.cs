@@ -13,6 +13,8 @@ namespace CarnetDigital.Services.Abstract
         Task EnviarCorreoAsync(string destinatario, string asunto, string cuerpoHtml);
         Task<IEnumerable<Registros_Pendientes>> GetAllAsync();
         Task<Registros_Pendientes> RegistrarUsuarioAsync(Registros_Pendientes registro);
+        Task<IEnumerable<Registros_Pendientes>> FiltrarAsync(string identificacion, string correo, DateTime? fecha, string carrera, int? desde, int? hasta);
+        Task<IEnumerable<Carreras_Programas>> ObtenerCarrerasAsync();
 
     }
 }

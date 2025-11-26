@@ -64,6 +64,30 @@ namespace CarnetDigital.Services
             }
         }
 
+        public async Task<IEnumerable<Carreras_Programas>> ObtenerCarrerasAsync()
+        {
+            try
+            {
+                return await _registrospendientesRepository.ObtenerCarrerasAsync();
+            }
+            catch (Exception ex)
+            {
+                return new List<Carreras_Programas>();
+            }
+        }
+
+        public async Task<IEnumerable<Registros_Pendientes>> FiltrarAsync(string identificacion, string correo, DateTime? fecha, string carrera, int? desde, int? hasta)
+        {
+            try
+            {
+                return await _registrospendientesRepository.FiltrarAsync(identificacion, correo, fecha, carrera, desde, hasta);
+            }
+            catch (Exception ex)
+            {
+                return new List<Registros_Pendientes>();
+            }
+        }
+
         public async Task<(string mensaje, int resultado)> EjecutarDecisionAsync(string identificacion, string decision)
         {
             try
