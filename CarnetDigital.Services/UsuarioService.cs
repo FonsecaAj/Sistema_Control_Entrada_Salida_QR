@@ -35,7 +35,7 @@ namespace CarnetDigital.Services
                 !nueva.Any(char.IsDigit) ||
                 !nueva.Any(c => "!@#$%^&*()_-+=<>?/{}~|".Contains(c)))
             {
-                return (false, "Debe tener un mínimo de 8 caracteres entre letras, números y caracteres especiales");
+                return (false, "La nueva contraseña debe tener un mínimo de 8 caracteres entre letras, números y caracteres especiales");
             }
 
             // Llamar al repositorio (SP)
