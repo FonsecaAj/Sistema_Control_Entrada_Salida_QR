@@ -129,7 +129,6 @@
 </div>
 
 
-<!-- Librerías correctas para jsPDF + autoTable -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 
@@ -138,16 +137,14 @@
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF('landscape');
 
-        // Título
         doc.setFontSize(16);
         doc.text('Reporte de Accesos', 14, 22);
         doc.setFontSize(10);
         doc.text('Fecha: ' + new Date().toLocaleString(), 14, 32);
 
-        // Obtener datos de la tabla (la última tabla con tbody)
         const rows = [];
         const tables = document.querySelectorAll('.registro-table');
-        const tableBody = tables[tables.length - 1].querySelector('tbody'); // última tabla (la de datos)
+        const tableBody = tables[tables.length - 1].querySelector('tbody');
 
         tableBody.querySelectorAll('tr').forEach(row => {
             const cells = row.querySelectorAll('td');
@@ -160,7 +157,6 @@
             }
         });
 
-        // Crear tabla en el PDF
         doc.autoTable({
             head: [['Id Acceso', 'Identificación', 'Fecha Acceso', 'Estado', 'Tipo Acceso', 'Marca']],
             body: rows,
@@ -177,7 +173,6 @@
             }
         });
 
-        // Descargar
         doc.save('Reporte_Accesos_' + new Date().toISOString().slice(0, 10) + '.pdf');
     });
 </script>

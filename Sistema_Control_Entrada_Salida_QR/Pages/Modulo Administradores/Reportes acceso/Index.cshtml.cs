@@ -70,7 +70,7 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Administradores.Reporte
             ListaEstados = new List<SelectListItem>
             {
                 new SelectListItem("Todos los estados", "TODOS"),
-                new SelectListItem("Autorizados", "A"),
+                new SelectListItem("Autorizados", "Au"),
                 new SelectListItem("Rechazados", "R")
             };
 
