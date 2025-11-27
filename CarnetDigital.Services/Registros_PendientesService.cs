@@ -206,7 +206,7 @@ namespace CarnetDigital.Services
 
             if (registro.Contrasena.Length < 8 || !tieneLetra || !tieneNumero || !tieneEspecial)
             {
-                registro.Mensaje = "Debe tener un mínimo de 8 caracteres entre letras, números y caracteres especiales";
+                registro.Mensaje = "La contraseña debe tener un mínimo de 8 caracteres entre letras, números y caracteres especiales";
                 return registro;
             }
 
