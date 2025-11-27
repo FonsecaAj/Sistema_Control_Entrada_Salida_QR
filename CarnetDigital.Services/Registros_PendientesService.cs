@@ -1,4 +1,9 @@
-﻿using System;
+﻿using CarnetDigital.Entities;
+using CarnetDigital.Repository;
+using CarnetDigital.Services.Abstract;
+using Control_QR.Entities;
+using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -7,10 +12,6 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using CarnetDigital.Entities;
-using CarnetDigital.Repository;
-using CarnetDigital.Services.Abstract;
-using Microsoft.Extensions.Configuration;
 
 namespace CarnetDigital.Services
 {
@@ -80,65 +81,124 @@ namespace CarnetDigital.Services
         public async Task<Registros_Pendientes> RegistrarUsuarioAsync(Registros_Pendientes registro)
         {
 
-            // ---------- MS2: campos obligatorios ----------
+            // ===== VALIDACIONES DE CAMPOS OBLIGATORIOS =====
 
-            if (string.IsNullOrWhiteSpace(registro.Nombre) || string.IsNullOrWhiteSpace(registro.Primer_Apellido) || string.IsNullOrWhiteSpace(registro.Segundo_Apellido) || string.IsNullOrWhiteSpace(registro.Correo_Institucional) ||  string.IsNullOrWhiteSpace(registro.Identificacion) ||  string.IsNullOrWhiteSpace(registro.Contrasena))
+            if (registro == null)
             {
-                registro.Mensaje = "El campo es obligatorio no puede estar vacío";
+                registro.Mensaje = "Los datos del funcionario son requeridos";
                 return registro;
             }
-
-            // ---------- MS1: solo letras y espacios ----------
-
-            if (!Regex.IsMatch(registro.Nombre, @"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$"))
+            if (string.IsNullOrWhiteSpace(registro.Nombre))
             {
-                registro.Mensaje = "Solo acepta letras y espacios en blanco";
+                registro.Mensaje = "Debe ingresar el nombre";
                 return registro;
             }
-            if (!Regex.IsMatch(registro.Primer_Apellido, @"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$"))
+            if (string.IsNullOrWhiteSpace(registro.Primer_Apellido))
             {
-                registro.Mensaje = "Solo acepta letras y espacios en blanco";
+                registro.Mensaje = "Debe ingresar el primer apellido";
                 return registro;
             }
-            if (!Regex.IsMatch(registro.Segundo_Apellido, @"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$"))
+            if (string.IsNullOrWhiteSpace(registro.Segundo_Apellido))
             {
-                registro.Mensaje = "Solo acepta letras y espacios en blanco";
+                registro.Mensaje = "Debe ingresar el segundo apellido";
                 return registro;
             }
-
-            // ---------- MS3: tipo de identificación ----------
-
+            if (string.IsNullOrWhiteSpace(registro.Correo_Institucional))
+            {
+                registro.Mensaje = "Debe ingresar el correo institucional";
+                return registro;
+            }
+            if (string.IsNullOrWhiteSpace(registro.Identificacion))
+            {
+                registro.Mensaje = "Debe ingresar la identificación";
+                return registro;
+            }
+            if (string.IsNullOrWhiteSpace(registro.Contrasena))
+            {
+                registro.Mensaje = "Debe ingresar la contraseña";
+                return registro;
+            }
             if (registro.ID_Tipo_Identificacion == "0" || string.IsNullOrEmpty(registro.ID_Tipo_Identificacion))
             {
                 registro.Mensaje = "Debe seleccionar un tipo de identificación";
                 return registro;
             }
-
-            // ---------- MS4: identificación solo números ----------
-
-            if (!Regex.IsMatch(registro.Identificacion, @"^[0-9]+$"))
-            {
-                registro.Mensaje = "Solo permite números";
-                return registro;
-            }
-
-            // ---------- MS5: debe seleccionar carrera ----------
-
             if (registro.Id_Carrera == "0" || string.IsNullOrEmpty(registro.Id_Carrera))
             {
-                registro.Mensaje = "Debe seleccionar una de las carreras o programas"; 
+                registro.Mensaje = "Debe seleccionar una de las carreras o programas";
+                return registro;
+            }
+            if (registro.Foto == null || registro.Foto.Length == 0)
+            {
+                registro.Mensaje = "Debe subir una foto suya para registrarse";
+                return registro;
+            }
+            if (registro.Fecha_Nacimiento == DateTime.MinValue)
+            {
+                registro.Mensaje = "Debe ingresar una fecha de nacimiento válida";
                 return registro;
             }
 
-            // ---------- MS6: correo institucional ----------
 
+            // ===== VALIDACIÓN DE SOLO TEXTO =====
+
+            if (!Regex.IsMatch(registro.Nombre, @"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$"))
+            {
+                registro.Mensaje = "El nombre solo permite letras y espacios";
+                return registro;
+            }
+            if (!Regex.IsMatch(registro.Primer_Apellido, @"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$"))
+            {
+                registro.Mensaje = "El primer apellido solo permite letras y espacios";
+                return registro;
+            }
+            if (!Regex.IsMatch(registro.Segundo_Apellido, @"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$"))
+            {
+                registro.Mensaje = "El segundo apellido solo permite letras y espacios";
+                return registro;
+            }
+
+            // ===== VALIDACIÓN DE IDENTIFICACIÓN SEGÚN TIPO =====
+            switch (registro.ID_Tipo_Identificacion)
+            {
+                case "CED":
+                    if (!Regex.IsMatch(registro.Identificacion, @"^[0-9]{9}$"))
+                    {
+                        registro.Mensaje = "La cédula debe tener exactamente 9 dígitos numéricos";
+                        return registro;
+                    }                        
+                    break;
+
+                case "DIX":
+                    if (!Regex.IsMatch(registro.Identificacion, @"^[0-9]{11,12}$"))
+                    {
+                        registro.Mensaje = "El DIMEX debe tener entre 11 y 12 dígitos numéricos";
+                        return registro;
+                    }
+                    break;
+
+                case "PAS":
+                    if (!Regex.IsMatch(registro.Identificacion, @"^[A-Za-z0-9]{6,20}$"))
+                    {
+                        registro.Mensaje = "El pasaporte debe tener entre 6 y 20 caracteres alfanuméricos";
+                        return registro;
+                    }
+                    break;
+
+                default:
+
+                    registro.Mensaje = "Tipo de identificación no válido";
+                    return registro;
+            }
+
+            // ===== VALIDACIÓN DE CORREO =====
             if (!(registro.Correo_Institucional.EndsWith("@cuc.cr")))
             {
-                registro.Mensaje = "Solo permite correos con dominio @cuc.cr o @cuc.ac.cr";
+                registro.Mensaje = "El correo debe terminar en @cuc.cr";
                 return registro;
             }
 
-            // ---------- MS7: contraseña mínima 8 caracteres y fuerte ----------
+            // ===== VALIDACIÓN DE CONTRASEÑA =====
 
             bool tieneLetra = Regex.IsMatch(registro.Contrasena, @"[A-Za-z]");
             bool tieneNumero = Regex.IsMatch(registro.Contrasena, @"[0-9]");
@@ -147,14 +207,6 @@ namespace CarnetDigital.Services
             if (registro.Contrasena.Length < 8 || !tieneLetra || !tieneNumero || !tieneEspecial)
             {
                 registro.Mensaje = "Debe tener un mínimo de 8 caracteres entre letras, números y caracteres especiales";
-                return registro;
-            }
-
-            // ---------- MS8: foto requerida ----------
-
-            if (registro.Foto == null || registro.Foto.Length == 0)
-            {
-                registro.Mensaje = "Debe subir una foto suya para registrarse";
                 return registro;
             }
 
