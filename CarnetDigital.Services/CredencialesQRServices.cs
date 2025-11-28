@@ -67,5 +67,14 @@ namespace CarnetDigital.Services
         {
             await _repository.MarcarComoInactivoAsync(identificacion);
         }
+
+
+        public async Task<Credenciales_QR?> BuscarPorCodigoAsync(string codigo)
+        {
+            await _repository.InactivarQRExpiradosAsync();
+
+            return await _repository.GetByCodigoAsync(codigo);
+        }
+
     }
 }

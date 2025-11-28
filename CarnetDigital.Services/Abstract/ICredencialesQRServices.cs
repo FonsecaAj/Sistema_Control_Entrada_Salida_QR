@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CarnetDigital.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,9 @@ namespace CarnetDigital.Services.Abstract
         Task<string> ObtenerOGenerarQRBase64Async(string identificacion);
 
         Task InactivarAsync(string identificacion);
+
+        Task<Credenciales_QR?> BuscarPorCodigoAsync(string codigo);
+
 
 
     }

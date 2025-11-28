@@ -85,5 +85,21 @@ namespace CarnetDigital.Repository
                 Identificacion = identificacion
             });
         }
+
+
+        // ============================
+        // Obtener credencial por Código QR (token escaneado)
+        // ============================
+        public async Task<Credenciales_QR?> GetByCodigoAsync(string codigoQR)
+        {
+            const string sql = "SELECT TOP 1 * FROM Credenciales_QR WHERE Codigo_qr = @CodigoQR AND ID_Estado = 'A'";
+
+            using var connection = CreateConnection();
+            return await connection.QueryFirstOrDefaultAsync<Credenciales_QR>(sql, new
+            {
+                CodigoQR = codigoQR
+            });
+        }
+
     }
 }
