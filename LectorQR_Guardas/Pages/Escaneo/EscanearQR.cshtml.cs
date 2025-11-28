@@ -6,7 +6,7 @@ using System.Data;
 
 namespace LectorQR_Guardas.Pages.Escaneo
 {
-    [IgnoreAntiforgeryToken] // usamos fetch
+    [IgnoreAntiforgeryToken] 
     public class EscanearQRModel : PageModel
     {
         private readonly IDbConnectionFactory _connectionFactory;
@@ -18,10 +18,10 @@ namespace LectorQR_Guardas.Pages.Escaneo
 
         public void OnGet()
         {
-            // Solo carga la vista.
+      
         }
 
-        // ============ VALIDAR QR Y TRAER INFO ============
+   
         public async Task<IActionResult> OnPostValidarQRAsync([FromForm] string qr)
         {
             if (string.IsNullOrWhiteSpace(qr))
@@ -32,7 +32,7 @@ namespace LectorQR_Guardas.Pages.Escaneo
             using IDbConnection connection = _connectionFactory.CreateConnection();
             var ahoraUtc = DateTime.UtcNow;
 
-            // 1. Persona + datos básicos
+
             const string sqlPersona = @"
 SELECT TOP 1
     c.Identificacion,
@@ -77,11 +77,11 @@ ORDER BY c.Fecha_generacion DESC;";
 
             if (persona == null)
             {
-                // MS1 – QR expirado / inválido
+                
                 return new JsonResult(new { error = "Código QR inválido." });
             }
 
-            // Armar datos principales
+            
             string identificacion = persona.Identificacion;
             string nombreCompleto = $"{persona.Nombre} {persona.Primer_Apellido} {persona.Segundo_Apellido}";
             string estado = persona.ID_Estado == null
@@ -99,14 +99,13 @@ ORDER BY c.Fecha_generacion DESC;";
                 ? carrera
                 : dependencia;
 
-            // Foto de la persona
+     
             string? fotoPersonaBase64 = null;
             if (persona.Foto is byte[] fotoBytes && fotoBytes.Length > 0)
             {
                 fotoPersonaBase64 = "data:image/png;base64," + Convert.ToBase64String(fotoBytes);
             }
 
-            // Calcular edad para saber si es menor de edad
             DateTime fechaNac = (DateTime)persona.Fecha_Nacimiento;
             DateTime hoy = DateTime.Today;
             int edad = hoy.Year - fechaNac.Year;
@@ -115,13 +114,13 @@ ORDER BY c.Fecha_generacion DESC;";
 
             bool esMenorEdad = edad < 18;
 
-            // 2. Encargados legales / temporales si es menor
+       
             var encargadosLegales = new List<object>();
             var encargadosTemporales = new List<object>();
 
             if (esMenorEdad)
             {
-                // Encargados legales
+             
                 const string sqlLegales = @"
 SELECT 
     el.Nombre,

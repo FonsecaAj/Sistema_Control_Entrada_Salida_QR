@@ -86,27 +86,35 @@
                     div.innerHTML = htmlPersona + htmlEncargados;
                 }
 
-                function procesarAcceso(accion, identificacion) {
-                    fetch("/Escaneo/EscanearQR?handler=ProcesarAcceso", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                        body: new URLSearchParams({ accion, identificacion })
-                    })
-                    .then(r => r.json())
-                    .then(data => {
-                        if (data.error) {
-                            alert(data.error);
-                            return;
-                        }
-                   
-                        alert(data.mensaje);
-                    
-                    })
-                    .catch(err => {
-                        console.error(err);
-                        alert("Error al registrar el acceso.");
-                    });
+                        function procesarAcceso(accion, identificacion) {
+            fetch("/Escaneo/EscanearQR?handler=ProcesarAcceso", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: new URLSearchParams({ accion, identificacion })
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                    return;
                 }
+
+              
+                alert(data.mensaje);
+
+              
+                document.getElementById("resultado").innerHTML = "";
+
+         
+                document.getElementById("estadoCamara").innerText =
+                    "Apunte el código QR al recuadro para un nuevo escaneo.";
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Error al registrar el acceso.");
+            });
+        }
+
 
                 function onScanSuccess(decodedText, decodedResult) {
                     fetch("/Escaneo/EscanearQR?handler=ValidarQR", {
