@@ -57,6 +57,9 @@ namespace CarnetDigital.Services
             if (string.IsNullOrWhiteSpace(encargado.Telefono))
                 return ("Debe ingresar el número de telefono", false);
 
+            if (!Regex.IsMatch(encargado.Telefono, @"^[0-9]{8}$"))
+                return ("El número de teléfono debe tener exactamente 8 dígitos numéricos", false);
+
             var parentescos = await _encargados_LegalesRepository.ObtenerTodosLosParentescos();
 
             if (!parentescos.Any(p => p.Id_Parentesco == encargado.Id_Parentesco))
