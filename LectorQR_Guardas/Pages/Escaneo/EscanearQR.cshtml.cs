@@ -6,7 +6,7 @@ using System.Data;
 
 namespace LectorQR_Guardas.Pages.Escaneo
 {
-    [IgnoreAntiforgeryToken] 
+    [IgnoreAntiforgeryToken]
     public class EscanearQRModel : PageModel
     {
         private readonly IDbConnectionFactory _connectionFactory;
@@ -18,10 +18,12 @@ namespace LectorQR_Guardas.Pages.Escaneo
 
         public void OnGet()
         {
-      
+           
         }
 
-   
+        // ============================
+        // Validar QR y devolver datos de la persona
+        // ============================
         public async Task<IActionResult> OnPostValidarQRAsync([FromForm] string qr)
         {
             if (string.IsNullOrWhiteSpace(qr))
@@ -31,7 +33,6 @@ namespace LectorQR_Guardas.Pages.Escaneo
 
             using IDbConnection connection = _connectionFactory.CreateConnection();
             var ahoraUtc = DateTime.UtcNow;
-
 
             const string sqlPersona = @"
 SELECT TOP 1
@@ -44,6 +45,7 @@ SELECT TOP 1
     p.Foto,
     p.Fecha_Nacimiento,
     u.ID_Estado,
+    es.Nombre_Estado AS EstadoUsuario,
     CASE 
         WHEN e.Identificacion IS NOT NULL THEN 'Estudiante'
         WHEN f.Identificacion IS NOT NULL THEN 'Funcionario'
@@ -56,6 +58,8 @@ INNER JOIN Persona p
     ON p.Identificacion = c.Identificacion
 LEFT JOIN Usuarios u 
     ON u.Identificacion = c.Identificacion
+LEFT JOIN Estados es
+    ON es.ID_Estado = u.ID_Estado
 LEFT JOIN Estudiantes e 
     ON e.Identificacion = c.Identificacion
 LEFT JOIN Carreras_Programas cp 
@@ -77,20 +81,21 @@ ORDER BY c.Fecha_generacion DESC;";
 
             if (persona == null)
             {
-                
-                return new JsonResult(new { error = "Código QR inválido." });
+                return new JsonResult(new { error = "Código QR inválido o expirado." });
             }
 
-            
+       
             string identificacion = persona.Identificacion;
             string nombreCompleto = $"{persona.Nombre} {persona.Primer_Apellido} {persona.Segundo_Apellido}";
-            string estado = persona.ID_Estado == null
-                ? "Activo"
-                : (persona.ID_Estado == "A" ? "Activo" : "Inactivo");
 
+    
+            string estado = persona.EstadoUsuario ?? "Activo";
+
+    
             DateTime? vig = persona.Fecha_Vencimiento as DateTime?;
             string vigencia = vig.HasValue ? vig.Value.ToString("yyyy-MM-dd") : "";
 
+          
             string tipo = persona.Tipo ?? "";
             string carrera = persona.Nombre_Carrera ?? "";
             string dependencia = persona.Nombre_Dependencia ?? "";
@@ -99,13 +104,14 @@ ORDER BY c.Fecha_generacion DESC;";
                 ? carrera
                 : dependencia;
 
-     
+        
             string? fotoPersonaBase64 = null;
             if (persona.Foto is byte[] fotoBytes && fotoBytes.Length > 0)
             {
                 fotoPersonaBase64 = "data:image/png;base64," + Convert.ToBase64String(fotoBytes);
             }
 
+     
             DateTime fechaNac = (DateTime)persona.Fecha_Nacimiento;
             DateTime hoy = DateTime.Today;
             int edad = hoy.Year - fechaNac.Year;
@@ -114,13 +120,13 @@ ORDER BY c.Fecha_generacion DESC;";
 
             bool esMenorEdad = edad < 18;
 
-       
+            // Encargados
             var encargadosLegales = new List<object>();
             var encargadosTemporales = new List<object>();
 
             if (esMenorEdad)
             {
-             
+                // Encargados legales
                 const string sqlLegales = @"
 SELECT 
     el.Nombre,
@@ -212,7 +218,9 @@ WHERE et.Identificacion_Estudiante = @Identificacion;";
             });
         }
 
-     
+        // ============================
+        // Registrar acceso (Autorizar / Rechazar)
+        // ============================
         public async Task<IActionResult> OnPostProcesarAccesoAsync(
             [FromForm] string identificacion,
             [FromForm] string accion)
@@ -225,9 +233,18 @@ WHERE et.Identificacion_Estudiante = @Identificacion;";
 
             using IDbConnection connection = _connectionFactory.CreateConnection();
 
-            string tipoAcceso = accion == "A" ? "Autorizado" : "Rechazado";
-            string mensaje = accion == "A" ? "Acceso autorizado" : "Acceso rechazado"; 
-            string marca = "Entrada";   
+            // ID_Estado en Accesos: AU = Autorizado, R = Rechazado
+            string idEstado = accion == "A" ? "AU" : "R";
+
+            // Tipo de acceso: QR
+            string tipoAcceso = "QR";
+
+            // Marca Entrada/Salida (por ahora siempre Entrada)
+            string marca = "Entrada";
+
+            string mensaje = accion == "A"
+                ? "Acceso autorizado"
+                : "Acceso rechazado";
 
             const string sqlInsert = @"
 INSERT INTO Accesos
@@ -238,14 +255,52 @@ VALUES
             await connection.ExecuteAsync(sqlInsert, new
             {
                 Identificacion = identificacion,
-                Fecha = DateTime.Now,   
-                Estado = "A",           
+                Fecha = DateTime.Now,
+                Estado = idEstado,
                 TipoAcceso = tipoAcceso,
                 Marca = marca
             });
 
             return new JsonResult(new { mensaje });
         }
+
+        // ============================
+        // Estadísticas del día
+        // ============================
+        public async Task<IActionResult> OnGetEstadisticasHoyAsync()
+        {
+            using IDbConnection connection = _connectionFactory.CreateConnection();
+
+            const string sql = @"
+DECLARE @hoy date = CAST(GETDATE() AS date);
+
+SELECT
+    TotalEscaneos       = COUNT(*),
+    IngresosAceptados   = SUM(CASE WHEN ID_Estado = 'AU' THEN 1 ELSE 0 END),
+    IngresosRechazados  = SUM(CASE WHEN ID_Estado = 'R' THEN 1 ELSE 0 END),
+    UltimoEscaneo       = MAX(Fecha_Acceso)
+FROM Accesos
+WHERE CAST(Fecha_Acceso AS date) = @hoy
+  AND Tipo_Acceso = 'QR';";
+
+            var result = await connection.QueryFirstAsync(sql);
+
+            int total = (int)result.TotalEscaneos;
+            int aceptados = result.IngresosAceptados == null ? 0 : (int)result.IngresosAceptados;
+            int rechazados = result.IngresosRechazados == null ? 0 : (int)result.IngresosRechazados;
+            DateTime? ultimo = result.UltimoEscaneo as DateTime?;
+
+            string ultimoTexto = ultimo.HasValue
+                ? ultimo.Value.ToString("HH:mm:ss dd/MM/yyyy")
+                : "--";
+
+            return new JsonResult(new
+            {
+                totalEscaneos = total,
+                ingresosAceptados = aceptados,
+                ingresosRechazados = rechazados,
+                ultimoEscaneo = ultimoTexto
+            });
+        }
     }
 }
-

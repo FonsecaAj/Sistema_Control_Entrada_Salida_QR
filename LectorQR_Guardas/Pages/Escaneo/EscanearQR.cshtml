@@ -4,27 +4,81 @@
     ViewData["Title"] = "Escanear QR";
 }
 
-<div class="container mt-4 text-center">
-    <h2>Escanear Código QR</h2>
+@section Styles {
+    <link rel="stylesheet" href="~/css/qr-guardas.css" />
+}
 
-    <div id="reader" style="width: 100%; max-width: 350px; margin: 0 auto;"></div>
-    <p class="mt-3" id="estadoCamara">Iniciando cámara...</p>
+<div class="qr-wrapper">
 
-    <div id="resultado" class="mt-4"></div>
+
+    <div class="qr-main-card">
+        <div class="qr-main-card-header d-flex align-items-center justify-content-center">
+            <img src="~/images/logocuc.png" alt="Logo CUC" class="qr-logo me-2" />
+            <h2 class="mb-0">Lector código QR</h2>
+        </div>
+
+        <div class="qr-main-card-body text-center">
+            <div class="qr-reader-box">
+                <div id="reader"></div>
+            </div>
+
+            <p class="mt-2" id="estadoCamara">Iniciando cámara...</p>
+
+            <div id="resultado" class="mt-4"></div>
+        </div>
+    </div>
+
+ 
+    <div class="qr-stats-wrapper">
+        <div class="qr-stats-card">
+            <h4 class="qr-stats-title">Estadísticas de Hoy</h4>
+
+            <div class="row text-center mt-2" id="panel-estadisticas">
+                <div class="col-md-3 col-6 mb-3">
+                    <div class="qr-stat-box">
+                        <h5 id="stat-total">0</h5>
+                        <p>Total Escaneos</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-3">
+                    <div class="qr-stat-box">
+                        <h5 id="stat-aceptados">0</h5>
+                        <p>Ingresos Aceptados</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-3">
+                    <div class="qr-stat-box">
+                        <h5 id="stat-rechazados">0</h5>
+                        <p>Ingresos Rechazados</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-3">
+                    <div class="qr-stat-box">
+                        <h6 id="stat-ultimo">--</h6>
+                        <p>Último Escaneo</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 @section Scripts {
     <script src="https://unpkg.com/html5-qrcode"></script>
 
     <script>
-                function construirCardsEncargados(titulo, lista) {
-                    if (!lista || lista.length === 0) return "";
+        // =========================
+        // Construir tarjetas de encargados
+        // =========================
+        function construirCardsEncargados(titulo, lista) {
+            if (!lista || lista.length === 0) return "";
 
-                    let html = `<h5 class="mt-4">${titulo}</h5>`;
-                    html += `<div class="row justify-content-center">`;
+            let html = `<h5 class="mt-4">${titulo}</h5>`;
+            html += `<div class="row justify-content-center">`;
 
-                    lista.forEach(e => {
-                        html += `
+            lista.forEach(e => {
+                html += `
         <div class="col-md-4 mt-3">
             <div class="card p-3 text-start">
                 ${e.foto ? `<img src="${e.foto}" class="card-img-top mb-2" style="max-height: 150px; object-fit: cover;" />` : ""}
@@ -34,24 +88,27 @@
                 <p><b>Teléfono:</b> ${e.telefono}</p>
             </div>
         </div>`;
-                    });
+            });
 
-                    html += `</div>`;
-                    return html;
-                }
+            html += `</div>`;
+            return html;
+        }
 
-                function mostrarResultado(data) {
-                    const div = document.getElementById("resultado");
+        // =========================
+        // Mostrar resultado del escaneo
+        // =========================
+        function mostrarResultado(data) {
+            const div = document.getElementById("resultado");
 
-                    if (data.error) {
-                        div.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
-                        document.getElementById("estadoCamara").innerText = "Código QR inválido.";
-                        return;
-                    }
+            if (data.error) {
+                div.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
+                document.getElementById("estadoCamara").innerText = "Código QR inválido.";
+                return;
+            }
 
-                    document.getElementById("estadoCamara").innerText = "QR leído correctamente.";
+            document.getElementById("estadoCamara").innerText = "QR leído correctamente.";
 
-                    let htmlPersona = `
+            let htmlPersona = `
         <div class="card p-4 text-start" style="max-width: 480px; margin: 0 auto;">
             <div class="d-flex flex-column align-items-center">
                 ${data.fotoPersona ? `<img src="${data.fotoPersona}" class="mb-3 rounded-circle" style="width:120px; height:120px; object-fit:cover;" />` : ""}
@@ -64,11 +121,11 @@
             <p><b>Tipo:</b> ${data.tipo}</p>
 
             <div class="text-center mt-3">
-                <button class="btn btn-success me-2"
+                <button class="btn qr-btn-authorizar me-2"
                         onclick="procesarAcceso('A', '${data.identificacion}')">
                     Autorizar
                 </button>
-                <button class="btn btn-danger"
+                <button class="btn qr-btn-rechazar"
                         onclick="procesarAcceso('R', '${data.identificacion}')">
                     Rechazar
                 </button>
@@ -76,75 +133,101 @@
         </div>
         `;
 
-                    let htmlEncargados = "";
+            let htmlEncargados = "";
 
-                    if (data.esMenorEdad) {
-                        htmlEncargados += construirCardsEncargados("Encargados legales", data.encargadosLegales);
-                        htmlEncargados += construirCardsEncargados("Encargados legales temporales", data.encargadosTemporales);
-                    }
+            if (data.esMenorEdad) {
+                htmlEncargados += construirCardsEncargados("Encargados legales", data.encargadosLegales);
+                htmlEncargados += construirCardsEncargados("Encargados legales temporales", data.encargadosTemporales);
+            }
 
-                    div.innerHTML = htmlPersona + htmlEncargados;
-                }
+            div.innerHTML = htmlPersona + htmlEncargados;
+        }
 
-                        function procesarAcceso(accion, identificacion) {
+        // =========================
+        // Cargar estadísticas del día
+        // =========================
+        function cargarEstadisticas() {
+            fetch("/Escaneo/EscanearQR?handler=EstadisticasHoy")
+                .then(r => r.json())
+                .then(data => {
+                    document.getElementById("stat-total").innerText = data.totalEscaneos;
+                    document.getElementById("stat-aceptados").innerText = data.ingresosAceptados;
+                    document.getElementById("stat-rechazados").innerText = data.ingresosRechazados;
+                    document.getElementById("stat-ultimo").innerText = data.ultimoEscaneo;
+                })
+                .catch(err => {
+                    console.error("Error al cargar estadísticas:", err);
+                });
+        }
+
+        // =========================
+        // Autorizar / Rechazar
+        // =========================
+        function procesarAcceso(accion, identificacion) {
             fetch("/Escaneo/EscanearQR?handler=ProcesarAcceso", {
                 method: "POST",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: new URLSearchParams({ accion, identificacion })
             })
-            .then(r => r.json())
-            .then(data => {
-                if (data.error) {
-                    alert(data.error);
-                    return;
-                }
+                .then(r => r.json())
+                .then(data => {
+                    if (data.error) {
+                        alert(data.error);
+                        return;
+                    }
 
-              
-                alert(data.mensaje);
+                    alert(data.mensaje);
 
-              
-                document.getElementById("resultado").innerHTML = "";
+                    // Limpiar resultado y volver a estado de espera
+                    document.getElementById("resultado").innerHTML = "";
+                    document.getElementById("estadoCamara").innerText = "Escanea el Código QR";
 
-         
-                document.getElementById("estadoCamara").innerText =
-                    "Apunte el código QR al recuadro para un nuevo escaneo.";
-            })
-            .catch(err => {
-                console.error(err);
-                alert("Error al registrar el acceso.");
-            });
+                    // Actualizar estadísticas
+                    cargarEstadisticas();
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Error al registrar el acceso.");
+                });
         }
 
-
-                function onScanSuccess(decodedText, decodedResult) {
-                    fetch("/Escaneo/EscanearQR?handler=ValidarQR", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                        body: new URLSearchParams({ qr: decodedText })
-                    })
-                    .then(r => r.json())
-                    .then(data => {
-                        mostrarResultado(data);
-                    })
-                    .catch(err => {
-                        console.error(err);
-                        document.getElementById("resultado").innerHTML =
-                            `<div class="alert alert-danger">Error al validar el código.</div>`;
-                    });
-                }
-
-                const qr = new Html5Qrcode("reader");
-
-                qr.start(
-                    { facingMode: "environment" },
-                    { fps: 10, qrbox: 250 },
-                    onScanSuccess
-                ).then(_ => {
-                    document.getElementById("estadoCamara").innerText =
-                        "Apunte el código QR al recuadro.";
-                }).catch(err => {
-                    document.getElementById("estadoCamara").innerText =
-                        "Error iniciando cámara: " + err;
+        // =========================
+        // Éxito de lectura de QR
+        // =========================
+        function onScanSuccess(decodedText, decodedResult) {
+            fetch("/Escaneo/EscanearQR?handler=ValidarQR", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: new URLSearchParams({ qr: decodedText })
+            })
+                .then(r => r.json())
+                .then(data => {
+                    mostrarResultado(data);
+                })
+                .catch(err => {
+                    console.error(err);
+                    document.getElementById("resultado").innerHTML =
+                        `<div class="alert alert-danger">Error al validar el código.</div>`;
                 });
+        }
+
+        // =========================
+        // Inicializar lector y estadísticas
+        // =========================
+        const qr = new Html5Qrcode("reader");
+
+        qr.start(
+            { facingMode: "environment" },
+            { fps: 10, qrbox: 250 },
+            onScanSuccess
+        ).then(_ => {
+            document.getElementById("estadoCamara").innerText =
+                "Escanea el Código QR";
+        }).catch(err => {
+            document.getElementById("estadoCamara").innerText =
+                "Error iniciando cámara: " + err;
+        });
+
+        cargarEstadisticas();
     </script>
 }
