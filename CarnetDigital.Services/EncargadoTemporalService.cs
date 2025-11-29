@@ -69,7 +69,7 @@ namespace CarnetDigital.Services
             }
 
             if (encargado.Foto == null || encargado.Foto.Length == 0)
-                return ("Debe subir una foto del encargado", false);
+                return ("Debe subir una foto del encargado temporal", false);
 
             bool SoloLetras(string valor) =>
                 !string.IsNullOrWhiteSpace(valor) &&
