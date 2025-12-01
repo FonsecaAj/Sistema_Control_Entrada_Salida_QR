@@ -2,26 +2,20 @@
 @model Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Administradores.Activacion_Perfil.IndexModel
 @{
     Layout = "Layout_Plantilla";
-    ViewData["Title"] = "Activación de Perfiles";
+    ViewData["Title"] = "Activación Perfil";
 }
 
-<div class="formulario-body formulario-no-bg">
+<link href="~/css/registros_pendientes.css" rel="stylesheet" />
 
-    @if (!string.IsNullOrEmpty(Model.Mensaje))
-    {
-        <div class="formulario-mensaje-alerta @(Model.EsExito ? "mensaje-exito" : "mensaje-error")">
-            @Model.Mensaje
-        </div>
-    }
+@if (!string.IsNullOrEmpty(Model.Mensaje))
+{
+    <div class="registro-mensaje-alerta @(Model.EsExito ? "mensaje-exito" : "mensaje-error")">
+        @Model.Mensaje
+    </div>
+}
 
-    <div class="formulario-tabla-container">
-        <!-- ENCABEZADO -->
-        <div class="formulario-tabla-header">
-            <h2>Solicitudes de Registro Pendientes</h2>
-            <div class="formulario-tabla-badge">
-                PANEL DE ADMINISTRACIÓN
-            </div>
-        </div>
+<div class="registro-container">
+
 
 
     <h2 class="registro-title">Solicitudes de Registro Pendientes</h2>
