@@ -44,6 +44,7 @@
                                 Generar Reporte
                             </button>
                         </td>
+
                     </tr>
                 </tbody>
             </table>
@@ -115,10 +116,68 @@
                 else
                 {
                     <tr>
-                        <td colspan="6">No se encontraron accesos con los filtros seleccionados.</td>
+                        <td colspan="6">No se encontraron datos para generar el reporte</td>
                     </tr>
                 }
             </tbody>
         </table>
+
     </div>
 </div>
+
+<div style="margin-top:1.5rem; text-align:center;">
+    <button type="button"
+            id="btnDescargarPDF"
+            style="background-color:#F5333F; border:1px solid #F5333F; color:#fff; padding:0.6rem 1.2rem; border-radius:4px; cursor:pointer;">
+        Descargar Reporte PDF
+    </button>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+
+<script>
+    document.getElementById('btnDescargarPDF').addEventListener('click', function() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('landscape');
+
+        doc.setFontSize(16);
+        doc.text('Reporte de Accesos', 14, 22);
+        doc.setFontSize(10);
+        doc.text('Fecha: ' + new Date().toLocaleString(), 14, 32);
+
+        const rows = [];
+        const tables = document.querySelectorAll('.registro-table');
+        const tableBody = tables[tables.length - 1].querySelector('tbody');
+
+        tableBody.querySelectorAll('tr').forEach(row => {
+            const cells = row.querySelectorAll('td');
+            if (cells.length > 0) {
+                const rowData = [];
+                cells.forEach(cell => {
+                    rowData.push(cell.textContent.trim());
+                });
+                rows.push(rowData);
+            }
+        });
+
+        doc.autoTable({
+            head: [['Id Acceso', 'Identificación', 'Fecha Acceso', 'Estado', 'Tipo Acceso', 'Marca']],
+            body: rows,
+            startY: 40,
+            margin: { top: 10, right: 14, bottom: 10, left: 14 },
+            styles: {
+                fontSize: 9,
+                cellPadding: 3
+            },
+            headStyles: {
+                fillColor: [41, 128, 185],
+                textColor: 255,
+                fontStyle: 'bold'
+            }
+        });
+
+        doc.save('Reporte_Accesos_' + new Date().toISOString().slice(0, 10) + '.pdf');
+    });
+</script>

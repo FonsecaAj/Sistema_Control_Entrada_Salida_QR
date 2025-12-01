@@ -72,5 +72,31 @@ namespace CarnetDigital.Repository
             }
         }
 
+        public async Task<IEnumerable<Registros_Pendientes>> FiltrarAsync(string identificacion, string correo, DateTime? fecha, string carrera, int? desde, int? hasta)
+        {
+            using (var connection = _dbConnectionFactory.CreateConnection())
+            {
+                var parametros = new DynamicParameters();
+                parametros.Add("@Identificacion", identificacion, DbType.String, ParameterDirection.Input, 22);
+                parametros.Add("@correo", correo, DbType.String, ParameterDirection.Input, 100);
+                parametros.Add("@fecharegistro", value: fecha, dbType: DbType.DateTime2, direction: ParameterDirection.Input);
+                parametros.Add("@carrera", carrera, DbType.String, ParameterDirection.Input, 3);
+                parametros.Add("@Desde", value: desde, dbType: DbType.Int32, direction: ParameterDirection.Input);
+                parametros.Add("@Hasta", value: hasta, dbType: DbType.Int32, direction: ParameterDirection.Input);
+
+                return await connection.QueryAsync<Registros_Pendientes>("SP_Datos_Filtrados_Registro", parametros, commandType: CommandType.StoredProcedure);
+            }
+        }
+        public async Task<IEnumerable<Carreras_Programas>> ObtenerCarrerasAsync()
+        {
+            using (var connection = _dbConnectionFactory.CreateConnection())
+            {
+                return await connection.QueryAsync<Carreras_Programas>(
+                    "SP_Obtener_Carreras_Programas",
+                    commandType: CommandType.StoredProcedure);
+            }
+        }
+
+
     }
 }
