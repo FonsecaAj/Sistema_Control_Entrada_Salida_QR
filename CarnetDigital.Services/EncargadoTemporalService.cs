@@ -84,44 +84,44 @@ namespace CarnetDigital.Services
             if (!SoloLetras(encargado.Segundo_Apellido))
                 return ("El segundo apellido solo permite letras y espacios", false);
 
-            switch (encargado.ID_Tipo_Identificacion)
+            //switch (encargado.ID_Tipo_Identificacion)
 
-            {
-                case "CED":
+            //{
+            //    case "CED":
 
-                    if (!Regex.IsMatch(encargado.Identificacion, @"^\[0-9]{9}$"))
+            //        if (!Regex.IsMatch(encargado.Identificacion, @"^\[0-9]{9}$"))
 
-                        return ("La cédula debe tener exactamente 9 dígitos numéricos", false); 
+            //            return ("La cédula debe tener exactamente 9 dígitos numéricos", false); 
 
-                    break;
-
-
-
-                case "DIX":
-
-                    if (!Regex.IsMatch(encargado.Identificacion, @"^\[0-9]{11,12}$"))
-
-                        return ("El DIMEX debe tener entre 11 y 12 dígitos numéricos", false);
-
-                    break;
+            //        break;
 
 
 
-                case "PAS":
+            //    case "DIX":
 
-                    if (!Regex.IsMatch(encargado.Identificacion, @"^\[A-Za-z0-9]{6,20}$"))
+            //        if (!Regex.IsMatch(encargado.Identificacion, @"^\[0-9]{11,12}$"))
 
-                        return ("El pasaporte debe tener entre 6 y 20 caracteres alfanuméricos", false); 
+            //            return ("El DIMEX debe tener entre 11 y 12 dígitos numéricos", false);
 
-                    break; 
+            //        break;
 
 
 
-                default:
+            //    case "PAS":
 
-                    return ("Tipo de identificación no válido", false);
+            //        if (!Regex.IsMatch(encargado.Identificacion, @"^\[A-Za-z0-9]{6,20}$"))
 
-            }
+            //            return ("El pasaporte debe tener entre 6 y 20 caracteres alfanuméricos", false); 
+
+            //        break; 
+
+
+
+            //    default:
+
+            //        return ("Tipo de identificación no válido", false);
+
+            //}
 
             //if (encargado == null ||
             //    string.IsNullOrWhiteSpace(encargado.Identificacion_Estudiante) ||
