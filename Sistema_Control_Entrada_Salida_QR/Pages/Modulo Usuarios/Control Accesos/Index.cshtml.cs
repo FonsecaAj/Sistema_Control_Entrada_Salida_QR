@@ -2,6 +2,7 @@ using CarnetDigital.Entities;
 using CarnetDigital.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Security.Claims;
 
 namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Control_Accesos
 {
@@ -49,11 +50,9 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Control_Acceso
             // Datos del usuario desde claims
             var NombreUsuario = User.Identity?.Name ?? "Usuario";
             var identificacionUsuario = User.FindFirst("Identificacion")?.Value ?? "0000000000";
-            var carreaProgramaUsuario = User.FindFirst("ID_Carrera")?.Value ?? "0000";
-
+            LeerClaims();
             NombreCompleto = NombreUsuario;
             Identificacion = identificacionUsuario;
-            CarreraPrograma = carreaProgramaUsuario;
 
             // Combobox de estados
             ListaEstados = new List<Estados>
@@ -82,6 +81,32 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Control_Acceso
                 FiltroEstado
             );
         }
+        private void LeerClaims()
+        {
+            // Nombre e identificación
+            NombreCompleto = User.FindFirst(ClaimTypes.Name)?.Value;
+            Identificacion = User.FindFirst("Identificacion")?.Value;
+
+            // Carrera del estudiante
+            var codigoCarrera = User.FindFirst("ID_Carrera")?.Value;
+
+            CarreraPrograma = codigoCarrera switch
+            {
+                "ABC" => "Administración de Bases de Datos",
+                "ARK" => "Arquitectura de Computadoras",
+                "BD1" => "Bases de Datos I",
+                "BD2" => "Bases de Datos II",
+                "COM" => "Computación",
+                "INS" => "Ingeniería en Sistemas",
+                "PLL" => "Programación Lógica y Lenguajes",
+                "PRO" => "Programación",
+                "SOS" => "Soporte de Sistemas",
+                "SAC" => "Seguridad en Ambientes Computacionales",
+                _ => "Carrera no registrada"
+            };
+        }
+
+
 
     }
 }

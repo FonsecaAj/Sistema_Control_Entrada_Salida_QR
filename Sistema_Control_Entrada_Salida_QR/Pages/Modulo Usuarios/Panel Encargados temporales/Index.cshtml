@@ -16,9 +16,9 @@
         <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
         <div class="row g-3">
-            <!-- Identificacion -->
+            <!-- Identificación -->
             <div class="col-md-4">
-                <label asp-for="Encargado_Temporal.Identificacion_Estudiante" class="registro-label"></label>
+                <label asp-for="Encargado_Temporal.Identificacion_Estudiante" class="registro-label">Identificación Estudiante</label>
                 <div class="registro-input-wrapper">
                     <i class="fas fa-user"></i>
                     <input asp-for="Encargado_Temporal.Identificacion_Estudiante" class="registro-input registro-input-icon" readonly="true" />
@@ -26,7 +26,7 @@
             </div>
             <!-- Nombre -->
             <div class="col-md-4">
-                <label asp-for="Encargado_Temporal.Nombre" class="registro-label"></label>
+                <label asp-for="Encargado_Temporal.Nombre" class="registro-label">Nombre</label>
                 <div class="registro-input-wrapper">
                     <i class="fas fa-user"></i>
                     <input asp-for="Encargado_Temporal.Nombre" class="registro-input registro-input-icon" />
@@ -35,7 +35,7 @@
 
             <!-- Primer Apellido -->
             <div class="col-md-4">
-                <label asp-for="Encargado_Temporal.Primer_Apellido" class="registro-label"></label>
+                <label asp-for="Encargado_Temporal.Primer_Apellido" class="registro-label">Primer Apellido</label>
                 <div class="registro-input-wrapper">
                     <i class="fas fa-user"></i>
                     <input asp-for="Encargado_Temporal.Primer_Apellido" class="registro-input registro-input-icon" />
@@ -44,7 +44,7 @@
 
             <!-- Segundo Apellido -->
             <div class="col-md-4">
-                <label asp-for="Encargado_Temporal.Segundo_Apellido" class="registro-label"></label>
+                <label asp-for="Encargado_Temporal.Segundo_Apellido" class="registro-label">Segundo Apellido</label>
                 <div class="registro-input-wrapper">
                     <i class="fas fa-user"></i>
                     <input asp-for="Encargado_Temporal.Segundo_Apellido" class="registro-input registro-input-icon" />
@@ -53,18 +53,20 @@
 
             <!-- Tipo Identificación -->
             <div class="col-md-4">
-                <label asp-for="Encargado_Temporal.ID_Tipo_Identificacion" class="registro-label"></label>
+                <label asp-for="Encargado_Temporal.ID_Tipo_Identificacion" class="registro-label">Tipo Identificación</label>
                 <div class="registro-input-wrapper">
                     <i class="fas fa-id-card"></i>
                     <select asp-for="Encargado_Temporal.ID_Tipo_Identificacion"
                             asp-items="Model.TiposIdentificacion"
-                            class="registro-select registro-input-icon"></select>
+                            class="registro-select registro-input-icon">
+                        <option value="">Seleccione un tipo de identificación</option>
+                        </select>
                 </div>
             </div>
 
             <!-- Identificación -->
             <div class="col-md-4">
-                <label asp-for="Encargado_Temporal.Identificacion" class="registro-label"></label>
+                <label asp-for="Encargado_Temporal.Identificacion" class="registro-label">Identificación Encargado</label>
                 <div class="registro-input-wrapper">
                     <i class="fas fa-hashtag"></i>
                     <input asp-for="Encargado_Temporal.Identificacion" class="registro-input registro-input-icon" />
@@ -73,7 +75,7 @@
 
             <!-- Teléfono -->
             <div class="col-md-4">
-                <label asp-for="Encargado_Temporal.Telefono" class="registro-label"></label>
+                <label asp-for="Encargado_Temporal.Telefono" class="registro-label">Teléfono</label>
                 <div class="registro-input-wrapper">
                     <i class="fas fa-phone"></i>
                     <input asp-for="Encargado_Temporal.Telefono" class="registro-input registro-input-icon" />
@@ -82,18 +84,20 @@
 
             <!-- Parentesco -->
             <div class="col-md-6">
-                <label asp-for="Encargado_Temporal.Id_Parentesco" class="registro-label"></label>
+                <label asp-for="Encargado_Temporal.Id_Parentesco" class="registro-label">Parentesco</label>
                 <div class="registro-input-wrapper">
                     <i class="fas fa-users"></i>
                     <select asp-for="Encargado_Temporal.Id_Parentesco"
                             asp-items="Model.Parentescos"
-                            class="registro-select registro-input-icon"></select>
+                            class="registro-select registro-input-icon">
+                        <option value="">Seleccione un tipo de parentesco</option>
+                        </select>
                 </div>
             </div>
 
             <!-- Foto -->
             <div class="col-md-6">
-                <label asp-for="FotoFile" class="registro-label">Foto (JPG/PNG)</label>
+                <label asp-for="FotoFile" class="registro-label">Foto Perfil (JPG/PNG)</label>
                 <div class="registro-input-wrapper">
                     <i class="fas fa-image"></i>
                     <input asp-for="FotoFile" type="file" accept="image/*" class="registro-file registro-input-icon" />
@@ -107,7 +111,7 @@
                 <i class="fas fa-user-plus me-2"></i> Registrar Encargado
             </button>
 
-            <a asp-page="/Index" class="registro-btn registro-btn-secondary text-decoration-none">
+            <a asp-page="/Modulo Usuarios/Generacion QR/Index" class="registro-btn registro-btn-secondary text-decoration-none">
                 <i class="fas fa-times me-2"></i> Cancelar
             </a>
         </div>
@@ -145,8 +149,9 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const mensaje = '@TempData["Resultado"]';
-            const tipo = '@TempData["TipoMensaje"]';
+
+            const mensaje = @Html.Raw(Json.Serialize(TempData["Resultado"]));
+            const tipo = @Html.Raw(Json.Serialize(TempData["TipoMensaje"]));
 
             if (mensaje && mensaje.trim() !== "") {
                 const resultModalBody = document.getElementById("resultModalBody");
@@ -164,7 +169,6 @@
                 modal.show();
             }
         });
-
     </script>
 }
 

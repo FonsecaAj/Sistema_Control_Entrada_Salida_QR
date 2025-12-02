@@ -1,4 +1,5 @@
 using CarnetDigital.Entities;
+using CarnetDigital.Services;
 using CarnetDigital.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -32,22 +33,7 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Panel_Encargad
             Encargado_Temporal.Identificacion_Estudiante = identificacionUsuario;
 
             // Obtener lista para los tipos de identificacion
-
-            var tiposIdentificacion = await _encargados_TemporalesService.ObtenerTodosLosTiposIdentificacion();
-            TiposIdentificacion = tiposIdentificacion.Select(ti => new SelectListItem
-            {
-                Value = ti.ID_Tipo_Identificacion,
-                Text = ti.Nombre_Identificacion
-            });
-
-            // Obtener lista para los parentescos
-            var parentescos = await _encargados_TemporalesService.ObtenerTodosLosParentescos();
-            Parentescos = parentescos.Select(p => new SelectListItem
-            {
-                Value = p.Id_Parentesco.ToString(),
-                Text = p.Nombre_Parenresco
-            });
-
+            await CargarListasAsync();
 
         }
 
@@ -64,8 +50,10 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Panel_Encargad
             var (Mensaje, Exito) = await _encargados_TemporalesService.RegistrarEncargadoTemporalAsync(Encargado_Temporal);
             if (!Exito)
             {
+                await CargarListasAsync();
                 TempData["Resultado"] = Mensaje;
                 TempData["TipoMensaje"] = "error";
+                return Page();
             }
             else
             {
@@ -74,6 +62,24 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Panel_Encargad
             }
 
             return RedirectToPage();
+        }
+        private async Task CargarListasAsync()
+        {
+            // Obtener lista de tipos de identificación
+            var tiposIdentificacion = await _encargados_TemporalesService.ObtenerTodosLosTiposIdentificacion();
+            TiposIdentificacion = tiposIdentificacion.Select(ti => new SelectListItem
+            {
+                Value = ti.ID_Tipo_Identificacion,
+                Text = ti.Nombre_Identificacion
+            });
+
+            // Obtener lista de parentescos
+            var parentescos = await _encargados_TemporalesService.ObtenerTodosLosParentescos();
+            Parentescos = parentescos.Select(p => new SelectListItem
+            {
+                Value = p.Id_Parentesco.ToString(),
+                Text = p.Nombre_Parenresco
+            });
         }
     }
 }

@@ -31,24 +31,10 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Panel_Encargad
             // Datos del usuario desde claims
             var identificacionUsuario = User.FindFirst("Identificacion")?.Value ?? "0000000000";
 
-            Encargado_Legal.Identificacion_Estudiante = identificacionUsuario; 
+            Encargado_Legal.Identificacion_Estudiante = identificacionUsuario;
 
             // Obtener lista para los tipos de identificacion
-
-            var tiposIdentificacion = await _encargados_LegalesService.ObtenerTodosLosTiposIdentificacion();
-            TiposIdentificacion = tiposIdentificacion.Select(ti => new SelectListItem
-            {
-                Value = ti.ID_Tipo_Identificacion,
-                Text = ti.Nombre_Identificacion
-            });
-
-            // Obtener lista para los parentescos
-            var parentescos = await _encargados_LegalesService.ObtenerTodosLosParentescos();
-            Parentescos = parentescos.Select(p => new SelectListItem
-            {
-                Value = p.Id_Parentesco.ToString(),
-                Text = p.Nombre_Parenresco
-            });
+            await CargarListasAsync();
 
 
         }
@@ -66,16 +52,39 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Panel_Encargad
             var (Mensaje,Exito) = await _encargados_LegalesService.RegistrarEncargadoLegalAsync(Encargado_Legal);
             if (!Exito)
             {
+                await CargarListasAsync();
                 TempData["Resultado"] = Mensaje;
                 TempData["TipoMensaje"] = "error";
+                return Page();
             }
             else
             {
                 TempData["Resultado"] = "Registro Exitoso";
                 TempData["TipoMensaje"] = "exito";
+
             }
 
             return RedirectToPage();
         }
+        private async Task CargarListasAsync()
+        {
+            // Obtener lista de tipos de identificación
+            var tiposIdentificacion = await _encargados_LegalesService.ObtenerTodosLosTiposIdentificacion();
+            TiposIdentificacion = tiposIdentificacion.Select(ti => new SelectListItem
+            {
+                Value = ti.ID_Tipo_Identificacion,
+                Text = ti.Nombre_Identificacion
+            });
+
+            // Obtener lista de parentescos
+            var parentescos = await _encargados_LegalesService.ObtenerTodosLosParentescos();
+            Parentescos = parentescos.Select(p => new SelectListItem
+            {
+                Value = p.Id_Parentesco.ToString(),
+                Text = p.Nombre_Parenresco
+            });
+        }
+
     }
+
 }
