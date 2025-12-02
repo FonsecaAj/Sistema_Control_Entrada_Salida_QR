@@ -50,12 +50,14 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Generacion_QR
             ExpiraUTC = DateTime.UtcNow.AddSeconds(DuracionSegundos);
             TokenGenerado = true;
 
+            ViewData["MensajeQR"] = "QR generado correctamente";
+
             return Page();
         }
 
 
         // Para inactivar el QR expirado
-        
+
         public async Task<IActionResult> OnPostInactivarAsync()
         {
             LeerClaims();

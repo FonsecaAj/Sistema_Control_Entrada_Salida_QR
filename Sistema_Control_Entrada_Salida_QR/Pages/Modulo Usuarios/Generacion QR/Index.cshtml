@@ -14,6 +14,16 @@
 
         <div class="carnet-body-content">
 
+
+            @if (ViewData["MensajeQR"] != null)
+            {
+                var esError = ViewData["MensajeQR"].ToString() != "QR generado correctamente";
+                <div id="mensajeQR" class="alert @(esError ? "alert-danger" : "alert-success") text-center mt-3">
+                    @ViewData["MensajeQR"]
+                </div>
+            }
+
+
             <!-- Tarjeta de Información del Usuario -->
             <div class="user-info-card">
                 <div class="card-body">
@@ -181,6 +191,18 @@
             actualizarContador();
             showModal("Código Caducado", MS2, 'warning');
         }
+
+                document.addEventListener("DOMContentLoaded", function () {
+            const msg = document.getElementById("mensajeQR");
+            if (msg) {
+                setTimeout(() => {
+                    msg.style.transition = "opacity 0.5s ease";
+                    msg.style.opacity = "0";
+
+                    setTimeout(() => msg.remove(), 500);
+                }, 1500);
+            }
+        });
 
     </script>
 }
