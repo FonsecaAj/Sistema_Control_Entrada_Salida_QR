@@ -11,10 +11,12 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Generacion_QR
     public class IndexModel : PageModel
     {
         private readonly ICredencialesQRServices _qrService;
+        private readonly IEncargadoTemporalService _encargadoTemporalService;
 
-        public IndexModel(ICredencialesQRServices qrService)
+        public IndexModel(ICredencialesQRServices qrService, IEncargadoTemporalService encargadoTemporalService)
         {
             _qrService = qrService;
+            _encargadoTemporalService = encargadoTemporalService;
         }
 
         public string QRBase64 { get; set; } = "";
@@ -37,6 +39,9 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Generacion_QR
 
         public async Task OnGet()
         {
+            // Limpiar encargados temporales vencidos cada vez que se accede a la p谩gina
+            await _encargadoTemporalService.EliminarEncargadosTemporalesVencidosAsync();
+            
             LeerClaims();
             QRBase64 = await _qrService.GenerarYObtenerQRBase64Async(Identificacion);
             ExpiraUTC = DateTime.UtcNow.AddSeconds(DuracionSegundos);
@@ -45,6 +50,9 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Generacion_QR
 
         public async Task<IActionResult> OnPostGenerarAsync()
         {
+            // Limpiar encargados temporales vencidos cada vez que se genera un QR
+            await _encargadoTemporalService.EliminarEncargadosTemporalesVencidosAsync();
+            
             LeerClaims();
             QRBase64 = await _qrService.GenerarYObtenerQRBase64Async(Identificacion);
             ExpiraUTC = DateTime.UtcNow.AddSeconds(DuracionSegundos);
@@ -89,8 +97,8 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Generacion_QR
                 {
                     "DEP01" => "Recursos Humanos",
                     "DEP02" => "Finanzas",
-                    "DEP03" => "Tecnolog韆",
-                    "DEP04" => "Direcci髇 Acad閙ica",
+                    "DEP03" => "Tecnolog铆a",
+                    "DEP04" => "Direcci贸n Acad茅mica",
                     "DEP05" => "Seguridad",
                     _ => "Otro"
                 };
@@ -104,7 +112,7 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Generacion_QR
                     "TF002" => "Docente",
                     "TF003" => "Seguridad",
                     "TF004" => "Mantenimiento",
-                    "TF005" => "Direcci髇",
+                    "TF005" => "Direcci贸n",
                     _ => "Otro"
                 };
 
@@ -120,14 +128,14 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Generacion_QR
 
                 Carrera = Carrera switch
                 {
-                    "ABC" => "Administraci髇 de Bases de Datos",
+                    "ABC" => "Administraci贸n de Bases de Datos",
                     "ARK" => "Arquitectura de Computadoras",
                     "BD1" => "Bases de Datos I",
                     "BD2" => "Bases de Datos II",
-                    "COM" => "Computaci髇",
-                    "INS" => "Ingenier韆 en Sistemas",
-                    "PLL" => "Programaci髇 L骻ica y Lenguajes",
-                    "PRO" => "Programaci髇",
+                    "COM" => "Computaci贸n",
+                    "INS" => "Ingenier铆a en Sistemas",
+                    "PLL" => "Programaci贸n L贸gica y Lenguajes",
+                    "PRO" => "Programaci贸n",
                     "SOS" => "Soporte de Sistemas",
                     "SAC" => "Seguridad en Ambientes Computacionales",
                     _ => "Otro"

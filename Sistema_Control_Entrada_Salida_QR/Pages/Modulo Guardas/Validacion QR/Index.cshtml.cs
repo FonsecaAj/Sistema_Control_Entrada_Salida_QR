@@ -28,7 +28,7 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Guardas.Validacion_QR
         {
             if (string.IsNullOrWhiteSpace(qr))
             {
-                return new JsonResult(new { error = "Código QR inválido." });
+                return new JsonResult(new { error = "Cï¿½digo QR invï¿½lido." });
             }
 
             using IDbConnection connection = _connectionFactory.CreateConnection();
@@ -81,7 +81,7 @@ ORDER BY c.Fecha_generacion DESC;";
 
             if (persona == null)
             {
-                return new JsonResult(new { error = "Código QR inválido o expirado." });
+                return new JsonResult(new { error = "Cï¿½digo QR invï¿½lido o expirado." });
             }
 
 
@@ -265,7 +265,7 @@ VALUES
         }
 
         // ============================
-        // Estadísticas del día
+        // Estadï¿½sticas del dï¿½a
         // ============================
         public async Task<IActionResult> OnGetEstadisticasHoyAsync()
         {

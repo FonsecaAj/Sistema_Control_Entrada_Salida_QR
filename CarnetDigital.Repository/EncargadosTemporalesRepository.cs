@@ -73,5 +73,18 @@ namespace CarnetDigital.Repository
             }
 
         }
+
+        public async Task<int> EliminarEncargadosTemporalesVencidosAsync()
+        {
+            using (var connection = _dbConnectionFactory.CreateConnection())
+            {
+                var sql = @"
+                    DELETE FROM Encargados_Temporales 
+                    WHERE Fecha_Valida < GETDATE()";
+
+                var registrosEliminados = await connection.ExecuteAsync(sql);
+                return registrosEliminados;
+            }
+        }
     }
 }

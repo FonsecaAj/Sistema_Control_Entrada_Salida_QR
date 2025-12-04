@@ -121,5 +121,10 @@ namespace CarnetDigital.Services
             return mensajeSP;
         }
 
+        public async Task<int> EliminarEncargadosTemporalesVencidosAsync()
+        {
+            return await _encargados_TemporalesRepository.EliminarEncargadosTemporalesVencidosAsync();
+        }
+
     }
 }
