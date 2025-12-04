@@ -13,5 +13,6 @@ namespace CarnetDigital.Services.Abstract
         Task<IEnumerable<Entities.Parentescos>> ObtenerTodosLosParentescos();
 
         Task<(string, bool)> RegistrarEncargadoTemporalAsync(Encargados_Temporales encargado);
+        Task<int> EliminarEncargadosTemporalesVencidosAsync();
     }
 }
