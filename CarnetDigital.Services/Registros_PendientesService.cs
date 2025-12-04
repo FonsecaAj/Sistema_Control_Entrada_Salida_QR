@@ -183,6 +183,7 @@ namespace CarnetDigital.Services
             }
 
             // ===== VALIDACIÓN DE IDENTIFICACIÓN SEGÚN TIPO =====
+
             switch (registro.ID_Tipo_Identificacion)
             {
                 case "CED":
@@ -238,6 +239,15 @@ namespace CarnetDigital.Services
 
             var resultado = await _registrospendientesRepository.RegistrarUsuarioAsync(registro);
 
+            // Validación Fecha de Nacimiento Debe ser Futura
+
+            if (registro.Fecha_Nacimiento.Date > DateTime.Today)
+            {
+                registro.Mensaje = "Debe ingresar una fecha de nacimiento válida";
+                return registro;
+            }
+
+
             // ---------- MS9: Usuario ya Registrado ----------
 
             if (resultado.Mensaje == "Ya existe un usuario registrado con esa identificación" || resultado.Mensaje == "El correo institucional ya está registrado")
@@ -246,13 +256,7 @@ namespace CarnetDigital.Services
                 return resultado;
             }
 
-            // Validación Fecha de Nacimiento Debe ser Futura
-
-            if (registro.Fecha_Nacimiento.Date > DateTime.Today)
-            {
-                registro.Mensaje = "Debe ingresar una fecha de nacimiento válida";
-                return registro;
-            }
+            
 
 
             // ---------- MS10: Registro Existoso ----------
