@@ -110,6 +110,7 @@ body {
     margin-top: 1rem;
 }
 
+/* Card de la persona */
 #resultado .card {
     border-radius: 12px;
     border: 1px solid var(--border-gray);
@@ -118,31 +119,66 @@ body {
 
 #resultado h4 {
     color: var(--primary-blue);
+    font-weight: 700;
 }
 
-/* Botones Autorizar / Rechazar */
-#resultado .btn-success {
+/* ===== BOTONES AUTORIZAR / RECHAZAR (USAN qr-btn-authorizar / qr-btn-rechazar EN LA VISTA) ===== */
+.qr-btn-authorizar {
     background: var(--secondary-blue);
     border-color: var(--secondary-blue);
+    color: var(--white);
     font-weight: 600;
     min-width: 120px;
-    color: var(--white);
+    padding: 0.45rem 1.2rem;
+    border-radius: 999px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+    transition: all 0.2s ease-in-out;
 }
 
-#resultado .btn-danger {
+.qr-btn-rechazar {
     background: var(--danger-red);
     border-color: var(--danger-red);
+    color: var(--white);
     font-weight: 600;
     min-width: 120px;
-    color: var(--white);
+    padding: 0.45rem 1.2rem;
+    border-radius: 999px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+    transition: all 0.2s ease-in-out;
 }
 
-    #resultado .btn-success:hover,
-    #resultado .btn-danger:hover {
+    .qr-btn-authorizar:hover,
+    .qr-btn-rechazar:hover {
         filter: brightness(0.9);
+        transform: translateY(-1px);
     }
 
-/* ===== CARD DE ESTADÍSTICAS (COMO LA FOTO) ===== */
+    .qr-btn-authorizar:active,
+    .qr-btn-rechazar:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+    }
+
+/* ===== TARJETAS DE ENCARGADOS ===== */
+#resultado h5 {
+    margin-top: 1.2rem;
+    margin-bottom: 0.4rem;
+    color: var(--primary-blue);
+    font-weight: 700;
+    text-align: center;
+}
+
+#resultado .card-img-top {
+    border-radius: 10px;
+}
+
+/* ===== CARD DE ESTADÍSTICAS (TIPO FOTO QUE ME MOSTRASTE) ===== */
+.qr-stats-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
 .qr-stats-card {
     background: #ffffff; /* fondo blanco grande */
     border-radius: 12px;
@@ -170,7 +206,7 @@ body {
 }
 
     /* Cuadritos individuales */
-    #panel-estadisticas .card {
+    #panel-estadisticas .qr-stat-box {
         border-radius: 10px;
         border: 1px solid var(--border-gray);
         background: #ffffff;
@@ -178,7 +214,6 @@ body {
         padding: 1rem 0.75rem;
     }
 
-    /* Números y textos como en la captura (azules + gris) */
     #panel-estadisticas h5,
     #panel-estadisticas h6 {
         font-weight: 700;
@@ -206,7 +241,7 @@ body {
         padding: 1rem;
     }
 
-    #panel-estadisticas .card {
+    #panel-estadisticas .qr-stat-box {
         margin-bottom: 0.8rem;
     }
 }
