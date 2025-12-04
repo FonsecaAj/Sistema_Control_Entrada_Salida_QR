@@ -246,6 +246,14 @@ namespace CarnetDigital.Services
                 return resultado;
             }
 
+            // Validación Fecha de Nacimiento Debe ser Futura
+
+            if (registro.Fecha_Nacimiento.Date > DateTime.Today)
+            {
+                registro.Mensaje = "Debe ingresar una fecha de nacimiento válida";
+                return registro;
+            }
+
 
             // ---------- MS10: Registro Existoso ----------
 

@@ -154,6 +154,17 @@
     </div>
 </div>
 
+<!--Agregue esto Para Redireccionar-->
+
+@if (ViewData["Redirigir"] != null)
+{
+    <script>
+        setTimeout(function () {
+            window.location.href = "/Inicio Sesion/InicioSesion";
+        }, 1500); // 1.5 segundos para mostrar el mensaje
+    </script>
+}
+
 <script>
     function previewImage(event) {
         const img = document.getElementById("previewFoto");

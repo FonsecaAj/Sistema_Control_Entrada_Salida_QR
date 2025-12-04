@@ -77,15 +77,15 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Registro_Usuar
 
             var resultado = await _registroService.RegistrarUsuarioAsync(Registro);
 
-            if (!string.IsNullOrEmpty(resultado.Mensaje))
+            Registro.Mensaje = resultado.Mensaje;
+
+            
+            if (resultado.Mensaje == "Registro exitoso. Espere el correo de activación de perfil para ingresar al sistema")
             {
-
-                return Page();
-
+                ViewData["Redirigir"] = true;
             }
 
-            return RedirectToPage("/Inicio Sesion/InicioSesion");
-
+            return Page();
 
         }
 
