@@ -53,8 +53,11 @@ namespace CarnetDigital.Services
 
 
             // ===== VALIDACIÓN DE FECHA DE NACIMIENTO =====
-            if (funcionario.Fecha_Nacimiento == null)
-                return (false, "Debe ingresar la fecha de nacimiento");
+            if (funcionario.Fecha_Nacimiento == DateTime.MinValue)
+                return (false, "Formato de fecha inválido. Use una fecha válida.");
+
+            if (funcionario.Fecha_Nacimiento < new DateTime(1753, 1, 1))
+                return (false, "La fecha de nacimiento es inválida para el sistema.");
 
             var hoy = DateTime.Today;
             var edad = hoy.Year - funcionario.Fecha_Nacimiento.Year;
