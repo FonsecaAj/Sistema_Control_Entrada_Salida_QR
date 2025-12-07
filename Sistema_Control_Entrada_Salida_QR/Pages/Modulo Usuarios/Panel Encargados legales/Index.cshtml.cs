@@ -41,31 +41,23 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Panel_Encargad
 
         public async Task<IActionResult> OnPostAsync()
         {
+            await CargarListasAsync();
+
             if (FotoFile != null)
             {
-                using (var memoryStream = new MemoryStream())
-                {
-                    await FotoFile.CopyToAsync(memoryStream);
-                    Encargado_Legal.Foto = memoryStream.ToArray();
-                }
-            }
-            var (Mensaje,Exito) = await _encargados_LegalesService.RegistrarEncargadoLegalAsync(Encargado_Legal);
-            if (!Exito)
-            {
-                await CargarListasAsync();
-                TempData["Resultado"] = Mensaje;
-                TempData["TipoMensaje"] = "error";
-                return Page();
-            }
-            else
-            {
-                TempData["Resultado"] = "Registro Exitoso";
-                TempData["TipoMensaje"] = "exito";
-
+                using var memoryStream = new MemoryStream();
+                await FotoFile.CopyToAsync(memoryStream);
+                Encargado_Legal.Foto = memoryStream.ToArray();
             }
 
-            return RedirectToPage();
+            var (Mensaje, Exito) = await _encargados_LegalesService.RegistrarEncargadoLegalAsync(Encargado_Legal);
+
+            Encargado_Legal.Mensaje = Mensaje;
+
+            return Page();
         }
+
+
         private async Task CargarListasAsync()
         {
             // Obtener lista de tipos de identificación

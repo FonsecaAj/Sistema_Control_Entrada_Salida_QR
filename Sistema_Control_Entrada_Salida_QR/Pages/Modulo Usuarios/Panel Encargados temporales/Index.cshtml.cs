@@ -1,5 +1,4 @@
 using CarnetDigital.Entities;
-using CarnetDigital.Services;
 using CarnetDigital.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -28,41 +27,36 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Panel_Encargad
 
         public async Task OnGet()
         {
+            // Datos del usuario desde claims
             var identificacionUsuario = User.FindFirst("Identificacion")?.Value ?? "0000000000";
 
             Encargado_Temporal.Identificacion_Estudiante = identificacionUsuario;
 
             // Obtener lista para los tipos de identificacion
             await CargarListasAsync();
-
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
+            await CargarListasAsync(); // Recargar listas por si hay errores
+
             if (FotoFile != null)
             {
-                using (var memoryStream = new MemoryStream())
-                {
-                    await FotoFile.CopyToAsync(memoryStream);
-                    Encargado_Temporal.Foto = memoryStream.ToArray();
-                }
-            }
-            var (Mensaje, Exito) = await _encargados_TemporalesService.RegistrarEncargadoTemporalAsync(Encargado_Temporal);
-            if (!Exito)
-            {
-                await CargarListasAsync();
-                TempData["Resultado"] = Mensaje;
-                TempData["TipoMensaje"] = "error";
-                return Page();
-            }
-            else
-            {
-                TempData["Resultado"] = "Registro Exitoso";
-                TempData["TipoMensaje"] = "exito";
+                using var memoryStream = new MemoryStream();
+                await FotoFile.CopyToAsync(memoryStream);
+                Encargado_Temporal.Foto = memoryStream.ToArray();
             }
 
-            return RedirectToPage();
+            var (Mensaje, Exito) = await _encargados_TemporalesService.RegistrarEncargadoTemporalAsync(Encargado_Temporal);
+
+            // Ajuste aquí para usar la propiedad Mensaje del modelo, igual que el ejemplo Legal
+            Encargado_Temporal.Mensaje = Mensaje;
+
+            // No es necesario RedirectToPage() para mostrar el mensaje en la misma página con Page()
+            return Page();
         }
+
+
         private async Task CargarListasAsync()
         {
             // Obtener lista de tipos de identificación
