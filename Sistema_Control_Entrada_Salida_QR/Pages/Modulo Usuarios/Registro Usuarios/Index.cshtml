@@ -23,9 +23,18 @@
 
             @if (!string.IsNullOrEmpty(Model.Registro?.Mensaje))
             {
-                <div class="formulario-alert formulario-alert-info">
-                    @Model.Registro.Mensaje
-                </div>
+                if (Model.Registro.Mensaje.Contains("Registro exitoso"))
+                {
+                    <div class="formulario-alert formulario-alert-success">
+                        @Model.Registro.Mensaje
+                    </div>
+                }
+                else
+                {
+                    <div class="formulario-alert formulario-alert-danger">
+                        @Model.Registro.Mensaje
+                    </div>
+                }
             }
 
             <form method="post" enctype="multipart/form-data">

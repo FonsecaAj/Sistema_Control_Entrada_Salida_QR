@@ -835,3 +835,9 @@
         color: var(--text-dark);
         margin-bottom: 0.5rem;
     }
+
+.formulario-alert-info {
+    background-color: rgba(0, 45, 116, 0.12); /* azul clarito */
+    color: var(--primary-blue);
+    border-color: var(--primary-blue);
+}
