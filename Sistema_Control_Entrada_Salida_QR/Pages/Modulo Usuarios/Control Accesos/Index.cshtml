@@ -3,62 +3,65 @@
 @{
     Layout = "Layout_Plantilla";
 }
-<div class="container mt-4">
 
-    <h2 class="mb-4">Mis Accesos</h2>
+<link href="~/css/registros_pendientes.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-    <!-- Datos del usuario -->
-    <div class="card mb-4 p-3">
+<div class="registro-container">
+
+    <div class="registro-title">
+        Mis Accesos
+    </div>
+
+    <div class="registro-mensaje" style="margin-top: 0; margin-bottom: 2rem;">
         <h4>@Model.NombreCompleto</h4>
-        <p><strong>Identificación:</strong> @Model.Identificacion</p>
-        <p><strong>Carrera / Programa:</strong> @Model.CarreraPrograma</p>
+        <p style="margin-bottom: 0.2rem;"><strong>Identificación:</strong> @Model.Identificacion</p>
+        <p style="margin-bottom: 0;"><strong>Carrera / Programa:</strong> @Model.CarreraPrograma</p>
     </div>
 
-    <!-- Resumen -->
-    <div class="row text-center mb-4">
-        <div class="col-md-4">
-            <div class="card p-3">
+    <div class="row text-center mb-4 g-3">
+        <div class="col-12 col-md-4">
+            <div class="registro-mensaje" style="background: var(--light-gray); border: 1px solid var(--border-gray);">
                 <h5>Total Accesos</h5>
-                <span class="fs-3">@Model.TotalAccesos</span>
+                <span style="font-size: 1.8rem; font-weight: 700;">@Model.TotalAccesos</span>
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="card p-3">
+        <div class="col-12 col-md-4">
+            <div class="registro-mensaje mensaje-exito">
                 <h5>Autorizados</h5>
-                <span class="fs-3 text-success">@Model.TotalAutorizados</span>
+                <span style="font-size: 1.8rem; font-weight: 700; color: #28a745;">@Model.TotalAutorizados</span>
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="card p-3">
+        <div class="col-12 col-md-4">
+            <div class="registro-mensaje mensaje-error">
                 <h5>Rechazados</h5>
-                <span class="fs-3 text-danger">@Model.TotalRechazados</span>
+                <span style="font-size: 1.8rem; font-weight: 700; color: #dc3545;">@Model.TotalRechazados</span>
             </div>
         </div>
     </div>
 
-    <!-- Filtros -->
-    <div class="card p-3 mb-4">
-
+    <div class="registro-mensaje" style="margin-bottom: 2rem;">
+        <h4 style="font-weight: 600; color: var(--text-dark); margin-top: 0;">Filtro</h4>
         <form method="get">
 
-            <div class="row mb-3">
-                <div class="col-md-4">
-                    <label>Fecha Inicio</label>
-                    <input type="date" name="FechaInicio" class="form-control"
+            <div class="row mb-3 g-3">
+                <div class="col-12 col-md-4">
+                    <label class="registro-label">Fecha Inicio</label>
+                    <input type="date" name="FechaInicio" class="registro-input"
                            value="@(Model.FechaInicio?.ToString("yyyy-MM-dd"))" />
                 </div>
 
-                <div class="col-md-4">
-                    <label>Fecha Fin</label>
-                    <input type="date" name="FechaFin" class="form-control"
+                <div class="col-12 col-md-4">
+                    <label class="registro-label">Fecha Fin</label>
+                    <input type="date" name="FechaFin" class="registro-input"
                            value="@(Model.FechaFin?.ToString("yyyy-MM-dd"))" />
                 </div>
 
-                <div class="col-md-4">
-                    <label>Estado</label>
-                    <select name="FiltroEstado" class="form-control">
+                <div class="col-12 col-md-4">
+                    <label class="registro-label">Estado</label>
+                    <select name="FiltroEstado" class="registro-select">
                         <option value="">-- Todos --</option>
                         @foreach (var estado in Model.ListaEstados)
                         {
@@ -71,18 +74,16 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">Filtrar</button>
+            <button type="submit" class="registro-btn registro-btn-primary">
+                <i class="fas fa-filter me-2"></i> Filtrar
+            </button>
         </form>
-
-
     </div>
 
-    <!-- Tabla de accesos -->
-    <div class="card p-3">
-        <h4 class="mb-3">Histórico de Accesos</h4>
-
-        <table class="table table-bordered table-striped">
-            <thead class="table-dark">
+    <h4 style="font-weight: 600; color: var(--text-dark); margin-bottom: 1rem;">Histórico de Accesos</h4>
+    <div class="registro-tabla-wrapper">
+        <table class="registro-table">
+            <thead>
                 <tr>
                     <th>Fecha</th>
                     <th>Hora</th>
@@ -101,17 +102,16 @@
                             <td>
                                 @if (item.ID_Estado.Trim() == "AU")
                                 {
-                                    <span class="text-success fw-bold">Autorizado</span>
+                                    <span class="registro-btn-success" style="padding: 0.3rem 0.6rem; font-size: 0.85rem;">Autorizado</span>
                                 }
                                 else if (item.ID_Estado.Trim() == "R")
                                 {
-                                    <span class="text-danger fw-bold">Rechazado</span>
+                                    <span class="registro-btn-danger" style="padding: 0.3rem 0.6rem; font-size: 0.85rem;">Rechazado</span>
                                 }
                                 else
                                 {
-                                    <span class="text-danger fw-bold">@item.ID_Estado.Trim()</span>
+                                    <span class="registro-btn-danger" style="padding: 0.3rem 0.6rem; font-size: 0.85rem;">@item.ID_Estado.Trim()</span>
                                 }
-
                             </td>
                         </tr>
                     }
