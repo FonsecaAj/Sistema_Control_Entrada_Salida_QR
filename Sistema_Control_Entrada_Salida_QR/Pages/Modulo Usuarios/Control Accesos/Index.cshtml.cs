@@ -83,27 +83,56 @@ namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Control_Acceso
         }
         private void LeerClaims()
         {
+            string Rol = User.FindFirst("Rol")?.Value;
+
             // Nombre e identificación
             NombreCompleto = User.FindFirst(ClaimTypes.Name)?.Value;
             Identificacion = User.FindFirst("Identificacion")?.Value;
 
             // Carrera del estudiante
             var codigoCarrera = User.FindFirst("ID_Carrera")?.Value;
+            //Funcionarios
 
-            CarreraPrograma = codigoCarrera switch
+            if (Rol == "FUN")
             {
-                "ABC" => "Administración de Bases de Datos",
-                "ARK" => "Arquitectura de Computadoras",
-                "BD1" => "Bases de Datos I",
-                "BD2" => "Bases de Datos II",
-                "COM" => "Computación",
-                "INS" => "Ingeniería en Sistemas",
-                "PLL" => "Programación Lógica y Lenguajes",
-                "PRO" => "Programación",
-                "SOS" => "Soporte de Sistemas",
-                "SAC" => "Seguridad en Ambientes Computacionales",
-                _ => "Carrera no registrada"
-            };
+                // --- FUNCIONARIO ---
+
+                // Dependencia
+                CarreraPrograma = User.FindFirst("Id_Dependencia")?.Value;
+
+                CarreraPrograma = CarreraPrograma switch
+                {
+                    "DEP01" => "Recursos Humanos",
+                    "DEP02" => "Finanzas",
+                    "DEP03" => "Tecnología",
+                    "DEP04" => "Dirección Académica",
+                    "DEP05" => "Seguridad",
+                    _ => "Otro"
+                };
+
+            }
+            else
+            {
+                // --- ESTUDIANTE ---
+                CarreraPrograma = User.FindFirst("ID_Carrera")?.Value;
+
+                CarreraPrograma = CarreraPrograma switch
+                {
+                    "ABC" => "Administración de Bases de Datos",
+                    "ARK" => "Arquitectura de Computadoras",
+                    "BD1" => "Bases de Datos I",
+                    "BD2" => "Bases de Datos II",
+                    "COM" => "Computación",
+                    "INS" => "Ingeniería en Sistemas",
+                    "PLL" => "Programación Lógica y Lenguajes",
+                    "PRO" => "Programación",
+                    "SOS" => "Soporte de Sistemas",
+                    "SAC" => "Seguridad en Ambientes Computacionales",
+                    _ => "Otro"
+                };
+
+            }
+
         }
 
 
