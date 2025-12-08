@@ -1,11 +1,13 @@
 using CarnetDigital.Entities;
 using CarnetDigital.Services.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
 
 namespace Sistema_Control_Entrada_Salida_QR.Pages.Modulo_Usuarios.Control_Accesos
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly IControlAccesosService _controlAccesosService;
